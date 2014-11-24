@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.thewishlight.testActivity" >
+
+    <ImageView
+        android:id="@+id/image1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher" />
+    
+    <ImageView
+        android:id="@+id/image2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher" />
+    
+    <ImageView
+        android:id="@+id/image3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher" />
+    
+    <ImageView
+        android:id="@+id/image4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/image1btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="image1btn" />
+        
+        <Button
+            android:id="@+id/image2btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="image2btn" />
+        <Button
+            android:id="@+id/image3btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="image3btn" />
+         <Button
+            android:id="@+id/image4btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="image4btn"
+             />
+    </LinearLayout>
+
+</LinearLayout>
