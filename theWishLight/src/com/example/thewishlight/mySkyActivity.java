@@ -1,5 +1,6 @@
 package com.example.thewishlight;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -12,8 +13,10 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
-public class testActivity extends ActionBarActivity {
+public class mySkyActivity extends ActionBarActivity {
 
 	ImageView image1;
 	ImageView image2;
@@ -24,17 +27,28 @@ public class testActivity extends ActionBarActivity {
 	Button btn2;
 	Button btn3;
 	Button btn4;
+	
+	LinearLayout myskyLayout;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.mysky);
 
+		
+		image1 = (ImageView) findViewById(R.id.image1);
+		image1.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(), "image1", Toast.LENGTH_SHORT).show();
+			}
+		});
+		
 		btn1 = (Button) findViewById(R.id.image1btn);
 		btn1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				image1 = (ImageView) findViewById(R.id.image1);
 
 				Animation animation = AnimationUtils.loadAnimation(
 						getApplicationContext(), R.anim.image1);
@@ -42,13 +56,24 @@ public class testActivity extends ActionBarActivity {
 
 			}
 		});
+		image2 = (ImageView) findViewById(R.id.image2);
+		
+		/*
+		image2 = (ImageView) findViewById(R.id.image2);
+		image2.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(), "image2", Toast.LENGTH_SHORT).show();
+			}
+		});
+		*/
 
 		btn2 = (Button) findViewById(R.id.image2btn);
 		btn2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				image2 = (ImageView) findViewById(R.id.image2);
 
 				Animation animation = AnimationUtils.loadAnimation(
 						getApplicationContext(), R.anim.image2);
@@ -86,6 +111,16 @@ public class testActivity extends ActionBarActivity {
 				
 			}
 		});
+	}
+	
+	public void mClick(View v){
+		if(v.getId() == R.id.myskyLayout){
+			Intent intent = new Intent(getApplicationContext(),makeWLBActivity.class);
+			startActivity(intent);
+		}else{
+			Toast.makeText(getApplicationContext(), "image2", Toast.LENGTH_SHORT).show();
+		}
+		
 	}
 
 	@Override

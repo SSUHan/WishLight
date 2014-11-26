@@ -7,7 +7,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.thewishlight.testActivity" >
+    android:id="@+id/myskyLayout"
+    android:onClick="mClick"
+    android:background="@drawable/mysky"
+    tools:context="com.example.thewishlight.mySkyActivity" >
 
     <ImageView
         android:id="@+id/image1"
@@ -21,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:onClick="mClick"
         android:src="@drawable/ic_launcher" />
     
     <ImageView

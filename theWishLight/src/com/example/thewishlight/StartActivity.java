@@ -1,6 +1,7 @@
 package com.example.thewishlight;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -10,15 +11,24 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class StartActivity extends ActionBarActivity {
 	
 	Button startBtn;
+	RelativeLayout loginLayout;
+	AnimationDrawable frameAnimation;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_layout);
+		
+		loginLayout = (RelativeLayout)findViewById(R.id.loginLayout);
+		
+		loginLayout.setBackgroundResource(R.drawable.loginsky);
+		frameAnimation = (AnimationDrawable)loginLayout.getBackground();
+		
 		
 	    LinearLayout loginLayout = (LinearLayout)findViewById(R.id.login);
 	    AnimationSet set = new AnimationSet(true);
@@ -28,6 +38,8 @@ public class StartActivity extends ActionBarActivity {
 	    set.setStartOffset(2000);
 	    loginLayout.setAnimation(set);
 	    loginLayout.startAnimation(set);
+	    
+	    frameAnimation.start();
 		
 		startBtn = (Button)findViewById(R.id.startBtn);
 		startBtn.setOnClickListener(new OnClickListener()
@@ -35,8 +47,9 @@ public class StartActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent  = new Intent(getApplicationContext(),testActivity.class);
+				Intent intent  = new Intent(getApplicationContext(),mySkyActivity.class);
 				startActivity(intent);
+				frameAnimation.stop();
 				
 			}
 		});
