@@ -7,8 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class makeWLBActivity extends ActionBarActivity {
+public class MakeWLBActivity extends ActionBarActivity {
 	
+	MyDBHandler handler;
 	
 	EditText editTitle;
 	EditText editContent;
@@ -25,7 +26,18 @@ public class makeWLBActivity extends ActionBarActivity {
 	}
 	
 	public void saveClick(View v){
-		Toast.makeText(getApplicationContext(), "saveClick", Toast.LENGTH_SHORT).show();
+		handler = MyDBHandler.open(getApplicationContext(), "wlb");
+		editShape = (EditText)findViewById(R.id.inputShape);
+		editTitle = (EditText)findViewById(R.id.inputTitle);
+		editContent = (EditText)findViewById(R.id.inputContent);
+		
+		String shape = editShape.getText().toString();
+		String title = editTitle.getText().toString();
+		String content = editContent.getText().toString();
+		
+		handler.insert(title, content, Integer.parseInt(shape));
+		handler.close();
+		finish();
 	}
 
 }

@@ -23,9 +23,9 @@
             </intent-filter>
         </activity>
         <activity 
-            android:name=".mySkyActivity"></activity>
+            android:name=".MySkyActivity"></activity>
         <activity 
-            android:name=".makeWLBActivity"></activity>
+            android:name=".MakeWLBActivity"></activity>
     </application>
 
 </manifest>

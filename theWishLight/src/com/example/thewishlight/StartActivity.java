@@ -47,7 +47,7 @@ public class StartActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent  = new Intent(getApplicationContext(),mySkyActivity.class);
+				Intent intent  = new Intent(getApplicationContext(),MySkyActivity.class);
 				startActivity(intent);
 				frameAnimation.stop();
 				

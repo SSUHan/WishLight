@@ -1,75 +1,72 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myskyLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mysky"
+    android:onClick="mClick"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:id="@+id/myskyLayout"
-    android:onClick="mClick"
-    android:background="@drawable/mysky"
-    tools:context="com.example.thewishlight.mySkyActivity" >
+    tools:context="com.example.thewishlight.MySkyActivity" >
 
-    <ImageView
-        android:id="@+id/image1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_launcher" />
-    
-    <ImageView
-        android:id="@+id/image2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:onClick="mClick"
-        android:src="@drawable/ic_launcher" />
-    
-    <ImageView
-        android:id="@+id/image3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_launcher" />
-    
-    <ImageView
-        android:id="@+id/image4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_launcher"
-        />
+   
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical" >
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="mClick"
+                android:src="@drawable/bluelight" />
 
-        <Button
-            android:id="@+id/image1btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="image1btn" />
-        
-        <Button
-            android:id="@+id/image2btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="image2btn" />
-        <Button
-            android:id="@+id/image3btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="image3btn" />
-         <Button
-            android:id="@+id/image4btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="image4btn"
-             />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/image2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="mClick"
+                android:src="@drawable/redlight" />
 
+            <ImageView
+                android:id="@+id/image3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="mClick"
+                android:src="@drawable/roselight" />
+
+            <ImageView
+                android:id="@+id/image4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="mClick"
+                android:src="@drawable/roselight2" />
+
+           
+
+            <TextView
+                android:id="@+id/textView01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="first"
+                android:textColor="#ffffffff" />
+
+            <EditText
+                android:id="@+id/inputDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:textColor="#ffffffff"/>
+
+            <Button
+                android:id="@+id/deleteBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="삭제" />
+  
 </LinearLayout>
