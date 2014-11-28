@@ -1,5 +1,6 @@
 package com.example.thewishlight;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import android.content.Intent;
@@ -12,9 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +38,8 @@ public class MySkyActivity extends ActionBarActivity {
 	TextView textView01;
 
 	RelativeLayout myskyLayout;
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,9 @@ public class MySkyActivity extends ActionBarActivity {
 			Intent intent = new Intent(getApplicationContext(),
 					MakeWLBActivity.class);
 			startActivity(intent);
-		} else if (v.getId() == R.id.image1) {
+		}
+		/*
+		else if (v.getId() == R.id.image1) {
 			Toast.makeText(getApplicationContext(), "image1",
 					Toast.LENGTH_SHORT).show();
 			image1 = (ImageView) findViewById(R.id.image1);
@@ -88,23 +91,43 @@ public class MySkyActivity extends ActionBarActivity {
 			image4.startAnimation(set);
 
 		}
+		*/
 
 	}
 
-	public void makeWLB(int shape, int topMargin, int leftMargin) {
+	public void makeWLB(int shape, int topMargin, int leftMargin, String title, String content) {
 
 		ImageView wlb = new ImageView(this);
 		wlb.setBackgroundResource(determineShape(shape));
+		
+		final String mTitle = title;
+		final String mContent = content;
+		Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.basic1);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		// 시작위치 설정
 		params.topMargin = topMargin;
 		params.leftMargin = leftMargin;
+		
 		wlb.setLayoutParams(params);
+		
+	    wlb.setOnClickListener(new OnClickListener()
+	    {
+	    	@Override
+	    	public void onClick(View v) {
+	    		// TODO Auto-generated method stub
+	    		String str1 = mTitle;
+	    		String str2 = mContent;
+	    		Toast.makeText(getApplicationContext(), "제목:"+str1+" 내용:"+str2, Toast.LENGTH_SHORT).show();
+	    	}
+	    });
+		
 		myskyLayout.addView(wlb);
+		wlb.startAnimation(anim);
 	}
 
+	//모양 결정 함수
 	private int determineShape(int shape) {
 		switch (shape) {
 		case 1:
@@ -134,9 +157,8 @@ public class MySkyActivity extends ActionBarActivity {
 	// 풍등 디비 보여주는 함수
 	private void showDB() {
 		setContentView(R.layout.mysky);
-
+		
 		myskyLayout = (RelativeLayout) findViewById(R.id.myskyLayout);
-
 		textView01 = (TextView) findViewById(R.id.textView01);
 
 		handler = MyDBHandler.open(getApplicationContext(), "wlb");
@@ -169,7 +191,7 @@ public class MySkyActivity extends ActionBarActivity {
 			int top = ranTop.nextInt(500);
 			int left = ranLeft.nextInt(500);
 			Log.d("start location", "top:" + top + "left:" + left);
-			makeWLB(shape, top, left);
+			makeWLB(shape, top, left,title,content);
 
 			data += _id + " " + title + " " + content + " " + "shpae:" + shape
 					+ "\n";

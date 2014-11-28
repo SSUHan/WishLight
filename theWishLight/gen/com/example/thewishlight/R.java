@@ -15,10 +15,11 @@ public final class R {
         public static final int abc_slide_in_top=0x7f040003;
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
-        public static final int fadein=0x7f040006;
-        public static final int image1=0x7f040007;
-        public static final int image2=0x7f040008;
-        public static final int image3=0x7f040009;
+        public static final int basic1=0x7f040006;
+        public static final int fadein=0x7f040007;
+        public static final int image1=0x7f040008;
+        public static final int image2=0x7f040009;
+        public static final int image3=0x7f04000a;
     }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
