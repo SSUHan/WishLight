@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/myskyLayout"
     android:layout_width="match_parent"
@@ -24,6 +24,7 @@
 
             <ImageView
                 android:id="@+id/image2"
+                android:layout_below="@id/image1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -32,6 +33,7 @@
 
             <ImageView
                 android:id="@+id/image3"
+                android:layout_below="@id/image2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -40,6 +42,7 @@
 
             <ImageView
                 android:id="@+id/image4"
+                android:layout_below="@id/image3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -49,6 +52,7 @@
            
 
             <TextView
+                android:layout_below="@id/image4"
                 android:id="@+id/textView01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,16 +61,18 @@
 
             <EditText
                 android:id="@+id/inputDelete"
+                android:layout_below="@id/textView01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" 
                 android:textColor="#ffffffff"/>
 
             <Button
                 android:id="@+id/deleteBtn"
+                android:layout_below="@id/inputDelete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="삭제" />
   
-</LinearLayout>
+</RelativeLayout>

@@ -1,13 +1,17 @@
 package com.example.thewishlight;
 
+import java.util.Random;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -15,7 +19,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,39 +30,19 @@ public class MySkyActivity extends ActionBarActivity {
 	ImageView image3;
 	ImageView image4;
 
-	MyDBHandler handler;
+	MyDBHandler handler; // 풍등 디비 핸들러
 
-	
 	Button deleteBtn;
 
 	EditText editDelete;
 
 	TextView textView01;
 
-	LinearLayout myskyLayout;
+	RelativeLayout myskyLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.mysky);
-
-		textView01 = (TextView) findViewById(R.id.textView01);
-
-		
-		
-
-		deleteBtn = (Button) findViewById(R.id.deleteBtn);
-		deleteBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				editDelete = (EditText) findViewById(R.id.inputDelete);
-				String title = editDelete.getText().toString();
-				handler.delete(title);
-				editDelete.setText("");
-				showDB();
-			}
-		});
 
 		showDB();
 	}
@@ -107,6 +91,39 @@ public class MySkyActivity extends ActionBarActivity {
 
 	}
 
+	public void makeWLB(int shape, int topMargin, int leftMargin) {
+
+		ImageView wlb = new ImageView(this);
+		wlb.setBackgroundResource(determineShape(shape));
+
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		// 시작위치 설정
+		params.topMargin = topMargin;
+		params.leftMargin = leftMargin;
+		wlb.setLayoutParams(params);
+		myskyLayout.addView(wlb);
+	}
+
+	private int determineShape(int shape) {
+		switch (shape) {
+		case 1:
+			return R.drawable.bluelight;
+		case 2:
+			return R.drawable.redlight;
+		case 3:
+			return R.drawable.redlight2;
+		case 4:
+			return R.drawable.redlight3;
+		case 5:
+			return R.drawable.roselight;
+		case 6:
+			return R.drawable.roselight2;
+		default:
+			return -1;
+		}
+	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -114,18 +131,48 @@ public class MySkyActivity extends ActionBarActivity {
 		super.onResume();
 	}
 
+	// 풍등 디비 보여주는 함수
 	private void showDB() {
+		setContentView(R.layout.mysky);
+
+		myskyLayout = (RelativeLayout) findViewById(R.id.myskyLayout);
+
+		textView01 = (TextView) findViewById(R.id.textView01);
+
 		handler = MyDBHandler.open(getApplicationContext(), "wlb");
 
+		deleteBtn = (Button) findViewById(R.id.deleteBtn);
+		deleteBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				editDelete = (EditText) findViewById(R.id.inputDelete);
+				String title = editDelete.getText().toString();
+				handler.delete(title);
+				editDelete.setText("");
+				showDB();
+			}
+		});
+
+		//
 		String data = "";
 		Cursor c = handler.select();
 		startManagingCursor(c);
+		Random ranTop = new Random();
+		Random ranLeft = new Random();
+		Log.d("db count", String.valueOf(c.getCount()));
 		while (c.moveToNext()) {
 			int _id = c.getInt(c.getColumnIndex("_id"));
 			String title = c.getString(c.getColumnIndex("title"));
 			String content = c.getString(c.getColumnIndex("content"));
 			int shape = c.getInt(c.getColumnIndex("shape"));
-			data += _id + " " + title + " " + content + " " + "shpae:" + shape+"\n";
+			int top = ranTop.nextInt(500);
+			int left = ranLeft.nextInt(500);
+			Log.d("start location", "top:" + top + "left:" + left);
+			makeWLB(shape, top, left);
+
+			data += _id + " " + title + " " + content + " " + "shpae:" + shape
+					+ "\n";
 		}
 		textView01.setText(data);
 
