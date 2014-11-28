@@ -50,6 +50,7 @@ public class StartActivity extends ActionBarActivity {
 				Intent intent  = new Intent(getApplicationContext(),MySkyActivity.class);
 				startActivity(intent);
 				frameAnimation.stop();
+				finish();
 				
 			}
 		});
