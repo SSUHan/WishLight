@@ -1,17 +1,23 @@
 package com.example.thewishlight;
 
-import java.util.ArrayList;
 import java.util.Random;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -38,8 +44,6 @@ public class MySkyActivity extends ActionBarActivity {
 	TextView textView01;
 
 	RelativeLayout myskyLayout;
-	
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,81 +57,148 @@ public class MySkyActivity extends ActionBarActivity {
 			Intent intent = new Intent(getApplicationContext(),
 					MakeWLBActivity.class);
 			startActivity(intent);
+		} else if (v.getId() == R.id.goRankBtn) {
+			Intent intent = new Intent(getApplicationContext(),
+					MyRankActivity.class);
+			startActivity(intent);
+		} else if (v.getId() == R.id.goFriendBtn) {
+			Intent intent = new Intent(getApplicationContext(),
+					FriendStartActivity.class);
+			startActivity(intent);
 		}
 		/*
-		else if (v.getId() == R.id.image1) {
-			Toast.makeText(getApplicationContext(), "image1",
-					Toast.LENGTH_SHORT).show();
-			image1 = (ImageView) findViewById(R.id.image1);
-			Animation animation = AnimationUtils.loadAnimation(
-					getApplicationContext(), R.anim.image1);
-			image1.startAnimation(animation);
-		} else if (v.getId() == R.id.image2) {
-			Toast.makeText(getApplicationContext(), "image2",
-					Toast.LENGTH_SHORT).show();
-			image2 = (ImageView) findViewById(R.id.image2);
-			Animation animation = AnimationUtils.loadAnimation(
-					getApplicationContext(), R.anim.image2);
-			image2.startAnimation(animation);
-		} else if (v.getId() == R.id.image3) {
-			Toast.makeText(getApplicationContext(), "image3",
-					Toast.LENGTH_SHORT).show();
-			image3 = (ImageView) findViewById(R.id.image3);
-
-			Animation animation = AnimationUtils.loadAnimation(
-					getApplicationContext(), R.anim.image3);
-			image3.startAnimation(animation);
-		} else if (v.getId() == R.id.image4) {
-			Toast.makeText(getApplicationContext(), "image4",
-					Toast.LENGTH_SHORT).show();
-			image4 = (ImageView) findViewById(R.id.image4);
-
-			AnimationSet set = new AnimationSet(true);
-
-			Animation alpha = new AlphaAnimation(0.0f, 1.0f);
-			alpha.setDuration(1000);
-			set.addAnimation(alpha);
-
-			image4.startAnimation(set);
-
-		}
-		*/
+		 * else if (v.getId() == R.id.image1) {
+		 * Toast.makeText(getApplicationContext(), "image1",
+		 * Toast.LENGTH_SHORT).show(); image1 = (ImageView)
+		 * findViewById(R.id.image1); Animation animation =
+		 * AnimationUtils.loadAnimation( getApplicationContext(),
+		 * R.anim.image1); image1.startAnimation(animation); } else if
+		 * (v.getId() == R.id.image2) { Toast.makeText(getApplicationContext(),
+		 * "image2", Toast.LENGTH_SHORT).show(); image2 = (ImageView)
+		 * findViewById(R.id.image2); Animation animation =
+		 * AnimationUtils.loadAnimation( getApplicationContext(),
+		 * R.anim.image2); image2.startAnimation(animation); } else if
+		 * (v.getId() == R.id.image3) { Toast.makeText(getApplicationContext(),
+		 * "image3", Toast.LENGTH_SHORT).show(); image3 = (ImageView)
+		 * findViewById(R.id.image3);
+		 * 
+		 * Animation animation = AnimationUtils.loadAnimation(
+		 * getApplicationContext(), R.anim.image3);
+		 * image3.startAnimation(animation); } else if (v.getId() ==
+		 * R.id.image4) { Toast.makeText(getApplicationContext(), "image4",
+		 * Toast.LENGTH_SHORT).show(); image4 = (ImageView)
+		 * findViewById(R.id.image4);
+		 * 
+		 * AnimationSet set = new AnimationSet(true);
+		 * 
+		 * Animation alpha = new AlphaAnimation(0.0f, 1.0f);
+		 * alpha.setDuration(1000); set.addAnimation(alpha);
+		 * 
+		 * image4.startAnimation(set);
+		 * 
+		 * }
+		 */
 
 	}
 
-	public void makeWLB(int shape, int topMargin, int leftMargin, String title, String content) {
+	public void makeWLB(int shape, int topMargin, int leftMargin, String title,
+			String content) {
 
 		ImageView wlb = new ImageView(this);
 		wlb.setBackgroundResource(determineShape(shape));
-		
+
+		final int mShape = shape;
 		final String mTitle = title;
 		final String mContent = content;
-		Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.basic1);
+		Animation anim = AnimationUtils.loadAnimation(getApplicationContext(),
+				R.anim.basic1);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		// 시작위치 설정
 		params.topMargin = topMargin;
 		params.leftMargin = leftMargin;
-		
+
 		wlb.setLayoutParams(params);
-		
-	    wlb.setOnClickListener(new OnClickListener()
-	    {
-	    	@Override
-	    	public void onClick(View v) {
-	    		// TODO Auto-generated method stub
-	    		String str1 = mTitle;
-	    		String str2 = mContent;
-	    		Toast.makeText(getApplicationContext(), "제목:"+str1+" 내용:"+str2, Toast.LENGTH_SHORT).show();
-	    	}
-	    });
-		
+
+		wlb.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Context mContext = getApplicationContext();
+				String str1 = mTitle;
+				String str2 = mContent;
+				int shape = mShape;
+				LayoutInflater inflater = (LayoutInflater) mContext
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+				View layout = inflater.inflate(R.layout.wlb_dialog,
+						(ViewGroup) findViewById(R.id.popup));
+				TextView wlbView = (TextView) layout.findViewById(R.id.wlbView);
+				AlertDialog.Builder aDialog = new AlertDialog.Builder(
+						MySkyActivity.this);
+
+				wlbView.setText(" -제목: " + str1 + "\n\n -내용: " + str2
+						+ "\n\n -모양: " + shape);
+				aDialog.setTitle("소원등 정보"); // 타이틀바 제목
+				aDialog.setView(layout); // dialog.xml 파일을 뷰로 셋팅
+
+				// 그냥 닫기버튼을 위한 부분
+				aDialog.setNegativeButton("닫기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						});
+				// 팝업창 생성
+				AlertDialog ad = aDialog.create();
+				ad.show();// 보여줌!
+
+			}
+		});
+
+		// 소원등 길게 누르면 삭제되도록 만듬
+		wlb.setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				AlertDialog.Builder ab = new AlertDialog.Builder(
+						MySkyActivity.this);
+				ab.setTitle("소원등 삭제");
+				ab.setMessage("해당 소원등을 정말 삭제하시겠습니까?");
+				ab.setNeutralButton("닫기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dlg, int sumthin) {
+								// 닫기 버튼을 누르면 아무것도 안하고 닫기 때문에 그냥 비움
+
+							}
+
+						});
+				ab.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						String title = mTitle;
+						handler.delete(title);
+						Toast.makeText(getApplicationContext(), "삭제완료", Toast.LENGTH_SHORT).show();
+						showDB();
+					}
+				});
+				
+				AlertDialog ad = ab.create();
+				ad.show();
+
+				return true;
+			}
+		});
+
 		myskyLayout.addView(wlb);
 		wlb.startAnimation(anim);
 	}
 
-	//모양 결정 함수
+	// 모양 결정 함수
 	private int determineShape(int shape) {
 		switch (shape) {
 		case 1:
@@ -157,7 +228,7 @@ public class MySkyActivity extends ActionBarActivity {
 	// 풍등 디비 보여주는 함수
 	private void showDB() {
 		setContentView(R.layout.mysky);
-		
+
 		myskyLayout = (RelativeLayout) findViewById(R.id.myskyLayout);
 		textView01 = (TextView) findViewById(R.id.textView01);
 
@@ -191,7 +262,7 @@ public class MySkyActivity extends ActionBarActivity {
 			int top = ranTop.nextInt(500);
 			int left = ranLeft.nextInt(500);
 			Log.d("start location", "top:" + top + "left:" + left);
-			makeWLB(shape, top, left,title,content);
+			makeWLB(shape, top, left, title, content);
 
 			data += _id + " " + title + " " + content + " " + "shpae:" + shape
 					+ "\n";

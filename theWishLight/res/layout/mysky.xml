@@ -5,74 +5,55 @@
     android:layout_height="match_parent"
     android:background="@drawable/mysky"
     android:onClick="mClick"
-    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.thewishlight.MySkyActivity" >
 
-   
+    <TextView
+        android:id="@+id/textView01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="first"
+        android:textColor="#ffffffff" />
 
-            <ImageView
-                android:id="@+id/image1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="mClick"
-                android:src="@drawable/bluelight" />
+    <EditText
+        android:id="@+id/inputDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView01"
+        android:textColor="#ffffffff" />
 
-            <ImageView
-                android:id="@+id/image2"
-                android:layout_below="@id/image1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="mClick"
-                android:src="@drawable/redlight" />
+    <Button
+        android:id="@+id/deleteBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputDelete"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="삭제" />
+    
+    <Button
+        android:id="@+id/goRankBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/deleteBtn"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:onClick="mClick"
+        android:text="랭킹룸가기" />
+    
+    <Button
+        android:id="@+id/goFriendBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/goRankBtn"
+        android:layout_below="@id/deleteBtn"
+        android:layout_gravity="center"
+        android:onClick="mClick"
+        android:gravity="center"
+        android:text="친구하늘가기" />
 
-            <ImageView
-                android:id="@+id/image3"
-                android:layout_below="@id/image2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="mClick"
-                android:src="@drawable/roselight" />
-
-            <ImageView
-                android:id="@+id/image4"
-                android:layout_below="@id/image3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="mClick"
-                android:src="@drawable/roselight2" />
-
-           
-
-            <TextView
-                android:layout_below="@id/image4"
-                android:id="@+id/textView01"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="first"
-                android:textColor="#ffffffff" />
-
-            <EditText
-                android:id="@+id/inputDelete"
-                android:layout_below="@id/textView01"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" 
-                android:textColor="#ffffffff"/>
-
-            <Button
-                android:id="@+id/deleteBtn"
-                android:layout_below="@id/inputDelete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="삭제" />
-  
 </RelativeLayout>
