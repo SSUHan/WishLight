@@ -316,6 +316,7 @@ int id inputID 0x7f09003f
 int id inputPW 0x7f090040
 int id inputShape 0x7f090045
 int id inputTitle 0x7f090043
+int id joinBtn 0x7f090042
 int id listMode 0x7f090006
 int id list_item 0x7f090029
 int id login 0x7f09003e
@@ -346,7 +347,6 @@ int id showCustom 0x7f09000b
 int id showHome 0x7f09000c
 int id showTitle 0x7f09000d
 int id split_action_bar 0x7f09001e
-int id startBtn 0x7f090042
 int id startTitle 0x7f09003d
 int id submit_area 0x7f090039
 int id tabMode 0x7f090008

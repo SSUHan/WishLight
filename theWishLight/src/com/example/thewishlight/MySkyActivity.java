@@ -228,6 +228,10 @@ public class MySkyActivity extends ActionBarActivity {
 	// 풍등 디비 보여주는 함수
 	private void showDB() {
 		setContentView(R.layout.mysky);
+		
+		Intent intent = getIntent();
+		String myID = intent.getStringExtra("myID");
+		Toast.makeText(getApplicationContext(), myID+"의 하늘입니다", Toast.LENGTH_LONG).show();
 
 		myskyLayout = (RelativeLayout) findViewById(R.id.myskyLayout);
 		textView01 = (TextView) findViewById(R.id.textView01);

@@ -1161,6 +1161,7 @@ containing a value of this type.
         public static final int inputPW=0x7f090040;
         public static final int inputShape=0x7f090045;
         public static final int inputTitle=0x7f090043;
+        public static final int joinBtn=0x7f090042;
         public static final int listMode=0x7f090006;
         public static final int list_item=0x7f090029;
         public static final int login=0x7f09003e;
@@ -1191,7 +1192,6 @@ containing a value of this type.
         public static final int showHome=0x7f09000c;
         public static final int showTitle=0x7f09000d;
         public static final int split_action_bar=0x7f09001e;
-        public static final int startBtn=0x7f090042;
         public static final int startTitle=0x7f09003d;
         public static final int submit_area=0x7f090039;
         public static final int tabMode=0x7f090008;
