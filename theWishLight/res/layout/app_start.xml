@@ -7,13 +7,11 @@
      
     
     
-    <TextView 
+    <ImageView 
         android:id="@+id/startTitle"
-        android:text="The Wish Light!"
+        android:src="@drawable/maintitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:textColor="#ffffffff"
         android:layout_gravity="center"
         android:gravity="center"/>
 
