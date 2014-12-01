@@ -1,59 +1,70 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/myskyLayout"
+    
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mysky"
-    android:onClick="mClick"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    
+    
     tools:context="com.example.thewishlight.MySkyActivity" >
 
-    <TextView
-        android:id="@+id/textView01"
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="first"
-        android:textColor="#ffffffff" />
+        android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/inputDelete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView01"
-        android:textColor="#ffffffff" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            
+            android:id="@+id/myskyLayout"
+            android:layout_height="match_parent"
+            android:background="@drawable/mysky" >
 
-    <Button
-        android:id="@+id/deleteBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/inputDelete"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="삭제" />
-    
-    <Button
-        android:id="@+id/goRankBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/deleteBtn"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:onClick="mClick"
-        android:text="랭킹룸가기" />
-    
-    <Button
-        android:id="@+id/goFriendBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/goRankBtn"
-        android:layout_below="@id/deleteBtn"
-        android:layout_gravity="center"
-        android:onClick="mClick"
-        android:gravity="center"
-        android:text="친구하늘가기" />
+            <TextView
+                android:id="@+id/textView01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="first"
+                android:textColor="#ffffffff" />
+
+            <EditText
+                android:id="@+id/inputDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView01"
+                android:textColor="#ffffffff" />
+
+            <Button
+                android:id="@+id/deleteBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/inputDelete"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="삭제" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/downskyground" >
+
+            <Button
+                android:id="@+id/goRankBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="350dp"
+                android:background="@drawable/ranking" />
+
+            <Button
+                android:id="@+id/goFriendBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="300dp"
+                android:background="@drawable/friend" />
+        </RelativeLayout>
+    </ViewFlipper>
 
 </RelativeLayout>

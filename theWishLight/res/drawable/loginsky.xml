@@ -5,31 +5,7 @@
     <item android:drawable="@drawable/skyani2" android:duration="210"/>
     <item android:drawable="@drawable/skyani3" android:duration="210"/>
     <item android:drawable="@drawable/skyani4" android:duration="210"/>
-    <item android:drawable="@drawable/skyani5" android:duration="210"/>
-    <item android:drawable="@drawable/skyani6" android:duration="210"/>
-    <item android:drawable="@drawable/skyani7" android:duration="210"/>
-    <item android:drawable="@drawable/skyani8" android:duration="210"/>
-    <item android:drawable="@drawable/skyani9" android:duration="210"/>
-    <item android:drawable="@drawable/skyani10" android:duration="210"/>
-    <item android:drawable="@drawable/skyani11" android:duration="210"/>
-    <item android:drawable="@drawable/skyani12" android:duration="210"/>
-    <item android:drawable="@drawable/skyani13" android:duration="210"/>
-    <item android:drawable="@drawable/skyani14" android:duration="210"/>
-    <item android:drawable="@drawable/skyani15" android:duration="210"/>
-    <item android:drawable="@drawable/skyani16" android:duration="210"/>
-    <item android:drawable="@drawable/skyani17" android:duration="210"/>
-    <item android:drawable="@drawable/skyani18" android:duration="210"/>
-    <item android:drawable="@drawable/skyani19" android:duration="210"/>
-    <item android:drawable="@drawable/skyani20" android:duration="210"/>
-    <item android:drawable="@drawable/skyani21" android:duration="210"/>
-    <item android:drawable="@drawable/skyani22" android:duration="210"/>
-    <item android:drawable="@drawable/skyani23" android:duration="210"/>
-    <item android:drawable="@drawable/skyani24" android:duration="210"/>
-    <item android:drawable="@drawable/skyani25" android:duration="210"/>
-    <item android:drawable="@drawable/skyani26" android:duration="210"/>
-    <item android:drawable="@drawable/skyani27" android:duration="210"/>
-    <item android:drawable="@drawable/skyani28" android:duration="210"/>
-    <item android:drawable="@drawable/skyani29" android:duration="210"/>
+
     
     
     

@@ -1,9 +1,7 @@
 package com.example.thewishlight;
 
 import java.util.Random;
-
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -27,8 +26,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
-public class MySkyActivity extends ActionBarActivity {
+public class MySkyActivity extends ActionBarActivity implements
+		View.OnTouchListener {
 
 	ImageView image1;
 	ImageView image2;
@@ -44,14 +45,27 @@ public class MySkyActivity extends ActionBarActivity {
 	TextView textView01;
 
 	RelativeLayout myskyLayout;
+	
+	Button goRankBtn;
+	Button goFriendBtn;
+
+	// Flipper
+	ViewFlipper flipper;
+	float YAtDown;
+	float YAtUp;
+	int count = 0;
+
+	// Flipper
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 
 		showDB();
 	}
 
+	/*
 	public void mClick(View v) {
 		if (v.getId() == R.id.myskyLayout) {
 			Intent intent = new Intent(getApplicationContext(),
@@ -66,7 +80,7 @@ public class MySkyActivity extends ActionBarActivity {
 					FriendStartActivity.class);
 			startActivity(intent);
 		}
-		/*
+		
 		 * else if (v.getId() == R.id.image1) {
 		 * Toast.makeText(getApplicationContext(), "image1",
 		 * Toast.LENGTH_SHORT).show(); image1 = (ImageView)
@@ -99,7 +113,7 @@ public class MySkyActivity extends ActionBarActivity {
 		 * }
 		 */
 
-	}
+	
 
 	public void makeWLB(int shape, int topMargin, int leftMargin, String title,
 			String content) {
@@ -175,18 +189,21 @@ public class MySkyActivity extends ActionBarActivity {
 							}
 
 						});
-				ab.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						String title = mTitle;
-						handler.delete(title);
-						Toast.makeText(getApplicationContext(), "삭제완료", Toast.LENGTH_SHORT).show();
-						showDB();
-					}
-				});
-				
+				ab.setPositiveButton("삭제",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+								String title = mTitle;
+								handler.delete(title);
+								Toast.makeText(getApplicationContext(), "삭제완료",
+										Toast.LENGTH_SHORT).show();
+								showDB();
+							}
+						});
+
 				AlertDialog ad = ab.create();
 				ad.show();
 
@@ -229,11 +246,54 @@ public class MySkyActivity extends ActionBarActivity {
 	private void showDB() {
 		setContentView(R.layout.mysky);
 		
+		goRankBtn = (Button)findViewById(R.id.goRankBtn);
+		goRankBtn.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getApplicationContext(),MyRankActivity.class);
+				startActivity(intent);
+				count=0;
+			}
+		});
+		goFriendBtn = (Button)findViewById(R.id.goFriendBtn);
+		goFriendBtn.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getApplicationContext(),FriendStartActivity.class);
+				startActivity(intent);
+				count=0;
+			}
+		});
+
+		// Flipper
+		flipper = (ViewFlipper) findViewById(R.id.viewFlipper);
+		flipper.setOnTouchListener(this);
+		// Flipper
+
 		Intent intent = getIntent();
 		String myID = intent.getStringExtra("myID");
-		Toast.makeText(getApplicationContext(), myID+"의 하늘입니다", Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), myID + "의 하늘입니다",
+				Toast.LENGTH_LONG).show();
 
 		myskyLayout = (RelativeLayout) findViewById(R.id.myskyLayout);
+		/*
+		myskyLayout.setOnClickListener(new OnClickListener()
+		{
+			 @Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				 Log.d("onClick", String.valueOf(v.getId()));
+				 Intent intent = new Intent(getApplicationContext(),
+							MakeWLBActivity.class);
+					startActivity(intent);
+			}
+		});
+		*/
+		myskyLayout.setOnTouchListener(this);
 		textView01 = (TextView) findViewById(R.id.textView01);
 
 		handler = MyDBHandler.open(getApplicationContext(), "wlb");
@@ -292,5 +352,48 @@ public class MySkyActivity extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	// Flipper ㄱ
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		// 터치 이벤트가 일어난 뷰가 ViewFlipper가 아니면 return
+		Log.d("onTouch", String.valueOf(event));
+		if (v != flipper)
+			return false;
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			YAtDown = event.getY();// 터치 시작지점 y좌표 저장
+		} else if (event.getAction() == MotionEvent.ACTION_UP) {
+			YAtUp = event.getY();// 터치 끝난지점 y좌표 저장
+
+			if ((YAtDown - YAtUp) > 100 || ((YAtDown - YAtUp) < -100)) {
+				if ((YAtUp < YAtDown) && (count == 0)) {
+					// 아래서 위로
+					flipper.setInAnimation(AnimationUtils.loadAnimation(this,
+							R.anim.flipani));
+					count++;
+					flipper.showNext();
+				} else if ((YAtUp > YAtDown) && (count == 1)) {
+					// 위에서 아래로
+					count--;
+					flipper.showPrevious();
+					flipper.setInAnimation(AnimationUtils.loadAnimation(this,
+							R.anim.flipani));
+				}
+			}
+			//유효하지 않을 터치일때 
+			else{
+				Log.d("unable", String.valueOf(event));
+				
+					
+					Intent intent = new Intent(getApplicationContext(),
+							MakeWLBActivity.class);
+					startActivity(intent);
+					count=0;
+				
+			}
+		}
+		return true;
 	}
 }
