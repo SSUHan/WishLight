@@ -39,7 +39,7 @@ public class AppStartActivity extends ActionBarActivity {
 
 	// 원기
 	phpDown task;
-	phpDown2 task2;
+	phpUp task2;
 	List<Client> clientList = new ArrayList<Client>();
 	int totalClient;
 
@@ -51,7 +51,7 @@ public class AppStartActivity extends ActionBarActivity {
 
 		loginLayout = (RelativeLayout) findViewById(R.id.loginLayout);
 
-		loginLayout.setBackgroundResource(R.drawable.loginsky);
+		loginLayout.setBackgroundResource(R.drawable.loginsky1);
 		frameAnimation = (AnimationDrawable) loginLayout.getBackground();
 
 		LinearLayout loginLayout = (LinearLayout) findViewById(R.id.login);
@@ -145,7 +145,7 @@ public class AppStartActivity extends ActionBarActivity {
 						Toast.makeText(getApplicationContext(), "비번입력하세요",
 								Toast.LENGTH_LONG).show();
 					} else {
-						task2 = new phpDown2();
+						task2 = new phpUp();
 
 						task2.execute("http://ljs93kr.cafe24.com/join.php?_id="
 								+ totalClient + "&id=" + inputId + "&pw="
@@ -221,7 +221,7 @@ public class AppStartActivity extends ActionBarActivity {
 	}
 
 	// 쓰기위한 파싱
-	private class phpDown2 extends AsyncTask<String, Integer, String> {
+	private class phpUp extends AsyncTask<String, Integer, String> {
 
 		@Override
 		protected String doInBackground(String... urls) {

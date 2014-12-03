@@ -1,11 +1,19 @@
 package com.example.thewishlight;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.StringTokenizer;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -45,7 +53,7 @@ public class MySkyActivity extends ActionBarActivity implements
 	TextView textView01;
 
 	RelativeLayout myskyLayout;
-	
+
 	Button goRankBtn;
 	Button goFriendBtn;
 
@@ -55,83 +63,92 @@ public class MySkyActivity extends ActionBarActivity implements
 	float YAtUp;
 	int count = 0;
 
+	static String myID;
+
+	phpDown task;
+	phpDown delete;
+	phpDown2 task2;
+	
+
+	public static List<WLB> wlbs = new ArrayList<WLB>();
+	private int wlbCount;
+
 	// Flipper
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 
-		showDB();
+		Intent intent = getIntent();
+		myID = intent.getStringExtra("myID");
+		
+		
 	}
 
 	/*
-	public void mClick(View v) {
-		if (v.getId() == R.id.myskyLayout) {
-			Intent intent = new Intent(getApplicationContext(),
-					MakeWLBActivity.class);
-			startActivity(intent);
-		} else if (v.getId() == R.id.goRankBtn) {
-			Intent intent = new Intent(getApplicationContext(),
-					MyRankActivity.class);
-			startActivity(intent);
-		} else if (v.getId() == R.id.goFriendBtn) {
-			Intent intent = new Intent(getApplicationContext(),
-					FriendStartActivity.class);
-			startActivity(intent);
-		}
-		
-		 * else if (v.getId() == R.id.image1) {
-		 * Toast.makeText(getApplicationContext(), "image1",
-		 * Toast.LENGTH_SHORT).show(); image1 = (ImageView)
-		 * findViewById(R.id.image1); Animation animation =
-		 * AnimationUtils.loadAnimation( getApplicationContext(),
-		 * R.anim.image1); image1.startAnimation(animation); } else if
-		 * (v.getId() == R.id.image2) { Toast.makeText(getApplicationContext(),
-		 * "image2", Toast.LENGTH_SHORT).show(); image2 = (ImageView)
-		 * findViewById(R.id.image2); Animation animation =
-		 * AnimationUtils.loadAnimation( getApplicationContext(),
-		 * R.anim.image2); image2.startAnimation(animation); } else if
-		 * (v.getId() == R.id.image3) { Toast.makeText(getApplicationContext(),
-		 * "image3", Toast.LENGTH_SHORT).show(); image3 = (ImageView)
-		 * findViewById(R.id.image3);
-		 * 
-		 * Animation animation = AnimationUtils.loadAnimation(
-		 * getApplicationContext(), R.anim.image3);
-		 * image3.startAnimation(animation); } else if (v.getId() ==
-		 * R.id.image4) { Toast.makeText(getApplicationContext(), "image4",
-		 * Toast.LENGTH_SHORT).show(); image4 = (ImageView)
-		 * findViewById(R.id.image4);
-		 * 
-		 * AnimationSet set = new AnimationSet(true);
-		 * 
-		 * Animation alpha = new AlphaAnimation(0.0f, 1.0f);
-		 * alpha.setDuration(1000); set.addAnimation(alpha);
-		 * 
-		 * image4.startAnimation(set);
-		 * 
-		 * }
-		 */
+	 * public void mClick(View v) { if (v.getId() == R.id.myskyLayout) { Intent
+	 * intent = new Intent(getApplicationContext(), MakeWLBActivity.class);
+	 * startActivity(intent); } else if (v.getId() == R.id.goRankBtn) { Intent
+	 * intent = new Intent(getApplicationContext(), MyRankActivity.class);
+	 * startActivity(intent); } else if (v.getId() == R.id.goFriendBtn) { Intent
+	 * intent = new Intent(getApplicationContext(), FriendStartActivity.class);
+	 * startActivity(intent); }
+	 * 
+	 * else if (v.getId() == R.id.image1) {
+	 * Toast.makeText(getApplicationContext(), "image1",
+	 * Toast.LENGTH_SHORT).show(); image1 = (ImageView)
+	 * findViewById(R.id.image1); Animation animation =
+	 * AnimationUtils.loadAnimation( getApplicationContext(), R.anim.image1);
+	 * image1.startAnimation(animation); } else if (v.getId() == R.id.image2) {
+	 * Toast.makeText(getApplicationContext(), "image2",
+	 * Toast.LENGTH_SHORT).show(); image2 = (ImageView)
+	 * findViewById(R.id.image2); Animation animation =
+	 * AnimationUtils.loadAnimation( getApplicationContext(), R.anim.image2);
+	 * image2.startAnimation(animation); } else if (v.getId() == R.id.image3) {
+	 * Toast.makeText(getApplicationContext(), "image3",
+	 * Toast.LENGTH_SHORT).show(); image3 = (ImageView)
+	 * findViewById(R.id.image3);
+	 * 
+	 * Animation animation = AnimationUtils.loadAnimation(
+	 * getApplicationContext(), R.anim.image3);
+	 * image3.startAnimation(animation); } else if (v.getId() == R.id.image4) {
+	 * Toast.makeText(getApplicationContext(), "image4",
+	 * Toast.LENGTH_SHORT).show(); image4 = (ImageView)
+	 * findViewById(R.id.image4);
+	 * 
+	 * AnimationSet set = new AnimationSet(true);
+	 * 
+	 * Animation alpha = new AlphaAnimation(0.0f, 1.0f);
+	 * alpha.setDuration(1000); set.addAnimation(alpha);
+	 * 
+	 * image4.startAnimation(set);
+	 * 
+	 * }
+	 */
 
-	
-
-	public void makeWLB(int shape, int topMargin, int leftMargin, String title,
-			String content) {
+	public void makeWLB(WLB mWLB) {
 
 		ImageView wlb = new ImageView(this);
-		wlb.setBackgroundResource(determineShape(shape));
 
-		final int mShape = shape;
-		final String mTitle = title;
-		final String mContent = content;
+		final int mShape = mWLB.getShape();
+		final String mTitle = mWLB.getTitle();
+		final String mContent = mWLB.getContent();
+		final int wlbid = mWLB.getWlbid();
+		wlb.setBackgroundResource(determineShape(mShape));
 		Animation anim = AnimationUtils.loadAnimation(getApplicationContext(),
 				R.anim.basic1);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		// 시작위치 설정
-		params.topMargin = topMargin;
-		params.leftMargin = leftMargin;
+		Random ranTop = new Random();
+		Random ranLeft = new Random();
+
+		int top = ranTop.nextInt(500);
+		int left = ranLeft.nextInt(500);
+
+		params.topMargin = top;
+		params.leftMargin = left;
 
 		wlb.setLayoutParams(params);
 
@@ -196,8 +213,8 @@ public class MySkyActivity extends ActionBarActivity implements
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub
-								String title = mTitle;
-								handler.delete(title);
+								delete = new phpDown();
+								delete.execute("http://ljs93kr.cafe24.com/wlbdelete.php?id=" + myID+"&wlbid="+wlbid);
 								Toast.makeText(getApplicationContext(), "삭제완료",
 										Toast.LENGTH_SHORT).show();
 								showDB();
@@ -238,34 +255,35 @@ public class MySkyActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-		showDB();
 		super.onResume();
+		
+		showDB();
 	}
 
 	// 풍등 디비 보여주는 함수
 	private void showDB() {
 		setContentView(R.layout.mysky);
-		
-		goRankBtn = (Button)findViewById(R.id.goRankBtn);
-		goRankBtn.setOnClickListener(new OnClickListener()
-		{
+
+		goRankBtn = (Button) findViewById(R.id.goRankBtn);
+		goRankBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getApplicationContext(),MyRankActivity.class);
+				Intent intent = new Intent(getApplicationContext(),
+						MyRankActivity.class);
 				startActivity(intent);
-				count=0;
+				count = 0;
 			}
 		});
-		goFriendBtn = (Button)findViewById(R.id.goFriendBtn);
-		goFriendBtn.setOnClickListener(new OnClickListener()
-		{
+		goFriendBtn = (Button) findViewById(R.id.goFriendBtn);
+		goFriendBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getApplicationContext(),FriendStartActivity.class);
+				Intent intent = new Intent(getApplicationContext(),
+						FriendStartActivity.class);
 				startActivity(intent);
-				count=0;
+				count = 0;
 			}
 		});
 
@@ -274,25 +292,18 @@ public class MySkyActivity extends ActionBarActivity implements
 		flipper.setOnTouchListener(this);
 		// Flipper
 
-		Intent intent = getIntent();
-		String myID = intent.getStringExtra("myID");
 		Toast.makeText(getApplicationContext(), myID + "의 하늘입니다",
 				Toast.LENGTH_LONG).show();
 
 		myskyLayout = (RelativeLayout) findViewById(R.id.myskyLayout);
 		/*
-		myskyLayout.setOnClickListener(new OnClickListener()
-		{
-			 @Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				 Log.d("onClick", String.valueOf(v.getId()));
-				 Intent intent = new Intent(getApplicationContext(),
-							MakeWLBActivity.class);
-					startActivity(intent);
-			}
-		});
-		*/
+		 * myskyLayout.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) { // TODO Auto-generated method
+		 * stub Log.d("onClick", String.valueOf(v.getId())); Intent intent = new
+		 * Intent(getApplicationContext(), MakeWLBActivity.class);
+		 * startActivity(intent); } });
+		 */
 		myskyLayout.setOnTouchListener(this);
 		textView01 = (TextView) findViewById(R.id.textView01);
 
@@ -311,27 +322,32 @@ public class MySkyActivity extends ActionBarActivity implements
 			}
 		});
 
-		//
-		String data = "";
-		Cursor c = handler.select();
-		startManagingCursor(c);
-		Random ranTop = new Random();
-		Random ranLeft = new Random();
-		Log.d("db count", String.valueOf(c.getCount()));
-		while (c.moveToNext()) {
-			int _id = c.getInt(c.getColumnIndex("_id"));
-			String title = c.getString(c.getColumnIndex("title"));
-			String content = c.getString(c.getColumnIndex("content"));
-			int shape = c.getInt(c.getColumnIndex("shape"));
-			int top = ranTop.nextInt(500);
-			int left = ranLeft.nextInt(500);
-			Log.d("start location", "top:" + top + "left:" + left);
-			makeWLB(shape, top, left, title, content);
+		task = new phpDown();
 
-			data += _id + " " + title + " " + content + " " + "shpae:" + shape
-					+ "\n";
-		}
-		textView01.setText(data);
+		task.execute("http://ljs93kr.cafe24.com/wlb.php?id=" + myID);
+		
+		task2 = new phpDown2();
+
+		task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id=" + myID);
+
+		
+
+		/*
+		 * String data = ""; Cursor c = handler.select();
+		 * startManagingCursor(c); Random ranTop = new Random(); Random ranLeft
+		 * = new Random(); Log.d("db count", String.valueOf(c.getCount()));
+		 * while (c.moveToNext()) { int _id = c.getInt(c.getColumnIndex("_id"));
+		 * String title = c.getString(c.getColumnIndex("title")); String content
+		 * = c.getString(c.getColumnIndex("content")); int shape =
+		 * c.getInt(c.getColumnIndex("shape")); int top = ranTop.nextInt(500);
+		 * int left = ranLeft.nextInt(500); Log.d("start location", "top:" + top
+		 * + "left:" + left); makeWLB(shape, top, left, title, content);
+		 * 
+		 * data += _id + " " + title + " " + content + " " + "shpae:" + shape +
+		 * "\n"; }
+		 * 
+		 * textView01.setText(data);
+		 */
 
 	}
 
@@ -382,18 +398,140 @@ public class MySkyActivity extends ActionBarActivity implements
 							R.anim.flipani));
 				}
 			}
-			//유효하지 않을 터치일때 
-			else{
+			// 유효하지 않을 터치일때
+			else {
 				Log.d("unable", String.valueOf(event));
-				
-					
-					Intent intent = new Intent(getApplicationContext(),
-							MakeWLBActivity.class);
-					startActivity(intent);
-					count=0;
-				
+
+				Intent intent = new Intent(getApplicationContext(),
+						MakeWLBActivity.class);
+				startActivity(intent);
+				count = 0;
+
 			}
 		}
 		return true;
 	}
+
+	// 읽기위한파싱
+
+	private class phpDown extends AsyncTask<String, Integer, String> {
+
+		@Override
+		protected String doInBackground(String... urls) {
+			StringBuilder jsonHtml = new StringBuilder();
+			try {
+				// 연결 url 설정
+				URL url = new URL(urls[0]);
+				// 커넥션 객체 생성
+				HttpURLConnection conn = (HttpURLConnection) url
+						.openConnection();
+				// 연결되었으면.
+				if (conn != null) {
+					conn.setConnectTimeout(10000);
+					conn.setUseCaches(false);
+					// 연결되었음 코드가 리턴되면.
+					if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+						BufferedReader br = new BufferedReader(
+								new InputStreamReader(conn.getInputStream(),
+										"UTF-8"));
+						for (;;) {
+							// 웹상에 보여지는 텍스트를 라인단위로 읽어 저장.
+							String line = br.readLine();
+							Log.d("line", line);
+							if (line == null)
+								break;
+							// 저장된 텍스트 라인을 jsonHtml에 붙여넣음
+							jsonHtml.append(line + "\n");
+						}
+						br.close();
+					}
+
+					conn.disconnect();
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			return jsonHtml.toString();
+
+		}
+
+		protected void onPostExecute(String str) {
+			/*
+			 * StringTokenizer st = new StringTokenizer(str, ":"); Log.d("tc",
+			 * str); wlbCount = Integer.parseInt(st.nextToken()); Log.d("tc",
+			 * String.valueOf(wlbCount)); for (int i = 0; i < wlbCount; i++)
+			 * clientList.add(new Client(Integer.parseInt(st.nextToken()), st
+			 * .nextToken(), st.nextToken()));
+			 */
+
+		}
+
+	}
+
+	private class phpDown2 extends AsyncTask<String, Integer, String> {
+
+		@Override
+		protected String doInBackground(String... urls) {
+			StringBuilder jsonHtml = new StringBuilder();
+			try {
+				// 연결 url 설정
+				URL url = new URL(urls[0]);
+				// 커넥션 객체 생성
+				HttpURLConnection conn = (HttpURLConnection) url
+						.openConnection();
+				// 연결되었으면.
+				if (conn != null) {
+					conn.setConnectTimeout(10000);
+					conn.setUseCaches(false);
+					// 연결되었음 코드가 리턴되면.
+					if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+						BufferedReader br = new BufferedReader(
+								new InputStreamReader(conn.getInputStream(),
+										"UTF-8"));
+						for (;;) {
+							// 웹상에 보여지는 텍스트를 라인단위로 읽어 저장.
+							String line = br.readLine();
+							Log.d("line", line);
+							if (line == null)
+								break;
+							// 저장된 텍스트 라인을 jsonHtml에 붙여넣음
+							jsonHtml.append(line + "\n");
+						}
+						Log.d("json", "d");
+						Log.d("json", jsonHtml.toString());
+						br.close();
+					}
+
+					conn.disconnect();
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			return jsonHtml.toString();
+
+		}
+
+		protected void onPostExecute(String str) {
+
+			wlbs = new ArrayList<WLB>();
+			StringTokenizer st = new StringTokenizer(str, ",");
+			Log.d("tc", str);
+			wlbCount = Integer.parseInt(st.nextToken());
+			Log.d("tc", String.valueOf(wlbCount));
+			for (int i = 0; i < wlbCount; i++)
+				wlbs.add(new WLB(st.nextToken(), Integer.parseInt(st.nextToken()), Integer.parseInt(st
+						.nextToken()), st.nextToken(), st.nextToken(), st
+						.nextToken(), st.nextToken(), st.nextToken(), Integer
+						.parseInt(st.nextToken()), Integer.parseInt(st
+						.nextToken())));
+
+			Log.d("php2", String.valueOf(wlbs.size()));
+			for (int i = 0; i < wlbs.size(); i++) {
+				Log.d("php", wlbs.get(i).getTitle());
+				makeWLB(wlbs.get(i));
+		}
+
+		}
+	}
+
 }

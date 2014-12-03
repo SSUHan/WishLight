@@ -3,78 +3,173 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_gravity="center"
+            android:text="제목 :"
+            android:textSize="25dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                
-                android:text="제목 :"
-                android:textSize="25dp" />
-
-            <EditText
-                android:id="@+id/inputTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="25dp" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                
-                android:text="내용 :"
-                android:textSize="25dp" />
-
-            <EditText
-                android:id="@+id/inputContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="25dp" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                
-                android:text="모양 :"
-                android:textSize="25dp" />
-
-            <EditText
-                android:id="@+id/inputShape"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="25dp" />
-        </LinearLayout>
-        
-        <Button 
-            android:id="@+id/makeSave"
+        <EditText
+            android:id="@+id/inputTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:text="소원등 제작"
-            android:onClick="saveClick"
-            android:textSize="25dp"/>
-        
-    
+            android:textSize="25dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="내용 :"
+            android:textSize="25dp" />
+
+        <EditText
+            android:id="@+id/inputContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="모양 :"
+            android:textSize="25dp" />
+
+        <EditText
+            android:id="@+id/inputShape"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="25dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/finishDatePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="마지막날짜 설정"
+        android:textSize="25dp" />
+
+   
+
+    <Button
+        android:id="@+id/popupTimePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="팝업시간 설정"
+        android:textSize="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="     요일"
+        android:textSize="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp" >
+
+        <Button
+            android:id="@+id/day1"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="#ff888888"
+            android:onClick="dayClick"
+            android:text="월" />
+
+        <Button
+            android:id="@+id/day2"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="#ff888888"
+            android:onClick="dayClick"
+            android:text="화" />
+
+        <Button
+            android:id="@+id/day3"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="#ff888888"
+            android:onClick="dayClick"
+            android:text="수" />
+
+        <Button
+            android:id="@+id/day4"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="#ff888888"
+            android:onClick="dayClick"
+            android:text="목" />
+
+        <Button
+            android:id="@+id/day5"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="#ff888888"
+            android:onClick="dayClick"
+            android:text="금" />
+
+        <Button
+            android:id="@+id/day6"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="#ff888888"
+            android:onClick="dayClick"
+            android:text="토" />
+
+        <Button
+            android:id="@+id/day7"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="#ff888888"
+            android:onClick="dayClick"
+            android:text="일" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/isSecret"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="checkClick"
+        android:text="친구들에게 비공개 할껀가요?"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/makeSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:onClick="saveClick"
+        android:text="소원등 제작"
+        android:textSize="25dp" />
 
 </LinearLayout>
