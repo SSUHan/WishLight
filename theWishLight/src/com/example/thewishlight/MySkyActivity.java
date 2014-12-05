@@ -62,13 +62,14 @@ public class MySkyActivity extends ActionBarActivity implements
 	float YAtDown;
 	float YAtUp;
 	int count = 0;
+	int mode = 0; // 0일때 자기하늘,1일때 친구하늘 //change
 
 	static String myID;
+	String friendID;
 
 	phpDown task;
 	phpDown delete;
 	phpDown2 task2;
-	
 
 	public static List<WLB> wlbs = new ArrayList<WLB>();
 	private int wlbCount;
@@ -80,9 +81,12 @@ public class MySkyActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 
 		Intent intent = getIntent();
-		myID = intent.getStringExtra("myID");
-		
-		
+		mode = intent.getIntExtra("mode", 0); // change5
+		if (mode == 0)
+			myID = intent.getStringExtra("myID");
+		else
+			friendID = intent.getStringExtra("friendID");
+
 	}
 
 	/*
@@ -134,7 +138,11 @@ public class MySkyActivity extends ActionBarActivity implements
 		final String mTitle = mWLB.getTitle();
 		final String mContent = mWLB.getContent();
 		final int wlbid = mWLB.getWlbid();
+		final String mStartdate = mWLB.getStartdate();
 		wlb.setBackgroundResource(determineShape(mShape));
+		final String mFinishdate = mWLB.getFinishdate();
+		final String mPopuptime = mWLB.getPopuptime();
+		final int mSecret = mWLB.getSecret();
 		Animation anim = AnimationUtils.loadAnimation(getApplicationContext(),
 				R.anim.basic1);
 
@@ -159,6 +167,16 @@ public class MySkyActivity extends ActionBarActivity implements
 				Context mContext = getApplicationContext();
 				String str1 = mTitle;
 				String str2 = mContent;
+				String str3 = mStartdate;
+				String str4 = mFinishdate;
+				String str5 = mPopuptime;
+				int secret = mSecret;
+				String str6;
+				if(secret==1){
+					str6 = "공개";
+				}else{
+					str6 = "비공개"; 
+				}
 				int shape = mShape;
 				LayoutInflater inflater = (LayoutInflater) mContext
 						.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -171,7 +189,8 @@ public class MySkyActivity extends ActionBarActivity implements
 						MySkyActivity.this);
 
 				wlbView.setText(" -제목: " + str1 + "\n\n -내용: " + str2
-						+ "\n\n -모양: " + shape);
+						+ "\n\n -모양: " + shape+ "\n\n -시작날짜: " + str3+ "\n\n -끝날날짜: " + str4
+						+ "\n\n -팝업시간: " + str5+ "\n\n -공개여부: " + str6);
 				aDialog.setTitle("소원등 정보"); // 타이틀바 제목
 				aDialog.setView(layout); // dialog.xml 파일을 뷰로 셋팅
 
@@ -189,44 +208,48 @@ public class MySkyActivity extends ActionBarActivity implements
 			}
 		});
 
-		// 소원등 길게 누르면 삭제되도록 만듬
-		wlb.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				// TODO Auto-generated method stub
-				AlertDialog.Builder ab = new AlertDialog.Builder(
-						MySkyActivity.this);
-				ab.setTitle("소원등 삭제");
-				ab.setMessage("해당 소원등을 정말 삭제하시겠습니까?");
-				ab.setNeutralButton("닫기",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dlg, int sumthin) {
-								// 닫기 버튼을 누르면 아무것도 안하고 닫기 때문에 그냥 비움
+		if (mode == 0) // change
+		{
+			// 소원등 길게 누르면 삭제되도록 만듬
+			wlb.setOnLongClickListener(new OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View v) {
+					// TODO Auto-generated method stub
+					AlertDialog.Builder ab = new AlertDialog.Builder(
+							MySkyActivity.this);
+					ab.setTitle("소원등 삭제");
+					ab.setMessage("해당 소원등을 정말 삭제하시겠습니까?");
+					ab.setNeutralButton("닫기",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dlg,
+										int sumthin) {
+									// 닫기 버튼을 누르면 아무것도 안하고 닫기 때문에 그냥 비움
 
-							}
+								}
 
-						});
-				ab.setPositiveButton("삭제",
-						new DialogInterface.OnClickListener() {
+							});
+					ab.setPositiveButton("삭제",
+							new DialogInterface.OnClickListener() {
 
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// TODO Auto-generated method stub
-								delete = new phpDown();
-								delete.execute("http://ljs93kr.cafe24.com/wlbdelete.php?id=" + myID+"&wlbid="+wlbid);
-								Toast.makeText(getApplicationContext(), "삭제완료",
-										Toast.LENGTH_SHORT).show();
-								showDB();
-							}
-						});
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									// TODO Auto-generated method stub
+									delete = new phpDown();
+									delete.execute("http://ljs93kr.cafe24.com/wlbdelete.php?id="
+											+ myID + "&wlbid=" + wlbid);
+									Toast.makeText(getApplicationContext(),
+											"삭제완료", Toast.LENGTH_SHORT).show();
+									showDB();
+								}
+							});
+					AlertDialog ad = ab.create();
+					ad.show();
 
-				AlertDialog ad = ab.create();
-				ad.show();
-
-				return true;
-			}
-		});
+					return true;
+				}
+			});
+		}
 
 		myskyLayout.addView(wlb);
 		wlb.startAnimation(anim);
@@ -256,7 +279,7 @@ public class MySkyActivity extends ActionBarActivity implements
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		
+
 		showDB();
 	}
 
@@ -292,8 +315,12 @@ public class MySkyActivity extends ActionBarActivity implements
 		flipper.setOnTouchListener(this);
 		// Flipper
 
-		Toast.makeText(getApplicationContext(), myID + "의 하늘입니다",
-				Toast.LENGTH_LONG).show();
+		if (mode == 0) // change5
+			Toast.makeText(getApplicationContext(), myID + "의 하늘입니다",
+					Toast.LENGTH_LONG).show();
+		else
+			Toast.makeText(getApplicationContext(), friendID + "의 하늘입니다",
+					Toast.LENGTH_LONG).show();
 
 		myskyLayout = (RelativeLayout) findViewById(R.id.myskyLayout);
 		/*
@@ -305,30 +332,26 @@ public class MySkyActivity extends ActionBarActivity implements
 		 * startActivity(intent); } });
 		 */
 		myskyLayout.setOnTouchListener(this);
-		//textView01 = (TextView) findViewById(R.id.textView01);
+		// textView01 = (TextView) findViewById(R.id.textView01);
 
 		handler = MyDBHandler.open(getApplicationContext(), "wlb");
-/*
-		deleteBtn = (Button) findViewById(R.id.deleteBtn);
-		deleteBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				editDelete = (EditText) findViewById(R.id.inputDelete);
-				String title = editDelete.getText().toString();
-				handler.delete(title);
-				editDelete.setText("");
-				showDB();
-			}
-		});
-*/
-		
-		
+		/*
+		 * deleteBtn = (Button) findViewById(R.id.deleteBtn);
+		 * deleteBtn.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) { // TODO Auto-generated method
+		 * stub editDelete = (EditText) findViewById(R.id.inputDelete); String
+		 * title = editDelete.getText().toString(); handler.delete(title);
+		 * editDelete.setText(""); showDB(); } });
+		 */
+
 		task2 = new phpDown2();
 
-		task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id=" + myID);
-
-		
+		if (mode == 0) // change5
+			task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id=" + myID);
+		else
+			task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id="
+					+ friendID);
 
 		/*
 		 * String data = ""; Cursor c = handler.select();
@@ -373,38 +396,40 @@ public class MySkyActivity extends ActionBarActivity implements
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
 		// 터치 이벤트가 일어난 뷰가 ViewFlipper가 아니면 return
-		Log.d("onTouch", String.valueOf(event));
-		if (v != flipper)
-			return false;
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			YAtDown = event.getY();// 터치 시작지점 y좌표 저장
-		} else if (event.getAction() == MotionEvent.ACTION_UP) {
-			YAtUp = event.getY();// 터치 끝난지점 y좌표 저장
+		if (mode == 0) {         //change
+			Log.d("onTouch", String.valueOf(event));
+			if (v != flipper)
+				return false;
+			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				YAtDown = event.getY();// 터치 시작지점 y좌표 저장
+			} else if (event.getAction() == MotionEvent.ACTION_UP) {
+				YAtUp = event.getY();// 터치 끝난지점 y좌표 저장
 
-			if ((YAtDown - YAtUp) > 100 || ((YAtDown - YAtUp) < -100)) {
-				if ((YAtUp < YAtDown) && (count == 0)) {
-					// 아래서 위로
-					flipper.setInAnimation(AnimationUtils.loadAnimation(this,
-							R.anim.flipani));
-					count++;
-					flipper.showNext();
-				} else if ((YAtUp > YAtDown) && (count == 1)) {
-					// 위에서 아래로
-					count--;
-					flipper.showPrevious();
-					flipper.setInAnimation(AnimationUtils.loadAnimation(this,
-							R.anim.flipani));
+				if ((YAtDown - YAtUp) > 100 || ((YAtDown - YAtUp) < -100)) {
+					if ((YAtUp < YAtDown) && (count == 0)) {
+						// 아래서 위로
+						flipper.setInAnimation(AnimationUtils.loadAnimation(
+								this, R.anim.flipani));
+						count++;
+						flipper.showNext();
+					} else if ((YAtUp > YAtDown) && (count == 1)) {
+						// 위에서 아래로
+						count--;
+						flipper.showPrevious();
+						flipper.setInAnimation(AnimationUtils.loadAnimation(
+								this, R.anim.flipani));
+					}
 				}
-			}
-			// 유효하지 않을 터치일때
-			else {
-				Log.d("unable", String.valueOf(event));
+				// 유효하지 않을 터치일때
+				else {
+					Log.d("unable", String.valueOf(event));
 
-				Intent intent = new Intent(getApplicationContext(),
-						MakeWLBActivity.class);
-				startActivity(intent);
-				count = 0;
+					Intent intent = new Intent(getApplicationContext(),
+							MakeWLBActivity.class);
+					startActivity(intent);
+					count = 0;
 
+				}
 			}
 		}
 		return true;
@@ -517,17 +542,17 @@ public class MySkyActivity extends ActionBarActivity implements
 			wlbCount = Integer.parseInt(st.nextToken());
 			Log.d("tc", String.valueOf(wlbCount));
 			for (int i = 0; i < wlbCount; i++)
-				wlbs.add(new WLB(st.nextToken(), Integer.parseInt(st.nextToken()), Integer.parseInt(st
-						.nextToken()), st.nextToken(), st.nextToken(), st
-						.nextToken(), st.nextToken(), st.nextToken(), Integer
-						.parseInt(st.nextToken()), Integer.parseInt(st
-						.nextToken())));
+				wlbs.add(new WLB(st.nextToken(), Integer.parseInt(st
+						.nextToken()), Integer.parseInt(st.nextToken()), st
+						.nextToken(), st.nextToken(), st.nextToken(), st
+						.nextToken(), st.nextToken(), Integer.parseInt(st
+						.nextToken()), Integer.parseInt(st.nextToken())));
 
 			Log.d("php2", String.valueOf(wlbs.size()));
 			for (int i = 0; i < wlbs.size(); i++) {
 				Log.d("php", wlbs.get(i).getTitle());
 				makeWLB(wlbs.get(i));
-		}
+			}
 
 		}
 	}

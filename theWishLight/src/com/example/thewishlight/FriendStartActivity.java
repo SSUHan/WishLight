@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -90,7 +91,6 @@ public class FriendStartActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				boolean exist=false;
-				String fid="";
 				if(search==true)
 				{
 					for(int i=0;i<friends.size();i++)
@@ -102,6 +102,7 @@ public class FriendStartActivity extends ActionBarActivity {
 						task2=new phpUp();
 						task2.execute("http://ljs93kr.cafe24.com/friendinput.php?id="+MySkyActivity.myID
 								+"&fid="+friendedit.getText().toString());
+						
 						task2=new phpUp();
 						task2.execute("http://ljs93kr.cafe24.com/friendinput.php?id="+friendedit.getText().toString()
 								+"&fid="+MySkyActivity.myID);
@@ -256,7 +257,11 @@ public class FriendStartActivity extends ActionBarActivity {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					
+					Intent intent = new Intent(getApplicationContext(),//change4
+							MySkyActivity.class);
+					intent.putExtra("friendID",friends.get(pos) );
+					intent.putExtra("mode", 1);
+					startActivity(intent);
 				}
 				
 			});

@@ -105,7 +105,8 @@ public class AppStartActivity extends ActionBarActivity {
 					Intent intent = new Intent(getApplicationContext(),
 							MySkyActivity.class);
 					intent.putExtra("myID", inputId);
-					startActivity(intent);
+					intent.putExtra("mode", 0);                //change
+					startActivity(intent);                
 
 					frameAnimation.stop();
 
