@@ -133,18 +133,25 @@ public class MySkyActivity extends ActionBarActivity implements
 	public void makeWLB(WLB mWLB) {
 
 		ImageView wlb = new ImageView(this);
+		// light ani
+		ImageView light = new ImageView(this);
 
 		final int mShape = mWLB.getShape();
 		final String mTitle = mWLB.getTitle();
 		final String mContent = mWLB.getContent();
 		final int wlbid = mWLB.getWlbid();
 		final String mStartdate = mWLB.getStartdate();
+		light.setBackgroundResource(R.drawable.lightlight2); // light ani
 		wlb.setBackgroundResource(determineShape(mShape));
 		final String mFinishdate = mWLB.getFinishdate();
 		final String mPopuptime = mWLB.getPopuptime();
 		final int mSecret = mWLB.getSecret();
+
+		// light ani
 		Animation anim = AnimationUtils.loadAnimation(getApplicationContext(),
 				R.anim.basic1);
+		Animation anim2 = AnimationUtils.loadAnimation(getApplicationContext(),
+				R.anim.basic2);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -158,6 +165,8 @@ public class MySkyActivity extends ActionBarActivity implements
 		params.topMargin = top;
 		params.leftMargin = left;
 
+		// light ani
+		light.setLayoutParams(params);
 		wlb.setLayoutParams(params);
 
 		wlb.setOnClickListener(new OnClickListener() {
@@ -252,7 +261,9 @@ public class MySkyActivity extends ActionBarActivity implements
 			});
 		}
 
+		myskyLayout.addView(light); // light ani
 		myskyLayout.addView(wlb);
+		light.startAnimation(anim2);
 		wlb.startAnimation(anim);
 	}
 
@@ -260,17 +271,15 @@ public class MySkyActivity extends ActionBarActivity implements
 	public static int determineShape(int shape) {
 		switch (shape) {
 		case 1:
-			return R.drawable.bluelight;
+			return R.drawable.circlelight2;
 		case 2:
-			return R.drawable.redlight;
+			return R.drawable.starlight2;
 		case 3:
-			return R.drawable.redlight2;
+			return R.drawable.flowerlight2;
 		case 4:
-			return R.drawable.redlight3;
+			return R.drawable.lovelight2;
 		case 5:
-			return R.drawable.roselight;
-		case 6:
-			return R.drawable.roselight2;
+			return R.drawable.speciallight2;
 		default:
 			return -1;
 		}
@@ -549,14 +558,12 @@ public class MySkyActivity extends ActionBarActivity implements
 						.nextToken(), st.nextToken(), Integer.parseInt(st
 						.nextToken()), Integer.parseInt(st.nextToken())));
 
-		
-
 			Log.d("php2", String.valueOf(wlbs.size()));
 			for (int i = 0; i < wlbs.size(); i++) {
 				Log.d("php", wlbs.get(i).getTitle());
-				if (mode==0)
+				if (mode == 0)
 					makeWLB(wlbs.get(i));
-				else if(wlbs.get(i).getSecret()!=1)
+				else if (wlbs.get(i).getSecret() != 1)
 					makeWLB(wlbs.get(i));
 			}
 
