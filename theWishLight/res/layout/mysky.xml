@@ -1,10 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    
-    
     tools:context="com.example.thewishlight.MySkyActivity" >
 
     <ViewFlipper
@@ -13,57 +10,31 @@
         android:layout_height="match_parent" >
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            
             android:id="@+id/myskyLayout"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/mysky" >
-
-            <TextView
-                android:id="@+id/textView01"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="first"
-                android:textColor="#ffffffff" />
-
-            <EditText
-                android:id="@+id/inputDelete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView01"
-                android:textColor="#ffffffff" />
-
-            <Button
-                android:id="@+id/deleteBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/inputDelete"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="삭제" />
+            android:background="@drawable/mainsky" >
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/downskyground" >
+            android:background="@drawable/downskyground2" >
 
             <Button
                 android:id="@+id/goRankBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="350dp"
-                android:background="@drawable/ranking" />
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="350dp" />
 
             <Button
                 android:id="@+id/goFriendBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="200dp"
-                android:layout_marginTop="300dp"
-                android:background="@drawable/friend" />
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="145dp"
+                android:layout_marginTop="240dp"
+                android:background="@drawable/friend2" />
         </RelativeLayout>
     </ViewFlipper>
 

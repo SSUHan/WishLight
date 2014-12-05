@@ -305,10 +305,10 @@ public class MySkyActivity extends ActionBarActivity implements
 		 * startActivity(intent); } });
 		 */
 		myskyLayout.setOnTouchListener(this);
-		textView01 = (TextView) findViewById(R.id.textView01);
+		//textView01 = (TextView) findViewById(R.id.textView01);
 
 		handler = MyDBHandler.open(getApplicationContext(), "wlb");
-
+/*
 		deleteBtn = (Button) findViewById(R.id.deleteBtn);
 		deleteBtn.setOnClickListener(new OnClickListener() {
 			@Override
@@ -321,7 +321,7 @@ public class MySkyActivity extends ActionBarActivity implements
 				showDB();
 			}
 		});
-
+*/
 		task = new phpDown();
 
 		task.execute("http://ljs93kr.cafe24.com/wlb.php?id=" + myID);
