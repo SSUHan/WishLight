@@ -173,9 +173,9 @@ public class MySkyActivity extends ActionBarActivity implements
 				int secret = mSecret;
 				String str6;
 				if(secret==1){
-					str6 = "공개";
+					str6 = "비공개";
 				}else{
-					str6 = "비공개"; 
+					str6 = "공개"; 
 				}
 				int shape = mShape;
 				LayoutInflater inflater = (LayoutInflater) mContext
@@ -548,6 +548,11 @@ public class MySkyActivity extends ActionBarActivity implements
 						.nextToken(), st.nextToken(), Integer.parseInt(st
 						.nextToken()), Integer.parseInt(st.nextToken())));
 
+			if(mode!=0)
+				for (int i = 0; i < wlbs.size(); i++)
+					if(wlbs.get(i).getSecret()==1)
+						wlbs.remove(i);
+			
 			Log.d("php2", String.valueOf(wlbs.size()));
 			for (int i = 0; i < wlbs.size(); i++) {
 				Log.d("php", wlbs.get(i).getTitle());
