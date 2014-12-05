@@ -10,6 +10,8 @@ import java.util.StringTokenizer;
 
 
 
+
+
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
@@ -40,7 +42,7 @@ public class AppStartActivity extends ActionBarActivity {
 	// 원기
 	phpDown task;
 	phpUp task2;
-	List<Client> clientList = new ArrayList<Client>();
+	public static List<Client> clientList = new ArrayList<Client>();
 	int totalClient;
 
 	@Override
@@ -151,7 +153,15 @@ public class AppStartActivity extends ActionBarActivity {
 								+ totalClient + "&id=" + inputId + "&pw="
 								+ inputPw);
 
-						editID.setText("");
+						task2 = new phpUp();
+
+						task2.execute("http://ljs93kr.cafe24.com/wlb.php?id=" +inputId);
+						
+						task2 = new phpUp();
+
+					    task2.execute("http://ljs93kr.cafe24.com/friend.php?id=" + inputId);
+						
+					    editID.setText("");
 						editPW.setText("");
 						Toast.makeText(getApplicationContext(), "회원가입이 성공하였습니다!",
 								Toast.LENGTH_LONG).show();

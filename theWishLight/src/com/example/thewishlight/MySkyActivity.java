@@ -322,9 +322,7 @@ public class MySkyActivity extends ActionBarActivity implements
 			}
 		});
 */
-		task = new phpDown();
-
-		task.execute("http://ljs93kr.cafe24.com/wlb.php?id=" + myID);
+		
 		
 		task2 = new phpDown2();
 
