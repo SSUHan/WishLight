@@ -19,22 +19,22 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/downskyground2" >
+            android:background="@drawable/downskyground" >
 
             <Button
                 android:id="@+id/goRankBtn"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="350dp" />
+                android:layout_marginTop="300dp"
+                android:background="@drawable/ranking"  />
 
             <Button
                 android:id="@+id/goFriendBtn"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="145dp"
-                android:layout_marginTop="240dp"
-                android:background="@drawable/friend2" />
+                android:layout_marginTop="220dp"
+                android:background="@drawable/friend" />
         </RelativeLayout>
     </ViewFlipper>
 

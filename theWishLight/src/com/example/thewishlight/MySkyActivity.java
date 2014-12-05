@@ -172,10 +172,10 @@ public class MySkyActivity extends ActionBarActivity implements
 				String str5 = mPopuptime;
 				int secret = mSecret;
 				String str6;
-				if(secret==1){
+				if (secret == 1) {
 					str6 = "비공개";
-				}else{
-					str6 = "공개"; 
+				} else {
+					str6 = "공개";
 				}
 				int shape = mShape;
 				LayoutInflater inflater = (LayoutInflater) mContext
@@ -189,8 +189,9 @@ public class MySkyActivity extends ActionBarActivity implements
 						MySkyActivity.this);
 
 				wlbView.setText(" -제목: " + str1 + "\n\n -내용: " + str2
-						+ "\n\n -모양: " + shape+ "\n\n -시작날짜: " + str3+ "\n\n -끝날날짜: " + str4
-						+ "\n\n -팝업시간: " + str5+ "\n\n -공개여부: " + str6);
+						+ "\n\n -모양: " + shape + "\n\n -시작날짜: " + str3
+						+ "\n\n -끝날날짜: " + str4 + "\n\n -팝업시간: " + str5
+						+ "\n\n -공개여부: " + str6);
 				aDialog.setTitle("소원등 정보"); // 타이틀바 제목
 				aDialog.setView(layout); // dialog.xml 파일을 뷰로 셋팅
 
@@ -256,7 +257,7 @@ public class MySkyActivity extends ActionBarActivity implements
 	}
 
 	// 모양 결정 함수
-	private int determineShape(int shape) {
+	public static int determineShape(int shape) {
 		switch (shape) {
 		case 1:
 			return R.drawable.bluelight;
@@ -396,7 +397,7 @@ public class MySkyActivity extends ActionBarActivity implements
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
 		// 터치 이벤트가 일어난 뷰가 ViewFlipper가 아니면 return
-		if (mode == 0) {         //change
+		if (mode == 0) { // change
 			Log.d("onTouch", String.valueOf(event));
 			if (v != flipper)
 				return false;
@@ -548,15 +549,15 @@ public class MySkyActivity extends ActionBarActivity implements
 						.nextToken(), st.nextToken(), Integer.parseInt(st
 						.nextToken()), Integer.parseInt(st.nextToken())));
 
-			if(mode!=0)
-				for (int i = 0; i < wlbs.size(); i++)
-					if(wlbs.get(i).getSecret()==1)
-						wlbs.remove(i);
-			
+		
+
 			Log.d("php2", String.valueOf(wlbs.size()));
 			for (int i = 0; i < wlbs.size(); i++) {
 				Log.d("php", wlbs.get(i).getTitle());
-				makeWLB(wlbs.get(i));
+				if (mode==0)
+					makeWLB(wlbs.get(i));
+				else if(wlbs.get(i).getSecret()!=1)
+					makeWLB(wlbs.get(i));
 			}
 
 		}

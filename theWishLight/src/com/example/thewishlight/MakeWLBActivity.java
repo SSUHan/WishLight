@@ -7,10 +7,12 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-
-
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,7 +39,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 	Button finishDatePicker;
 	Button popupTimePicker;
 
-	private GregorianCalendar mCalendar;
+	private GregorianCalendar mCalendar; // 시작날짜
+	private GregorianCalendar eCalendar; // 끝날날짜
 	private int s_year, s_month, s_day, hour, minute; // 시작 날짜 와 팝업 시간
 	private int e_year, e_month, e_day; // 마감 날짜
 	Button day1, day2, day3, day4, day5, day6, day7;
@@ -47,11 +50,16 @@ public class MakeWLBActivity extends ActionBarActivity {
 
 	phpUp task2;
 
+	public AlarmManager mManager;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.make_wlb);
+
+		// 알람매니저를 흭득
+		mManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
 		// 요일버튼 객체받기
 		day1 = (Button) findViewById(R.id.day1);
@@ -69,13 +77,14 @@ public class MakeWLBActivity extends ActionBarActivity {
 
 		// 현재시간 흭득
 		mCalendar = new GregorianCalendar();
+		eCalendar = new GregorianCalendar();
 		Log.d("homework", mCalendar.getTime().toString());
 
 		// 현재 시작 날짜 받기
 		s_year = mCalendar.get(Calendar.YEAR);
 		s_month = mCalendar.get(Calendar.MONTH);
 		s_day = mCalendar.get(Calendar.DAY_OF_MONTH);
-		
+
 		e_year = s_year;
 		e_month = s_month;
 		e_day = s_day;
@@ -104,6 +113,38 @@ public class MakeWLBActivity extends ActionBarActivity {
 		});
 
 	}
+
+	// 마감날짜 설정하기
+	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+		@Override
+		public void onDateSet(DatePicker view, int year, int monthOfYear,
+				int dayOfMonth) {
+			// TODO Auto-generated method stub
+			e_year = year;
+			e_month = monthOfYear;
+			e_day = dayOfMonth;
+			eCalendar.set(year, monthOfYear, dayOfMonth, hour, minute);
+			Log.d("datePickerAfter", "시작날짜:" + s_year + s_month + s_day
+					+ "마감날짜:" + e_year + e_month + e_day);
+
+		}
+	};
+
+	// 팝업시간 설정하기
+	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+
+		@Override
+		public void onTimeSet(TimePicker view, int hourOfDay, int Minute) {
+			// TODO Auto-generated method stub
+			Log.d("timePickerBefore", mCalendar.getTime().toString());
+			hour = hourOfDay;
+			minute = Minute;
+			eCalendar.set(e_year, e_month, e_day, hour, minute);
+			Log.d("timePickerAfter", "팝업시간설정:" + hour + minute);
+			Log.d("timePicker e", "팝업시간설정:" +eCalendar.getTime().toString());
+		}
+	};
 
 	public void dayClick(View v) {
 
@@ -191,8 +232,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 	// 소원등 만들기 버튼을 눌렀을때
 	public void saveClick(View v) {
 
-		
-		//handler = MyDBHandler.open(getApplicationContext(), "wlb");
+		// handler = MyDBHandler.open(getApplicationContext(), "wlb");
 		editShape = (EditText) findViewById(R.id.inputShape);
 		editTitle = (EditText) findViewById(R.id.inputTitle);
 		editContent = (EditText) findViewById(R.id.inputContent);
@@ -201,31 +241,68 @@ public class MakeWLBActivity extends ActionBarActivity {
 		String title = editTitle.getText().toString();
 		String content = editContent.getText().toString();
 
-		//handler.insert(title, content, Integer.parseInt(shape));
-		//handler.close();
-		
-		if(makeWLBID()== -1){
-			Toast.makeText(getApplicationContext(), "소원등은 5개 이상 만들 수 없습니다",Toast.LENGTH_LONG).show();
+		// handler.insert(title, content, Integer.parseInt(shape));
+		// handler.close();
+		if (makeWLBID() == -1) {
+			Toast.makeText(getApplicationContext(), "소원등은 5개 이상 만들 수 없습니다",
+					Toast.LENGTH_LONG).show();
 			return;
 		}
+
+		int rqCode = makeWLBID();
 		Log.d("dayCal", String.valueOf(dayCal()));
-		WLB wlb = new WLB(MySkyActivity.myID,makeWLBID(),Integer.valueOf(shape), title, content, hour + ":"
-				+ minute, s_year + "." + (s_month + 1) + "." + s_day, e_year
-				+ "." + (e_month + 1) + "." + e_day, 
-				dayCal(), isSecret);
+		WLB wlb = new WLB(MySkyActivity.myID, makeWLBID(),
+				Integer.valueOf(shape), title, content, hour + ":" + minute,
+				s_year + "." + (s_month + 1) + "." + s_day, e_year + "."
+						+ (e_month + 1) + "." + e_day, dayCal(), isSecret);
 
 		task2 = new phpUp();
 
 		task2.execute("http://ljs93kr.cafe24.com/wlbinput.php?id="
-				+ wlb.getId()+"&wlbid="+makeWLBID() + "&shape=" + wlb.getShape() + "&title="
-				+ wlb.getTitle() + "&content=" + wlb.getContent()
-				+ "&popuptime=" + wlb.getPopuptime() + "&startdate="
-				+ wlb.getStartdate() + "&finishdate=" + wlb.getFinishdate()
-				+ "&dayinterval=" + wlb.getDayinterval() + "&secret="
-				+ wlb.getSecret());
+				+ wlb.getId() + "&wlbid=" + makeWLBID() + "&shape="
+				+ wlb.getShape() + "&title=" + wlb.getTitle() + "&content="
+				+ wlb.getContent() + "&popuptime=" + wlb.getPopuptime()
+				+ "&startdate=" + wlb.getStartdate() + "&finishdate="
+				+ wlb.getFinishdate() + "&dayinterval=" + wlb.getDayinterval()
+				+ "&secret=" + wlb.getSecret());
+
+		startAlarm(rqCode);
 
 		finish();
 
+	}
+
+	private void startAlarm(int rqCode) {
+		// mManager.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(),
+		// pendingIntent());
+
+		mManager.set(AlarmManager.RTC_WAKEUP, eCalendar.getTimeInMillis(),
+				pendingIntent(rqCode));
+		Log.d("rqCode", String.valueOf(rqCode - 1));
+		Toast.makeText(getApplicationContext(),
+				eCalendar.getTime().toString() + "알람을 설정했습니다",
+				Toast.LENGTH_SHORT).show();
+		Log.d("make start alarm", eCalendar.getTime().toString());
+
+	}
+
+	private PendingIntent pendingIntent(int rqCode) {
+		Intent mIntent = new Intent(getApplicationContext(),
+				MyAlarmService.class);
+
+		String shape = editShape.getText().toString();
+		String title = editTitle.getText().toString();
+		String content = editContent.getText().toString();
+
+		mIntent.putExtra("shape", Integer.parseInt(shape));
+		mIntent.putExtra("title", title);
+		mIntent.putExtra("content", content);
+		mIntent.putExtra("rqCode", rqCode);
+		
+		PendingIntent pi = PendingIntent.getService(getApplicationContext(),
+				rqCode, mIntent, 0);
+
+		return pi;
 	}
 
 	private String numberTwo(int s) {
@@ -235,28 +312,32 @@ public class MakeWLBActivity extends ActionBarActivity {
 		}
 		return st;
 	}
-	
-	private int makeWLBID(){
+
+	private int makeWLBID() {
 		boolean[] makewlb = new boolean[5];
-		for(int i=0;i<makewlb.length;i++){
-			makewlb[i]= true;
+		for (int i = 0; i < makewlb.length; i++) {
+			makewlb[i] = true;
 		}
-		for(int i=0;i<MySkyActivity.wlbs.size();i++){
-			if(MySkyActivity.wlbs.get(i).getWlbid() == 1){
-				makewlb[0]=false;
-			}if(MySkyActivity.wlbs.get(i).getWlbid() == 2){
-				makewlb[1]=false;
-			}if(MySkyActivity.wlbs.get(i).getWlbid() == 3){
-				makewlb[2]=false;
-			}if(MySkyActivity.wlbs.get(i).getWlbid() == 4){
-				makewlb[3]=false;
-			}if(MySkyActivity.wlbs.get(i).getWlbid() == 5){
-				makewlb[4]=false;
+		for (int i = 0; i < MySkyActivity.wlbs.size(); i++) {
+			if (MySkyActivity.wlbs.get(i).getWlbid() == 1) {
+				makewlb[0] = false;
+			}
+			if (MySkyActivity.wlbs.get(i).getWlbid() == 2) {
+				makewlb[1] = false;
+			}
+			if (MySkyActivity.wlbs.get(i).getWlbid() == 3) {
+				makewlb[2] = false;
+			}
+			if (MySkyActivity.wlbs.get(i).getWlbid() == 4) {
+				makewlb[3] = false;
+			}
+			if (MySkyActivity.wlbs.get(i).getWlbid() == 5) {
+				makewlb[4] = false;
 			}
 		}
-		for(int i=0;i<5;i++){
-			if(makewlb[i]==true){
-				return i+1;
+		for (int i = 0; i < 5; i++) {
+			if (makewlb[i] == true) {
+				return i + 1;
 			}
 		}
 		return -1;
@@ -288,35 +369,6 @@ public class MakeWLBActivity extends ActionBarActivity {
 		return total;
 
 	}
-
-	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-		@Override
-		public void onDateSet(DatePicker view, int year, int monthOfYear,
-				int dayOfMonth) {
-			// TODO Auto-generated method stub
-			e_year = year;
-			e_month = monthOfYear;
-			e_day = dayOfMonth;
-			// mCalendar.set(year, monthOfYear, dayOfMonth, hour, minute);
-			Log.d("datePickerAfter", "시작날짜:" + s_year + s_month + s_day
-					+ "마감날짜:" + e_year + e_month + e_day);
-
-		}
-	};
-
-	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-
-		@Override
-		public void onTimeSet(TimePicker view, int hourOfDay, int Minute) {
-			// TODO Auto-generated method stub
-			Log.d("timePickerBefore", mCalendar.getTime().toString());
-			hour = hourOfDay;
-			minute = Minute;
-
-			Log.d("timePickerAfter", "팝업시간설정:" + hour + minute);
-		}
-	};
 
 	// 쓰기위한 파싱
 	private class phpUp extends AsyncTask<String, Integer, String> {

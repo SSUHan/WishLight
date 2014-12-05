@@ -32,6 +32,18 @@
             android:name=".FriendStartActivity"></activity>
         <activity 
             android:name=".MyRankActivity"></activity>
+        <activity
+            android:name=".PopupActivity"
+            >
+        </activity>
+
+        <service android:name=".MyAlarmService" >
+            <intent-filter>
+                <action android:name="com.example.thewishlight.MyAlarmService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

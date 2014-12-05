@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/popupLayout"
+    android:orientation="vertical" >
+    <TextView 
+        android:id="@+id/titleView01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="알람이 울렸습니다!! 문제를 푸세요"
+        android:textSize="35dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        />
+    
+    <TextView 
+        android:id="@+id/contentView01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1+1=?"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        />
+    
+   
+    
+    
+
+</LinearLayout>
