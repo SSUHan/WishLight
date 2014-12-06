@@ -72,6 +72,7 @@ public class MyAlarmService extends Service {
 		String content = intent.getStringExtra("content");
 		String title = intent.getStringExtra("title");
 		int shape = intent.getIntExtra("shape",0);
+		int seq = intent.getIntExtra("seq", 0);
 		
 		Log.d("onStartCommand", "onStartCommand start");
 		Log.d("onStartCommand", "rqCode:"+String.valueOf(rqCode));
@@ -85,6 +86,8 @@ public class MyAlarmService extends Service {
 		myIntent.putExtra("content", content);
 		myIntent.putExtra("title", title);
 		myIntent.putExtra("shape", shape);
+		myIntent.putExtra("seq", seq);
+		Log.d("seq", "seq:"+String.valueOf(seq));
 		
 		Context context = getApplicationContext();
 		String notificationTitle  = "Notification from Alarm!"+rqCode;

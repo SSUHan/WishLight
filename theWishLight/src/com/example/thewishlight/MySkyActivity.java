@@ -2,8 +2,10 @@ package com.example.thewishlight;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -246,8 +248,13 @@ public class MySkyActivity extends ActionBarActivity implements
 										int which) {
 									// TODO Auto-generated method stub
 									delete = new phpDown();
-									delete.execute("http://ljs93kr.cafe24.com/wlbdelete.php?id="
-											+ myID + "&wlbid=" + wlbid);
+									try {
+										delete.execute("http://ljs93kr.cafe24.com/wlbdelete.php?id="
+												+ URLEncoder.encode(myID,"utf-8") + "&wlbid="+wlbid);
+									} catch (UnsupportedEncodingException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 									Toast.makeText(getApplicationContext(),
 											"삭제완료", Toast.LENGTH_SHORT).show();
 									showDB();
@@ -344,7 +351,7 @@ public class MySkyActivity extends ActionBarActivity implements
 		myskyLayout.setOnTouchListener(this);
 		// textView01 = (TextView) findViewById(R.id.textView01);
 
-		handler = MyDBHandler.open(getApplicationContext(), "wlb");
+		//handler = MyDBHandler.open(getApplicationContext(), "wlb");
 		/*
 		 * deleteBtn = (Button) findViewById(R.id.deleteBtn);
 		 * deleteBtn.setOnClickListener(new OnClickListener() {
@@ -355,13 +362,21 @@ public class MySkyActivity extends ActionBarActivity implements
 		 * editDelete.setText(""); showDB(); } });
 		 */
 
-		task2 = new phpDown2();
+		
 
-		if (mode == 0) // change5
-			task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id=" + myID);
-		else
-			task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id="
-					+ friendID);
+		
+			try {
+				task2 = new phpDown2();
+				if (mode == 0)
+				    task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id=" + URLEncoder.encode(myID,"utf-8"));
+				else
+					task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id="
+							+ URLEncoder.encode(friendID,"utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
 
 		/*
 		 * String data = ""; Cursor c = handler.select();

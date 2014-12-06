@@ -1,175 +1,297 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="@drawable/wlmbackground" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical" >
 
-        <TextView
+        <ImageView
+            android:id="@+id/Wlbtitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_gravity="center"
-            android:text="제목 :"
-            android:textSize="25dp" />
+            android:background="@drawable/wlmtitle" />
 
-        <EditText
-            android:id="@+id/inputTitle"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/Title"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/title" />
+
+            <EditText
+                android:id="@+id/inputTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="25dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/Detail"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/detail" />
+
+            <EditText
+                android:id="@+id/inputContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="25dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/Shape"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/shape" />
+
+            <EditText
+                android:id="@+id/inputShape"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="25dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/shape1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/circlelight2" />
+
+            <Button
+                android:id="@+id/shape2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/starlight2" />
+
+            <Button
+                android:id="@+id/shape3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/flowerlight2" />
+
+            <Button
+                android:id="@+id/shape4"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/lovelight2" />
+
+            <Button
+                android:id="@+id/shape5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/speciallight2" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/During"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/during" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/during1"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/day1"
+                android:onClick="duringClick" />
+
+            <Button
+                android:id="@+id/during2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/day2"
+                android:onClick="duringClick" />
+
+            <Button
+                android:id="@+id/during3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/day3"
+                android:onClick="duringClick" />
+
+            <Button
+                android:id="@+id/during4"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/day4"
+                android:onClick="duringClick" />
+
+            <Button
+                android:id="@+id/during5"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/day5"
+                android:onClick="duringClick" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/Popuptime"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/popuptime" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/Poptime"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:background="@drawable/poptime" />
+
+            <Button
+                android:id="@+id/popupTimePicker"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/picktime" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="25dp" />
-    </LinearLayout>
+            android:gravity="center"
+            android:orientation="horizontal" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+            <ImageView
+                android:id="@+id/Popday"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:background="@drawable/popday" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="내용 :"
-            android:textSize="25dp" />
+            <Button
+                android:id="@+id/day1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/mon"
+                android:onClick="dayClick" />
 
-        <EditText
-            android:id="@+id/inputContent"
+            <Button
+                android:id="@+id/day2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/tue"
+                android:onClick="dayClick" />
+
+            <Button
+                android:id="@+id/day3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/wen"
+                android:onClick="dayClick" />
+
+            <Button
+                android:id="@+id/day4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/thr"
+                android:onClick="dayClick" />
+
+            <Button
+                android:id="@+id/day5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/fri"
+                android:onClick="dayClick" />
+
+            <Button
+                android:id="@+id/day6"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/sat"
+                android:onClick="dayClick" />
+
+            <Button
+                android:id="@+id/day7"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/sun"
+                android:onClick="dayClick" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="25dp" />
-    </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+            <ImageView
+                android:id="@+id/Screat"
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:background="@drawable/screat" />
 
-        <TextView
+            <CheckBox
+                android:id="@+id/isSecret"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="checkClick" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/makeSave"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_gravity="center"
-            android:text="모양 :"
-            android:textSize="25dp" />
+            android:layout_marginTop="10dp"
+            android:background="@drawable/wlmbtn"
+            android:gravity="center"
+            android:onClick="saveClick" />
 
-        <EditText
-            android:id="@+id/inputShape"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="25dp" />
+        <ImageView
+            android:id="@+id/Warning"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/warning" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/finishDatePicker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="마지막날짜 설정"
-        android:textSize="25dp" />
-
-   
-
-    <Button
-        android:id="@+id/popupTimePicker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="팝업시간 설정"
-        android:textSize="25dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="     요일"
-        android:textSize="15dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingTop="10dp" >
-
-        <Button
-            android:id="@+id/day1"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="#ff888888"
-            android:onClick="dayClick"
-            android:text="월" />
-
-        <Button
-            android:id="@+id/day2"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="#ff888888"
-            android:onClick="dayClick"
-            android:text="화" />
-
-        <Button
-            android:id="@+id/day3"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="#ff888888"
-            android:onClick="dayClick"
-            android:text="수" />
-
-        <Button
-            android:id="@+id/day4"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="#ff888888"
-            android:onClick="dayClick"
-            android:text="목" />
-
-        <Button
-            android:id="@+id/day5"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="#ff888888"
-            android:onClick="dayClick"
-            android:text="금" />
-
-        <Button
-            android:id="@+id/day6"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="#ff888888"
-            android:onClick="dayClick"
-            android:text="토" />
-
-        <Button
-            android:id="@+id/day7"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="#ff888888"
-            android:onClick="dayClick"
-            android:text="일" />
-    </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/isSecret"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="checkClick"
-        android:text="친구들에게 비공개 할껀가요?"
-        android:textSize="20dp" />
-
-    <Button
-        android:id="@+id/makeSave"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:onClick="saveClick"
-        android:text="소원등 제작"
-        android:textSize="25dp" />
-
-</LinearLayout>
+</ScrollView>

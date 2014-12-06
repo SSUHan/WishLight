@@ -4,20 +4,29 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
 public class MyDBHandler {
 	MyDBOpenHelper helper;
 	SQLiteDatabase db;
+	String tableName;
 
 	// 초기화작업
 	public MyDBHandler(Context context, String tablename) {
 		// TODO Auto-generated constructor stub
-		helper = new MyDBOpenHelper(context, "ljs93kr.db", tablename, null, 1);
+		helper = new MyDBOpenHelper(context, "alarmlist.db", tablename, null, 1);
+		tableName = tablename;
+		
 	}
 
 	// open
-	public static MyDBHandler open(Context context, String tablename) {
-		return new MyDBHandler(context, tablename);
+	public void open() throws SQLiteException {
+		try{
+			
+			db = helper.getWritableDatabase();
+		}catch(SQLiteException ex){
+			db = helper.getReadableDatabase();
+		}
 	}
 
 	// close
@@ -25,15 +34,20 @@ public class MyDBHandler {
 		db.close();
 	}
 
-	// insert - wlb
-	public void insert(String title, String contents, int shape) {
+	// insert - alarm
+	public void insert(int seq, int year, int month, int date, int hour, int minute) {
 		db = helper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		
-		values.put("title", title);
-		values.put("content", contents);
-		values.put("shape", shape);
-		db.insert("wlb", null, values);
+		values.put("seq", seq);
+		
+		values.put("year", year);
+		values.put("month", month);
+		values.put("date", date);
+		values.put("hour", hour);
+		values.put("minute", minute);
+		
+		db.insert(tableName, null, values);
 	}
 
 	
@@ -41,15 +55,41 @@ public class MyDBHandler {
 	public void update() {
 	};
 
+	public void removeData(int seq){
+        String sql = "delete from " + tableName + " where seq = "+seq+";";
+        db.execSQL(sql);
+    }
 	// delete
-	public void delete(String title) {
-		db = helper.getWritableDatabase();
-		db.delete("wlb", "title=?", new String[] { title });
-	}
+//	public void delete(int seq) {
+//		db = helper.getWritableDatabase();
+//		db.delete(tableName, "seq=?", new String[] { seq });
+//	}
 
 	public Cursor select() {
 		db = helper.getReadableDatabase();
-		Cursor c = db.query("wlb", null, null, null, null, null, null);
+		Cursor c = db.query(tableName, null, null, null, null, null, null);
 		return c;
+	}
+	
+	int seq2, year2, month2, date2, hour2, minute2;
+	// Data 읽기(꺼내오기)
+	public String selectData(int seq) {
+		String sql = "SELECT * FROM " + tableName + " where seq = " + seq;
+		Cursor s = db.rawQuery(sql, null);
+		if(s.getCount()==0){
+			return null;
+		}
+		if (s.moveToFirst()) {
+			seq2 = s.getInt(s.getColumnIndex("seq"));
+			year2 = s.getInt(s.getColumnIndex("year"));
+			month2 = s.getInt(s.getColumnIndex("month"));
+			date2 = s.getInt(s.getColumnIndex("date"));
+			hour2 = s.getInt(s.getColumnIndex("hour"));
+			minute2 = s.getInt(s.getColumnIndex("minute"));
+		}
+		String data2 = year2 + "." + month2 + "." + date2+"."+hour2+"."+minute2;
+
+		
+		return data2;
 	}
 }

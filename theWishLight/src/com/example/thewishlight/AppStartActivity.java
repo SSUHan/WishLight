@@ -2,17 +2,16 @@ package com.example.thewishlight;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
-
-
-
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -50,6 +49,12 @@ public class AppStartActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.app_start);
+		
+//		SQLiteDatabase db;
+//		String sql = "create table if not exist " + tableName + " ( "
+//				+ " seq integer  , "+" year integer  , "
+//				+ " month integer , " + " date integer , " + " hour integer , "+" minute integer ) ";
+//		db.execSQL(sql);
 
 		loginLayout = (RelativeLayout) findViewById(R.id.loginLayout);
 
@@ -148,19 +153,26 @@ public class AppStartActivity extends ActionBarActivity {
 						Toast.makeText(getApplicationContext(), "비번입력하세요",
 								Toast.LENGTH_LONG).show();
 					} else {
-						task2 = new phpUp();
-
-						task2.execute("http://ljs93kr.cafe24.com/join.php?_id="
-								+ totalClient + "&id=" + inputId + "&pw="
-								+ inputPw);
-
-						task2 = new phpUp();
-
-						task2.execute("http://ljs93kr.cafe24.com/wlb.php?id=" +inputId);
 						
-						task2 = new phpUp();
 
-					    task2.execute("http://ljs93kr.cafe24.com/friend.php?id=" + inputId);
+						try {
+							task2 = new phpUp();
+							task2.execute("http://ljs93kr.cafe24.com/join.php?_id="
+									+ totalClient + "&id=" + URLEncoder.encode(inputId,"utf-8") + "&pw="
+									+ URLEncoder.encode(inputPw,"utf-8"));
+							task2 = new phpUp();
+
+							task2.execute("http://ljs93kr.cafe24.com/wlb.php?id=" +URLEncoder.encode(inputId,"utf-8"));
+							
+							task2 = new phpUp();
+
+						    task2.execute("http://ljs93kr.cafe24.com/friend.php?id=" + URLEncoder.encode(inputId,"utf-8"));
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						
 						
 					    editID.setText("");
 						editPW.setText("");
@@ -227,6 +239,7 @@ public class AppStartActivity extends ActionBarActivity {
 			for (int i = 0; i < totalClient; i++)
 				clientList.add(new Client(Integer.parseInt(st.nextToken()), st
 						.nextToken(), st.nextToken()));
+			
 
 		}
 	}

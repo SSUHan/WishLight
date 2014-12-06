@@ -1,38 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/firendbackground2"
     android:orientation="vertical" >
-    
-    <EditText 
-        android:id="@+id/friendedit"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    
-    
-     <Button
-        android:id="@+id/friendsearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="친구 검색하기"/>
-     
-    <TextView 
-        android:id="@+id/selectfriend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="40dp"
-        android:visibility="invisible"/>
-   
-     <TextView
-         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="친구 목록"/>
-    
-    <ListView 
-        android:id="@+id/friendlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-   
-   
-    
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/findfriend"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:background="@drawable/findfriend" />
+
+            <EditText
+                android:id="@+id/friendedit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/friendsearch"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/findbtn" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/lineforfind"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/Allert"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:background="@drawable/allert"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/selectfriend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:textSize="25dp"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/friendlisttitle"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/friendlist2" />
+
+        <ListView
+            android:id="@+id/friendlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>

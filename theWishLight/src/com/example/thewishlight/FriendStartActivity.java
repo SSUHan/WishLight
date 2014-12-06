@@ -2,8 +2,10 @@ package com.example.thewishlight;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -55,8 +57,13 @@ public class FriendStartActivity extends ActionBarActivity {
 	{
 		setContentView(R.layout.friend_start);
 		task=new phpDown();
-		task.execute("http://ljs93kr.cafe24.com/friendoutput.php?id="+MySkyActivity.myID);
-		Log.d("php","http://ljs93kr.cafe24.com/friendoutput.php?id="+MySkyActivity.myID);
+		try {
+			task.execute("http://ljs93kr.cafe24.com/friendoutput.php?id="+URLEncoder.encode(MySkyActivity.myID,"utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 
 		selectFriend=(TextView)findViewById(R.id.selectfriend);
@@ -99,13 +106,20 @@ public class FriendStartActivity extends ActionBarActivity {
 							
 					if(exist==false){
 						
-						task2=new phpUp();
-						task2.execute("http://ljs93kr.cafe24.com/friendinput.php?id="+MySkyActivity.myID
-								+"&fid="+friendedit.getText().toString());
 						
-						task2=new phpUp();
-						task2.execute("http://ljs93kr.cafe24.com/friendinput.php?id="+friendedit.getText().toString()
-								+"&fid="+MySkyActivity.myID);
+						try {
+							task2=new phpUp();
+							task2.execute("http://ljs93kr.cafe24.com/friendinput.php?id="+URLEncoder.encode(MySkyActivity.myID,"utf-8")
+									+"&fid="+URLEncoder.encode(friendedit.getText().toString(),"utf-8"));
+							task2=new phpUp();
+							task2.execute("http://ljs93kr.cafe24.com/friendinput.php?id="+URLEncoder.encode(friendedit.getText().toString(),"utf-8")
+									+"&fid="+URLEncoder.encode(MySkyActivity.myID,"utf-8"));
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						
 						
 						Toast.makeText(getApplicationContext(), friendedit.getText().toString()+" 친구 추가 완료", Toast.LENGTH_LONG).show();
 						

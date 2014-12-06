@@ -19,11 +19,23 @@ public class MyDBOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		Log.d("myDBopenHelper", "onCreate called");
-		String sql = "create table " + tableName + " ( "
-				+ " _id integer primary key autoincrement , "
-				+ " title text , " + " content text , " + " shape integer ) ";
+		String sql = "create table if not exists " + tableName + " ( "
+				+ " seq integer  , "+" year integer  , "
+				+ " month integer , " + " date integer , " + " hour integer , "+" minute integer ); ";
+		Log.d("helper sql", sql);
 		db.execSQL(sql);
 
+	}
+	
+	@Override
+	public void onOpen(SQLiteDatabase db) {
+		// TODO Auto-generated method stub
+		String sql = "create table if not exists " + tableName + " ( "
+				+ " seq integer  , "+" year integer  , "
+				+ " month integer , " + " date integer , " + " hour integer , "+" minute integer ); ";
+		Log.d("openhelper sql", sql);
+		db.execSQL(sql);
+		super.onOpen(db);
 	}
 
 	@Override
