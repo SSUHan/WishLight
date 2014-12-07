@@ -41,23 +41,14 @@ import android.widget.ViewFlipper;
 public class MySkyActivity extends ActionBarActivity implements
 		View.OnTouchListener {
 
-	ImageView image1;
-	ImageView image2;
-	ImageView image3;
-	ImageView image4;
+	
 
 	MyDBHandler handler; // 풍등 디비 핸들러
 
-	Button deleteBtn;
+	RelativeLayout myskyLayout; // 나의하늘 레이아웃
 
-	EditText editDelete;
-
-	TextView textView01;
-
-	RelativeLayout myskyLayout;
-
-	Button goRankBtn;
-	Button goFriendBtn;
+	Button goRankBtn; //랭크 룸 가기 버튼
+	Button goFriendBtn; // 친구룸가기 버튼
 
 	// Flipper
 	ViewFlipper flipper;
@@ -66,7 +57,7 @@ public class MySkyActivity extends ActionBarActivity implements
 	int count = 0;
 	int mode = 0; // 0일때 자기하늘,1일때 친구하늘 //change
 
-	static String myID;
+	static String myID; // 현재 로그인된 아이디
 	String friendID;
 
 	phpDown task;
@@ -144,19 +135,21 @@ public class MySkyActivity extends ActionBarActivity implements
 		final int wlbid = mWLB.getWlbid();
 		final String mStartdate = mWLB.getStartdate();
 		light.setBackgroundResource(R.drawable.lightlight2); // light ani
-		wlb.setBackgroundResource(determineShape(mShape));
+		
+		wlb.setBackgroundResource(determineShape(mShape)); //모양선택
 		final String mFinishdate = mWLB.getFinishdate();
 		final String mPopuptime = mWLB.getPopuptime();
 		final int mSecret = mWLB.getSecret();
 
 		// light ani
 		Animation anim = AnimationUtils.loadAnimation(getApplicationContext(),
-				R.anim.basic1);
+				R.anim.basic1); // 풍등 애니메이션
 		Animation anim2 = AnimationUtils.loadAnimation(getApplicationContext(),
-				R.anim.basic2);
+				R.anim.basic2); // 배경빛 애니메이션
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
 		// 시작위치 설정
 		Random ranTop = new Random();
 		Random ranLeft = new Random();
@@ -282,10 +275,14 @@ public class MySkyActivity extends ActionBarActivity implements
 		case 2:
 			return R.drawable.starlight2;
 		case 3:
-			return R.drawable.flowerlight2;
+			return R.drawable.redlight;
 		case 4:
 			return R.drawable.lovelight2;
 		case 5:
+			return R.drawable.bluelight;
+		case 6:
+			return R.drawable.flowerlight2;
+		case 7:
 			return R.drawable.speciallight2;
 		default:
 			return -1;

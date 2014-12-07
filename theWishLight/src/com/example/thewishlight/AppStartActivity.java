@@ -37,6 +37,7 @@ public class AppStartActivity extends ActionBarActivity {
 	EditText editPW;
 	Button loginBtn;
 	AnimationDrawable frameAnimation;
+	boolean internetcheck=false;
 
 	// 원기
 	phpDown task;
@@ -49,12 +50,6 @@ public class AppStartActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.app_start);
-		
-//		SQLiteDatabase db;
-//		String sql = "create table if not exist " + tableName + " ( "
-//				+ " seq integer  , "+" year integer  , "
-//				+ " month integer , " + " date integer , " + " hour integer , "+" minute integer ) ";
-//		db.execSQL(sql);
 
 		loginLayout = (RelativeLayout) findViewById(R.id.loginLayout);
 
@@ -75,26 +70,34 @@ public class AppStartActivity extends ActionBarActivity {
 		editID = (EditText) loginLayout.findViewById(R.id.inputID);
 		editPW = (EditText) loginLayout.findViewById(R.id.inputPW);
 
-		task = new phpDown();
+		
 
-		task.execute("http://ljs93kr.cafe24.com/client.php");
+			task = new phpDown();
 
+			task.execute("http://ljs93kr.cafe24.com/client.php");
+		
+			
 		// 로그인 하기
 		loginBtn = (Button) findViewById(R.id.loginBtn);
 		loginBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				task = new phpDown();
 
+				task.execute("http://ljs93kr.cafe24.com/client.php");
+				if(internetcheck==false)
+					return;
 				String inputId = editID.getText().toString();
 				String inputPw = editPW.getText().toString();
 				Boolean state = false;
 				int position = 0;
-				if(inputId.equals("")||inputPw.equals("")){
-					Toast.makeText(getApplicationContext(), "정보를 입력하세요", Toast.LENGTH_LONG).show();
+				if (inputId.equals("") || inputPw.equals("")) {
+					Toast.makeText(getApplicationContext(), "정보를 입력하세요",
+							Toast.LENGTH_LONG).show();
 					return;
 				}
-				
+
 				for (int i = 0; i < clientList.size(); i++)
 					if (clientList.get(i).getId().equals(inputId)) {
 						state = true;
@@ -110,8 +113,8 @@ public class AppStartActivity extends ActionBarActivity {
 					Intent intent = new Intent(getApplicationContext(),
 							MySkyActivity.class);
 					intent.putExtra("myID", inputId);
-					intent.putExtra("mode", 0);                //change
-					startActivity(intent);                
+					intent.putExtra("mode", 0); // change
+					startActivity(intent);
 
 					frameAnimation.stop();
 
@@ -135,9 +138,10 @@ public class AppStartActivity extends ActionBarActivity {
 				String inputId = editID.getText().toString();
 				String inputPw = editPW.getText().toString();
 				Boolean state = false;
-				
-				if(inputId.equals("")||inputPw.equals("")){
-					Toast.makeText(getApplicationContext(), "정보를 입력하세요", Toast.LENGTH_LONG).show();
+
+				if (inputId.equals("") || inputPw.equals("")) {
+					Toast.makeText(getApplicationContext(), "정보를 입력하세요",
+							Toast.LENGTH_LONG).show();
 					return;
 				}
 
@@ -153,32 +157,34 @@ public class AppStartActivity extends ActionBarActivity {
 						Toast.makeText(getApplicationContext(), "비번입력하세요",
 								Toast.LENGTH_LONG).show();
 					} else {
-						
 
 						try {
 							task2 = new phpUp();
 							task2.execute("http://ljs93kr.cafe24.com/join.php?_id="
-									+ totalClient + "&id=" + URLEncoder.encode(inputId,"utf-8") + "&pw="
-									+ URLEncoder.encode(inputPw,"utf-8"));
+									+ totalClient
+									+ "&id="
+									+ URLEncoder.encode(inputId, "utf-8")
+									+ "&pw="
+									+ URLEncoder.encode(inputPw, "utf-8"));
 							task2 = new phpUp();
 
-							task2.execute("http://ljs93kr.cafe24.com/wlb.php?id=" +URLEncoder.encode(inputId,"utf-8"));
-							
+							task2.execute("http://ljs93kr.cafe24.com/wlb.php?id="
+									+ URLEncoder.encode(inputId, "utf-8"));
+
 							task2 = new phpUp();
 
-						    task2.execute("http://ljs93kr.cafe24.com/friend.php?id=" + URLEncoder.encode(inputId,"utf-8"));
+							task2.execute("http://ljs93kr.cafe24.com/friend.php?id="
+									+ URLEncoder.encode(inputId, "utf-8"));
 						} catch (UnsupportedEncodingException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
-						
-						
-					    editID.setText("");
+						editID.setText("");
 						editPW.setText("");
-						Toast.makeText(getApplicationContext(), "회원가입이 성공하였습니다!",
-								Toast.LENGTH_LONG).show();
-						
+						Toast.makeText(getApplicationContext(),
+								"회원가입이 성공하였습니다!", Toast.LENGTH_LONG).show();
+
 						task = new phpDown();
 						task.execute("http://ljs93kr.cafe24.com/client.php");
 					}
@@ -207,6 +213,7 @@ public class AppStartActivity extends ActionBarActivity {
 					conn.setUseCaches(false);
 					// 연결되었음 코드가 리턴되면.
 					if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+						internetcheck=true;
 						BufferedReader br = new BufferedReader(
 								new InputStreamReader(conn.getInputStream(),
 										"UTF-8"));
@@ -221,6 +228,8 @@ public class AppStartActivity extends ActionBarActivity {
 						}
 						br.close();
 					}
+					else
+						internetcheck=false;
 
 					conn.disconnect();
 				}
@@ -232,14 +241,20 @@ public class AppStartActivity extends ActionBarActivity {
 		}
 
 		protected void onPostExecute(String str) {
-			StringTokenizer st = new StringTokenizer(str, ":");
-			Log.d("tc", str);
-			totalClient = Integer.parseInt(st.nextToken());
-			Log.d("tc", String.valueOf(totalClient));
-			for (int i = 0; i < totalClient; i++)
-				clientList.add(new Client(Integer.parseInt(st.nextToken()), st
-						.nextToken(), st.nextToken()));
-			
+			try {
+				clientList = new ArrayList<Client>();
+				StringTokenizer st = new StringTokenizer(str, ":");
+				Log.d("tc", str);
+				totalClient = Integer.parseInt(st.nextToken());
+				Log.d("tc", String.valueOf(totalClient));
+				for (int i = 0; i < totalClient; i++)
+					clientList.add(new Client(Integer.parseInt(st.nextToken()),
+							st.nextToken(), st.nextToken(),Integer.parseInt(st.nextToken())));
+			} catch (Exception e) {
+				Toast.makeText(getApplicationContext(), "인터넷 연결이 필요합니다",
+						Toast.LENGTH_LONG).show();
+				return;
+			}
 
 		}
 	}
@@ -289,37 +304,5 @@ public class AppStartActivity extends ActionBarActivity {
 		protected void onPostExecute(String str) {
 		}
 	}
-
-	/*
-	 * public class ViewAnimation extends Animation{
-	 * 
-	 * int centerX,centerY;
-	 * 
-	 * @Override public void initialize(int width, int height, int parentWidth,
-	 * int parentHeight) { // TODO Auto-generated method stub
-	 * super.initialize(width, height, parentWidth, parentHeight);
-	 * setDuration(5000); setFillAfter(true); centerX = width/2; centerY =
-	 * height/2;
-	 * 
-	 * 
-	 * }
-	 * 
-	 * @Override protected void applyTransformation(float interpolatedTime,
-	 * Transformation t) { // TODO Auto-generated method stub
-	 * super.applyTransformation(interpolatedTime, t);
-	 * 
-	 * 
-	 * 
-	 * Matrix matrix = t.getMatrix(); matrix.setScale(interpolatedTime,
-	 * interpolatedTime);
-	 * 
-	 * 
-	 * // Matrix matrix = t.getMatrix(); // matrix.setScale(interpolatedTime,
-	 * interpolatedTime);
-	 * 
-	 * }
-	 * 
-	 * }
-	 */
 
 }

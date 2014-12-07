@@ -15,10 +15,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
-
-
-
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -36,6 +32,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -69,6 +66,9 @@ public class MakeWLBActivity extends ActionBarActivity {
 	List<Integer> selectedDay;
 	List<String> selectedDate;
 	String startdate;
+	
+	private int shape=0; // 풍등모양결정 변수
+	ImageView selectedShape;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +87,22 @@ public class MakeWLBActivity extends ActionBarActivity {
 		day5 = (Button) findViewById(R.id.day5);
 		day6 = (Button) findViewById(R.id.day6);
 		day7 = (Button) findViewById(R.id.day7);
+		
+		//결정된 풍등모양 보여주는 이미지뷰
+		selectedShape = (ImageView)findViewById(R.id.selectedShape);
+		
+		// 풍등선택 퍼미션 받기
+		int position=0;
+		for (int i = 0; i < AppStartActivity.clientList.size(); i++)
+			if (AppStartActivity.clientList.get(i).getId().equals(MySkyActivity.myID)) {
+				
+				position = i;
+			}
+		int shapepermission = AppStartActivity.clientList.get(position).getShapepermission();
+		
+		Log.d("shapepermission", String.valueOf(shapepermission));
 
+		//요일선택을 위한 초기화
 		daySelect = new boolean[7];
 		for (boolean s : daySelect) {
 			s = false;
@@ -239,16 +254,61 @@ public class MakeWLBActivity extends ActionBarActivity {
 
 		}
 	}
+	
+	//풍등 모양 선택 버튼 
+	public void shapeClick(View v){
+		switch(v.getId()){
+		case R.id.shape1:
+			shape = 1;
+			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.shape2:
+			shape = 2;
+			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.shape3:
+			shape = 3;
+			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.shape4:
+			shape = 4;
+			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.shape5:
+			shape = 5;
+			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.shape6:
+			shape = 6;
+			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.shape7:
+			shape = 7;
+			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			break;
+		
+		}
+	}
 
 	// 소원등 만들기 버튼을 눌렀을때
 	public void saveClick(View v) {
 
 		
-		editShape = (EditText) findViewById(R.id.inputShape);
+		if(shape==0){
+			Toast.makeText(getApplicationContext(), "풍등모양선택이 필요합니다", Toast.LENGTH_LONG).show();
+			return;
+		}
+		
 		editTitle = (EditText) findViewById(R.id.inputTitle);
 		editContent = (EditText) findViewById(R.id.inputContent);
 
-		String shape = editShape.getText().toString();
 		String title = editTitle.getText().toString();
 		String content = editContent.getText().toString();
 
@@ -263,7 +323,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 		int rqCode = makeWLBID();
 		Log.d("dayCal", String.valueOf(dayCal()));
 		WLB wlb = new WLB(MySkyActivity.myID, makeWLBID(),
-				Integer.valueOf(shape), title, content, hour + ":" + minute,
+				shape, title, content, hour + ":" + minute,
 				s_year + "." + (s_month + 1) + "." + s_date, e_year + "."
 						+ (e_month + 1) + "." + e_date, dayCal(), isSecret);
 		
@@ -407,11 +467,11 @@ public class MakeWLBActivity extends ActionBarActivity {
 		Intent mIntent = new Intent(getApplicationContext(),
 				MyAlarmService.class);
 
-		String shape = editShape.getText().toString();
+		
 		String title = editTitle.getText().toString();
 		String content = editContent.getText().toString();
 
-		mIntent.putExtra("shape", Integer.parseInt(shape));
+		mIntent.putExtra("shape", shape);
 		mIntent.putExtra("title", title);
 		mIntent.putExtra("content", content);
 		mIntent.putExtra("rqCode", rqCode);

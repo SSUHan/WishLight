@@ -5,14 +5,27 @@ public class Client
 	private String id;
 	private String pw;
 	private int _id;
+	private int shapepermission;
 	
-	Client(int _id,String id,String pw)
+	
+	
+	Client(int _id,String id,String pw, int shapepermission)
 	{
 		this.set_id(_id);
 		this.setId(id);
 		this.setPw(pw);
+		this.shapepermission = shapepermission;
 	}
+	
+	
+	
 
+	public int getShapepermission() {
+		return shapepermission;
+	}
+	public void setShapepermission(int shapepermission) {
+		this.shapepermission = shapepermission;
+	}
 	public String getId() {
 		return id;
 	}
