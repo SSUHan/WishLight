@@ -6,6 +6,7 @@ public class Client
 	private String pw;
 	private int _id;
 	private int shapepermission;
+	private int star;
 	
 	
 	
@@ -16,7 +17,14 @@ public class Client
 		this.setPw(pw);
 		this.shapepermission = shapepermission;
 	}
-	
+	Client(int _id,String id,String pw, int shapepermission,int star)
+	{
+		this.set_id(_id);
+		this.setId(id);
+		this.setPw(pw);
+		this.shapepermission = shapepermission;
+		this.star = star;
+	}
 	
 	
 

@@ -249,7 +249,7 @@ public class AppStartActivity extends ActionBarActivity {
 				Log.d("tc", String.valueOf(totalClient));
 				for (int i = 0; i < totalClient; i++)
 					clientList.add(new Client(Integer.parseInt(st.nextToken()),
-							st.nextToken(), st.nextToken(),Integer.parseInt(st.nextToken())));
+							st.nextToken(), st.nextToken(),Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken())));
 			} catch (Exception e) {
 				Toast.makeText(getApplicationContext(), "인터넷 연결이 필요합니다",
 						Toast.LENGTH_LONG).show();

@@ -61,14 +61,25 @@ public class MakeWLBActivity extends ActionBarActivity {
 	phpUp task2;
 
 	public AlarmManager mManager;
-	
+
 	private int duration;
 	List<Integer> selectedDay;
 	List<String> selectedDate;
-	String startdate;
+
+	// 잠겨있는 풍등개수 (버전에 따라 갯수는 추가된다)
+	private int lockShapeCount=3; 
 	
-	private int shape=0; // 풍등모양결정 변수
+	// 열리면 true, 닫혀있으면 false
+	boolean[] shapePermission = new boolean[lockShapeCount]; 
+	
+	Button shape6,shape7,shape8;
+
+	String startdate;
+
+	private int shape = 0; // 풍등모양결정 변수
 	ImageView selectedShape;
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,22 +98,38 @@ public class MakeWLBActivity extends ActionBarActivity {
 		day5 = (Button) findViewById(R.id.day5);
 		day6 = (Button) findViewById(R.id.day6);
 		day7 = (Button) findViewById(R.id.day7);
-		
-		//결정된 풍등모양 보여주는 이미지뷰
-		selectedShape = (ImageView)findViewById(R.id.selectedShape);
-		
+
+		// 결정된 풍등모양 보여주는 이미지뷰
+		selectedShape = (ImageView) findViewById(R.id.selectedShape);
+
 		// 풍등선택 퍼미션 받기
-		int position=0;
+		int position = 0;
 		for (int i = 0; i < AppStartActivity.clientList.size(); i++)
-			if (AppStartActivity.clientList.get(i).getId().equals(MySkyActivity.myID)) {
-				
+			if (AppStartActivity.clientList.get(i).getId()
+					.equals(MySkyActivity.myID)) {
+
 				position = i;
 			}
-		int shapepermission = AppStartActivity.clientList.get(position).getShapepermission();
-		
-		Log.d("shapepermission", String.valueOf(shapepermission));
+		int shapepermission = AppStartActivity.clientList.get(position)
+				.getShapepermission();
 
-		//요일선택을 위한 초기화
+		Log.d("shapepermission", String.valueOf(shapepermission));
+		
+		//shapePermission 리스트에 6번 들어있으면 6열수있고, 7번들어가있으면 7열수있고, 8넣어져있으면 8번열수있다.
+		decodeShapePermission(shapepermission);
+
+		shape6 = (Button)findViewById(R.id.shape6);
+		shape7 = (Button)findViewById(R.id.shape7);
+		//shape8 = (Button)findViewById(R.id.shape8);
+		if(shapePermission[0]==true){
+			shape6.setBackgroundResource(MySkyActivity.determineShape(6));
+		}if(shapePermission[1]==true){
+			shape7.setBackgroundResource(MySkyActivity.determineShape(7));
+		}
+		if(shapePermission[2]==true){
+			//shape8.setBackgroundResource(MySkyActivity.determineShape(8));
+		}
+		// 요일선택을 위한 초기화
 		daySelect = new boolean[7];
 		for (boolean s : daySelect) {
 			s = false;
@@ -163,84 +190,84 @@ public class MakeWLBActivity extends ActionBarActivity {
 			Log.d("timePickerBefore", mCalendar.getTime().toString());
 			hour = hourOfDay;
 			minute = Minute;
-			
-			popupTimePicker.setText(hour+" : "+minute);
+
+			popupTimePicker.setText(hour + " : " + minute);
 			popupTimePicker.setBackgroundColor(Color.TRANSPARENT);
 			eCalendar.set(e_year, e_month, e_date, hour, minute);
 			Log.d("timePickerAfter", "팝업시간설정:" + hour + minute);
-			Log.d("timePicker e", "팝업시간설정:" +eCalendar.getTime().toString());
+			Log.d("timePicker e", "팝업시간설정:" + eCalendar.getTime().toString());
 		}
 	};
 
 	public void dayClick(View v) {
 
-	      switch (v.getId()) {
-	      case R.id.day1:
-	         if (daySelect[0] == false) {
-	            day1.setBackgroundResource(R.drawable.mon2);
-	            daySelect[0] = true;
-	         } else if (daySelect[0] == true) {
-	            day1.setBackgroundResource(R.drawable.mon);
-	            daySelect[0] = false;
-	         }
-	         break;
-	      case R.id.day2:
-	         if (daySelect[1] == false) {
-	            day2.setBackgroundResource(R.drawable.tue2);
-	            daySelect[1] = true;
-	         } else if (daySelect[1] == true) {
-	            day2.setBackgroundResource(R.drawable.tue);
-	            daySelect[1] = false;
-	         }
-	         break;
-	      case R.id.day3:
-	         if (daySelect[2] == false) {
-	            day3.setBackgroundResource(R.drawable.wen2);
-	            daySelect[2] = true;
-	         } else if (daySelect[2] == true) {
-	            day3.setBackgroundResource(R.drawable.wen);
-	            daySelect[2] = false;
-	         }
-	         break;
-	      case R.id.day4:
-	         if (daySelect[3] == false) {
-	            day4.setBackgroundResource(R.drawable.thr2);
-	            daySelect[3] = true;
-	         } else if (daySelect[3] == true) {
-	            day4.setBackgroundResource(R.drawable.thr);
-	            daySelect[3] = false;
-	         }
-	         break;
-	      case R.id.day5:
-	         if (daySelect[4] == false) {
-	            day5.setBackgroundResource(R.drawable.fri2);
-	            daySelect[4] = true;
-	         } else if (daySelect[4] == true) {
-	            day5.setBackgroundResource(R.drawable.fri);
-	            daySelect[4] = false;
-	         }
-	         break;
-	      case R.id.day6:
-	         if (daySelect[5] == false) {
-	            day6.setBackgroundResource(R.drawable.sat2);
-	            daySelect[5] = true;
-	         } else if (daySelect[5] == true) {
-	            day6.setBackgroundResource(R.drawable.sat);
-	            daySelect[5] = false;
-	         }
-	         break;
-	      case R.id.day7:
-	         if (daySelect[6] == false) {
-	            day7.setBackgroundResource(R.drawable.sun2);
-	            daySelect[6] = true;
-	         } else if (daySelect[6] == true) {
-	            day7.setBackgroundResource(R.drawable.sun);
-	            daySelect[6] = false;
-	         }
-	         break;
+		switch (v.getId()) {
+		case R.id.day1:
+			if (daySelect[0] == false) {
+				day1.setBackgroundResource(R.drawable.mon2);
+				daySelect[0] = true;
+			} else if (daySelect[0] == true) {
+				day1.setBackgroundResource(R.drawable.mon);
+				daySelect[0] = false;
+			}
+			break;
+		case R.id.day2:
+			if (daySelect[1] == false) {
+				day2.setBackgroundResource(R.drawable.tue2);
+				daySelect[1] = true;
+			} else if (daySelect[1] == true) {
+				day2.setBackgroundResource(R.drawable.tue);
+				daySelect[1] = false;
+			}
+			break;
+		case R.id.day3:
+			if (daySelect[2] == false) {
+				day3.setBackgroundResource(R.drawable.wen2);
+				daySelect[2] = true;
+			} else if (daySelect[2] == true) {
+				day3.setBackgroundResource(R.drawable.wen);
+				daySelect[2] = false;
+			}
+			break;
+		case R.id.day4:
+			if (daySelect[3] == false) {
+				day4.setBackgroundResource(R.drawable.thr2);
+				daySelect[3] = true;
+			} else if (daySelect[3] == true) {
+				day4.setBackgroundResource(R.drawable.thr);
+				daySelect[3] = false;
+			}
+			break;
+		case R.id.day5:
+			if (daySelect[4] == false) {
+				day5.setBackgroundResource(R.drawable.fri2);
+				daySelect[4] = true;
+			} else if (daySelect[4] == true) {
+				day5.setBackgroundResource(R.drawable.fri);
+				daySelect[4] = false;
+			}
+			break;
+		case R.id.day6:
+			if (daySelect[5] == false) {
+				day6.setBackgroundResource(R.drawable.sat2);
+				daySelect[5] = true;
+			} else if (daySelect[5] == true) {
+				day6.setBackgroundResource(R.drawable.sat);
+				daySelect[5] = false;
+			}
+			break;
+		case R.id.day7:
+			if (daySelect[6] == false) {
+				day7.setBackgroundResource(R.drawable.sun2);
+				daySelect[6] = true;
+			} else if (daySelect[6] == true) {
+				day7.setBackgroundResource(R.drawable.sun);
+				daySelect[6] = false;
+			}
+			break;
 
-	      }
-	   }
+		}
+	}
 
 	public void checkClick(View v) {
 		switch (v.getId()) {
@@ -254,58 +281,80 @@ public class MakeWLBActivity extends ActionBarActivity {
 
 		}
 	}
-	
-	//풍등 모양 선택 버튼 
-	public void shapeClick(View v){
-		switch(v.getId()){
+
+	// 풍등 모양 선택 버튼
+	public void shapeClick(View v) {
+		switch (v.getId()) {
 		case R.id.shape1:
 			shape = 1;
-			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			selectedShape.setBackgroundResource(MySkyActivity
+					.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
+					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.shape2:
 			shape = 2;
-			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			selectedShape.setBackgroundResource(MySkyActivity
+					.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
+					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.shape3:
 			shape = 3;
-			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			selectedShape.setBackgroundResource(MySkyActivity
+					.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
+					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.shape4:
 			shape = 4;
-			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			selectedShape.setBackgroundResource(MySkyActivity
+					.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
+					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.shape5:
 			shape = 5;
-			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			selectedShape.setBackgroundResource(MySkyActivity
+					.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
+					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.shape6:
+			if(shapePermission[0]==true){
 			shape = 6;
-			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			selectedShape.setBackgroundResource(MySkyActivity
+					.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
+					Toast.LENGTH_SHORT).show();
+			}else{
+				Toast.makeText(getApplicationContext(), "아직 선택할 수 없습니다", Toast.LENGTH_LONG).show();
+			}
 			break;
 		case R.id.shape7:
+			if(shapePermission[1]==true){
 			shape = 7;
-			selectedShape.setBackgroundResource(MySkyActivity.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape+"번 모양 선택", Toast.LENGTH_SHORT).show();
+			selectedShape.setBackgroundResource(MySkyActivity
+					.determineShape(shape));
+			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
+					Toast.LENGTH_SHORT).show();
+			}else{
+				Toast.makeText(getApplicationContext(), "아직 선택할 수 없습니다", Toast.LENGTH_LONG).show();
+			}
 			break;
-		
+
 		}
 	}
 
 	// 소원등 만들기 버튼을 눌렀을때
 	public void saveClick(View v) {
 
-		
-		if(shape==0){
-			Toast.makeText(getApplicationContext(), "풍등모양선택이 필요합니다", Toast.LENGTH_LONG).show();
+		if (shape == 0) {
+			Toast.makeText(getApplicationContext(), "풍등모양선택이 필요합니다",
+					Toast.LENGTH_LONG).show();
 			return;
 		}
-		
+
 		editTitle = (EditText) findViewById(R.id.inputTitle);
 		editContent = (EditText) findViewById(R.id.inputContent);
 
@@ -322,95 +371,102 @@ public class MakeWLBActivity extends ActionBarActivity {
 
 		int rqCode = makeWLBID();
 		Log.d("dayCal", String.valueOf(dayCal()));
-		WLB wlb = new WLB(MySkyActivity.myID, makeWLBID(),
-				shape, title, content, hour + ":" + minute,
-				s_year + "." + (s_month + 1) + "." + s_date, e_year + "."
-						+ (e_month + 1) + "." + e_date, dayCal(), isSecret);
-		
-		
+		WLB wlb = new WLB(MySkyActivity.myID, makeWLBID(), shape, title,
+				content, hour + ":" + minute, s_year + "." + (s_month + 1)
+						+ "." + s_date, e_year + "." + (e_month + 1) + "."
+						+ e_date, dayCal(), isSecret);
+
 		//
-		
-		s_month= s_month+1;
-		startdate = s_year + "." + s_month+ "." + s_date;
-		Log.d("startdate",startdate);
+
+		s_month = s_month + 1;
+		startdate = s_year + "." + s_month + "." + s_date;
+		Log.d("startdate", startdate);
 		selectedDay = new ArrayList<Integer>();
-		Log.d("s",String.valueOf(1));
+		Log.d("s", String.valueOf(1));
 		selectedDate = new ArrayList<String>();
-		Log.d("s",String.valueOf(2));
-		
+		Log.d("s", String.valueOf(2));
+
 		fillselectedDay(dayCal());
-		Log.d("s",String.valueOf(3));
+		Log.d("s", String.valueOf(3));
 		try {
 			fillselectedDate();
-			Log.d("s",String.valueOf(4));
+			Log.d("s", String.valueOf(4));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			Log.d("s",String.valueOf(5));
+			Log.d("s", String.valueOf(5));
 			e.printStackTrace();
 		}
-		Log.d("s",String.valueOf(6));
-		
-		
-		handler = new MyDBHandler(getApplicationContext(), ("wlb_"+String.valueOf(rqCode)));
+		Log.d("s", String.valueOf(6));
+
+		handler = new MyDBHandler(getApplicationContext(),
+				("wlb_" + String.valueOf(rqCode)));
 		handler.open();
 		StringTokenizer st;
-		Log.d("s",String.valueOf(7));
-		int seq =1;
-		for(int i=0;i<selectedDate.size();i++){
-			Log.d("s",String.valueOf(8));
-			Log.d("selectedDate",selectedDate.get(i));
-			st = new StringTokenizer(selectedDate.get(i),".");
-			
-			Log.d("s",String.valueOf(9));
-			handler.insert(seq, Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), hour, minute);
-			Log.d("s",String.valueOf(10));
-			//Log.d("selectedDate", "seq:"+seq+"e_year:"+st.nextToken()+"e_month:"+st.nextToken()+"e_date:"+st.nextToken());
+		Log.d("s", String.valueOf(7));
+		int seq = 1;
+		for (int i = 0; i < selectedDate.size(); i++) {
+			Log.d("s", String.valueOf(8));
+			Log.d("selectedDate", selectedDate.get(i));
+			st = new StringTokenizer(selectedDate.get(i), ".");
+
+			Log.d("s", String.valueOf(9));
+			handler.insert(seq, Integer.parseInt(st.nextToken()),
+					Integer.parseInt(st.nextToken()),
+					Integer.parseInt(st.nextToken()), hour, minute);
+			Log.d("s", String.valueOf(10));
+			// Log.d("selectedDate",
+			// "seq:"+seq+"e_year:"+st.nextToken()+"e_month:"+st.nextToken()+"e_date:"+st.nextToken());
 			++seq;
 		}
-		Log.d("s",String.valueOf(11));
-		
+		Log.d("s", String.valueOf(11));
+
 		Cursor c = handler.select();
 		startManagingCursor(c);
-		String data="";
-		Log.d("s",String.valueOf(12));
+		String data = "";
+		Log.d("s", String.valueOf(12));
 		Log.d("db count", String.valueOf(c.getCount()));
 		while (c.moveToNext()) {
-			Log.d("s",String.valueOf(13));
+			Log.d("s", String.valueOf(13));
 			int seq1 = c.getInt(c.getColumnIndex("seq"));
 			int year1 = c.getInt(c.getColumnIndex("year"));
 			int month1 = c.getInt(c.getColumnIndex("month"));
 			int date1 = c.getInt(c.getColumnIndex("date"));
 			int hour1 = c.getInt(c.getColumnIndex("hour"));
 			int minute1 = c.getInt(c.getColumnIndex("minute"));
-			
+
 			data += seq1 + " " + year1 + " " + month1 + " " + date1 + " "
 					+ hour1 + " " + minute1 + "\n";
 		}
 		Log.d("all", data);
-		
-		String data2="";
+
+		String data2 = "";
 		data2 = handler.selectData(1);
 		Log.d("data2", data2);
-		StringTokenizer st2 = new StringTokenizer(data2,".");
+		StringTokenizer st2 = new StringTokenizer(data2, ".");
 		e_year = Integer.parseInt(st2.nextToken());
-		e_month = Integer.parseInt(st2.nextToken())-1;
+		e_month = Integer.parseInt(st2.nextToken()) - 1;
 		e_date = Integer.parseInt(st2.nextToken());
-		Log.d("saveeCalendar", "e_year:"+e_year+"e_month:"+e_month+"e_date:"+e_date);
+		Log.d("saveeCalendar", "e_year:" + e_year + "e_month:" + e_month
+				+ "e_date:" + e_date);
 		eCalendar.set(e_year, e_month, e_date, hour, minute);
-		
-		
-		
+
 		//
 
 		try {
 			task2 = new phpUp();
 			task2.execute("http://ljs93kr.cafe24.com/wlbinput.php?id="
-					+ URLEncoder.encode(wlb.getId(),"utf-8") + "&wlbid=" + makeWLBID() + "&shape="
-					+ wlb.getShape() + "&title=" + URLEncoder.encode(wlb.getTitle(),"utf-8") + "&content="
-					+ URLEncoder.encode(wlb.getContent(),"utf-8") + "&popuptime=" +URLEncoder.encode(wlb.getPopuptime(),"utf-8")
-					+ "&startdate=" + URLEncoder.encode(wlb.getStartdate(),"utf-8") + "&finishdate="
-					+ URLEncoder.encode(wlb.getFinishdate(),"utf-8") + "&dayinterval=" + wlb.getDayinterval()
-					+ "&secret=" + wlb.getSecret());
+					+ URLEncoder.encode(wlb.getId(), "utf-8") + "&wlbid="
+					+ makeWLBID() + "&shape=" + wlb.getShape() + "&title="
+					+ URLEncoder.encode(wlb.getTitle(), "utf-8") + "&content="
+					+ URLEncoder.encode(wlb.getContent(), "utf-8")
+					+ "&popuptime="
+					+ URLEncoder.encode(wlb.getPopuptime(), "utf-8")
+					+ "&startdate="
+					+ URLEncoder.encode(wlb.getStartdate(), "utf-8")
+					+ "&finishdate="
+					+ URLEncoder.encode(wlb.getFinishdate(), "utf-8")
+					+ "&dayinterval=" + wlb.getDayinterval() + "&secret="
+					+ wlb.getSecret());
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -422,9 +478,9 @@ public class MakeWLBActivity extends ActionBarActivity {
 		finish();
 
 	}
-	
-	public void duringClick(View v){
-		switch(v.getId()){
+
+	public void duringClick(View v) {
+		switch (v.getId()) {
 		case R.id.during1:
 			duration = 1;
 			Log.d("duringClick", String.valueOf(duration));
@@ -445,7 +501,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			duration = 52;
 			Log.d("duringClick", String.valueOf(duration));
 			break;
-			
+
 		}
 	}
 
@@ -467,7 +523,6 @@ public class MakeWLBActivity extends ActionBarActivity {
 		Intent mIntent = new Intent(getApplicationContext(),
 				MyAlarmService.class);
 
-		
 		String title = editTitle.getText().toString();
 		String content = editContent.getText().toString();
 
@@ -476,57 +531,56 @@ public class MakeWLBActivity extends ActionBarActivity {
 		mIntent.putExtra("content", content);
 		mIntent.putExtra("rqCode", rqCode);
 		mIntent.putExtra("seq", 1);
-		
-		
+
 		PendingIntent pi = PendingIntent.getService(getApplicationContext(),
 				rqCode, mIntent, 0);
 
 		return pi;
 	}
-	
+
 	// dd만큼의 날짜를 더해서 리턴한다.
 	public String addDate(String da, int dd) throws java.text.ParseException {
 
-	      SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
-	      Date date = format.parse(da);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+		Date date = format.parse(da);
 
-	      Calendar calendar = Calendar.getInstance();
-	      calendar.setTime(date);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
 
-	      calendar.add(Calendar.DATE, dd);
+		calendar.add(Calendar.DATE, dd);
 
-	      return format.format(calendar.getTime());
-	   }
-	
+		return format.format(calendar.getTime());
+	}
+
 	// 날짜를 입력하면 요일을 리턴한다.
-	public int calDay(String da)//  0:토 1:일 2:월 3:화 4:수 5:목 6:금 
-	   {
-	      int zellerMonth;
-	      int zellerYear;
+	public int calDay(String da)// 0:토 1:일 2:월 3:화 4:수 5:목 6:금
+	{
+		int zellerMonth;
+		int zellerYear;
 
-	      StringTokenizer st= new StringTokenizer(da,".");
-	      int year = Integer.parseInt(st.nextToken());
-	      int month = Integer.parseInt(st.nextToken());
-	      int day = Integer.parseInt(st.nextToken());
+		StringTokenizer st = new StringTokenizer(da, ".");
+		int year = Integer.parseInt(st.nextToken());
+		int month = Integer.parseInt(st.nextToken());
+		int day = Integer.parseInt(st.nextToken());
 
-	      if (month < 3) { // 월값이 3보다 작으면
+		if (month < 3) { // 월값이 3보다 작으면
 
-	         zellerMonth = month + 12; // 월 + 12
-	         zellerYear = year - 1; // 연 - 1
-	      }
+			zellerMonth = month + 12; // 월 + 12
+			zellerYear = year - 1; // 연 - 1
+		}
 
-	      else {
-	         zellerMonth = month;
-	         zellerYear = year;
-	      }
+		else {
+			zellerMonth = month;
+			zellerYear = year;
+		}
 
-	      int computation = day + (26 * (zellerMonth + 1)) / 10 + zellerYear
-	            + zellerYear / 4 + 6 * (zellerYear / 100) + zellerYear / 400;
-	      int dayOfWeek = computation % 7;
-	      
-	      return dayOfWeek;
-	   }
-	
+		int computation = day + (26 * (zellerMonth + 1)) / 10 + zellerYear
+				+ zellerYear / 4 + 6 * (zellerYear / 100) + zellerYear / 400;
+		int dayOfWeek = computation % 7;
+
+		return dayOfWeek;
+	}
+
 	public void fillselectedDay(int i) {
 		if (i - Math.pow(2, 6) >= 0) {
 			selectedDay.add(2);
@@ -573,6 +627,26 @@ public class MakeWLBActivity extends ActionBarActivity {
 			st = "0" + st;
 		}
 		return st;
+	}
+
+	private void decodeShapePermission(int i) {
+		
+		
+		// shape 6 열어주기
+		if ((i - Math.pow(2, 2)) >= 0) {
+			shapePermission[0]=true;
+			i-=Math.pow(2, 2);
+		}
+		// shape 7 열어주기
+		if ((i - Math.pow(2, 1)) >= 0) {
+			shapePermission[1]=true;
+			i-=Math.pow(2, 1);
+		}
+		// shape 8 열어주기
+		if ((i - Math.pow(2, 0)) >= 0) {
+			shapePermission[2]=true;
+			i-=Math.pow(2, 0);
+		}
 	}
 
 	private int makeWLBID() {
