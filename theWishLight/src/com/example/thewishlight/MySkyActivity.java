@@ -57,7 +57,7 @@ public class MySkyActivity extends ActionBarActivity implements
 	int count = 0;
 	int mode = 0; // 0일때 자기하늘,1일때 친구하늘 //change
 
-	static String myID; // 현재 로그인된 아이디
+	public static Client myInfo;
 	String friendID;
 
 	phpDown task;
@@ -72,12 +72,11 @@ public class MySkyActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 
 		Intent intent = getIntent();
 		mode = intent.getIntExtra("mode", 0); // change5
-		if (mode == 0)
-			myID = intent.getStringExtra("myID");
-		else
+		if (mode != 0)
 			friendID = intent.getStringExtra("friendID");
 
 	}
@@ -243,7 +242,7 @@ public class MySkyActivity extends ActionBarActivity implements
 									delete = new phpDown();
 									try {
 										delete.execute("http://ljs93kr.cafe24.com/wlbdelete.php?id="
-												+ URLEncoder.encode(myID,"utf-8") + "&wlbid="+wlbid);
+												+ URLEncoder.encode(myInfo.getId(),"utf-8") + "&wlbid="+wlbid);
 									} catch (UnsupportedEncodingException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
@@ -330,7 +329,7 @@ public class MySkyActivity extends ActionBarActivity implements
 		// Flipper
 
 		if (mode == 0) // change5
-			Toast.makeText(getApplicationContext(), myID + "의 하늘입니다",
+			Toast.makeText(getApplicationContext(),myInfo.getId() + "의 하늘입니다",
 					Toast.LENGTH_LONG).show();
 		else
 			Toast.makeText(getApplicationContext(), friendID + "의 하늘입니다",
@@ -365,7 +364,7 @@ public class MySkyActivity extends ActionBarActivity implements
 			try {
 				task2 = new phpDown2();
 				if (mode == 0)
-				    task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id=" + URLEncoder.encode(myID,"utf-8"));
+				    task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id=" + URLEncoder.encode(myInfo.getId(),"utf-8"));
 				else
 					task2.execute("http://ljs93kr.cafe24.com/wlboutput.php?id="
 							+ URLEncoder.encode(friendID,"utf-8"));
@@ -501,13 +500,7 @@ public class MySkyActivity extends ActionBarActivity implements
 		}
 
 		protected void onPostExecute(String str) {
-			/*
-			 * StringTokenizer st = new StringTokenizer(str, ":"); Log.d("tc",
-			 * str); wlbCount = Integer.parseInt(st.nextToken()); Log.d("tc",
-			 * String.valueOf(wlbCount)); for (int i = 0; i < wlbCount; i++)
-			 * clientList.add(new Client(Integer.parseInt(st.nextToken()), st
-			 * .nextToken(), st.nextToken()));
-			 */
+			
 
 		}
 

@@ -16,10 +16,12 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -27,12 +29,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -67,19 +72,17 @@ public class MakeWLBActivity extends ActionBarActivity {
 	List<String> selectedDate;
 
 	// 잠겨있는 풍등개수 (버전에 따라 갯수는 추가된다)
-	private int lockShapeCount=3; 
-	
+	private int lockShapeCount = 3;
+
 	// 열리면 true, 닫혀있으면 false
-	boolean[] shapePermission = new boolean[lockShapeCount]; 
-	
-	Button shape6,shape7,shape8;
+	boolean[] shapePermission = new boolean[lockShapeCount];
+
+	Button shape6, shape7, shape8;
 
 	String startdate;
 
 	private int shape = 0; // 풍등모양결정 변수
 	ImageView selectedShape;
-	
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,31 +106,24 @@ public class MakeWLBActivity extends ActionBarActivity {
 		selectedShape = (ImageView) findViewById(R.id.selectedShape);
 
 		// 풍등선택 퍼미션 받기
-		int position = 0;
-		for (int i = 0; i < AppStartActivity.clientList.size(); i++)
-			if (AppStartActivity.clientList.get(i).getId()
-					.equals(MySkyActivity.myID)) {
-
-				position = i;
-			}
-		int shapepermission = AppStartActivity.clientList.get(position)
-				.getShapepermission();
+		int shapepermission = MySkyActivity.myInfo.getShapepermission();
 
 		Log.d("shapepermission", String.valueOf(shapepermission));
-		
-		//shapePermission 리스트에 6번 들어있으면 6열수있고, 7번들어가있으면 7열수있고, 8넣어져있으면 8번열수있다.
+
+		// shapePermission 리스트에 6번 들어있으면 6열수있고, 7번들어가있으면 7열수있고, 8넣어져있으면 8번열수있다.
 		decodeShapePermission(shapepermission);
 
-		shape6 = (Button)findViewById(R.id.shape6);
-		shape7 = (Button)findViewById(R.id.shape7);
-		//shape8 = (Button)findViewById(R.id.shape8);
-		if(shapePermission[0]==true){
+		shape6 = (Button) findViewById(R.id.shape6);
+		shape7 = (Button) findViewById(R.id.shape7);
+		// shape8 = (Button)findViewById(R.id.shape8);
+		if (shapePermission[0] == true) {
 			shape6.setBackgroundResource(MySkyActivity.determineShape(6));
-		}if(shapePermission[1]==true){
+		}
+		if (shapePermission[1] == true) {
 			shape7.setBackgroundResource(MySkyActivity.determineShape(7));
 		}
-		if(shapePermission[2]==true){
-			//shape8.setBackgroundResource(MySkyActivity.determineShape(8));
+		if (shapePermission[2] == true) {
+			// shape8.setBackgroundResource(MySkyActivity.determineShape(8));
 		}
 		// 요일선택을 위한 초기화
 		daySelect = new boolean[7];
@@ -286,60 +282,407 @@ public class MakeWLBActivity extends ActionBarActivity {
 	public void shapeClick(View v) {
 		switch (v.getId()) {
 		case R.id.shape1:
-			shape = 1;
-			selectedShape.setBackgroundResource(MySkyActivity
-					.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
-					Toast.LENGTH_SHORT).show();
+			
+
+			LayoutInflater inflater1 = (LayoutInflater) getApplicationContext()
+					.getSystemService(LAYOUT_INFLATER_SERVICE);
+			// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+			View layout1 = inflater1.inflate(R.layout.wlbinfo_dialog,
+					(ViewGroup) findViewById(R.id.wlbinfo));
+			TextView wlbView = (TextView) layout1.findViewById(R.id.infoView);
+			AlertDialog.Builder aDialog1 = new AlertDialog.Builder(
+					MakeWLBActivity.this);
+
+			wlbView.setText("1번 풍등이다 ");
+			aDialog1.setTitle("1번 풍등"); // 타이틀바 제목
+			aDialog1.setView(layout1); // dialog.xml 파일을 뷰로 셋팅
+
+			// 그냥 닫기버튼을 위한 부분
+			aDialog1.setNegativeButton("닫기",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					});
+			// 그냥 사용하기버튼을 위한 부분
+			aDialog1.setPositiveButton("사용하기",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							shape = 1;
+							selectedShape.setBackgroundResource(MySkyActivity
+									.determineShape(shape));
+						}
+					});
+			// 팝업창 생성
+			AlertDialog ad1 = aDialog1.create();
+			ad1.show();// 보여줌!
 			break;
 		case R.id.shape2:
-			shape = 2;
-			selectedShape.setBackgroundResource(MySkyActivity
-					.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
-					Toast.LENGTH_SHORT).show();
+			
+
+			LayoutInflater inflater2 = (LayoutInflater) getApplicationContext()
+					.getSystemService(LAYOUT_INFLATER_SERVICE);
+			// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+			View layout2 = inflater2.inflate(R.layout.wlbinfo_dialog,
+					(ViewGroup) findViewById(R.id.wlbinfo));
+			TextView wlbView2 = (TextView) layout2.findViewById(R.id.infoView);
+			AlertDialog.Builder aDialog2 = new AlertDialog.Builder(
+					MakeWLBActivity.this);
+
+			wlbView2.setText("2번 풍등이다 ");
+			aDialog2.setTitle("2번 풍등"); // 타이틀바 제목
+			aDialog2.setView(layout2); // dialog.xml 파일을 뷰로 셋팅
+
+			// 그냥 닫기버튼을 위한 부분
+			aDialog2.setNegativeButton("닫기",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					});
+			// 그냥 사용하기버튼을 위한 부분
+			aDialog2.setPositiveButton("사용하기",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int which) {
+							shape = 2;
+							selectedShape.setBackgroundResource(MySkyActivity
+									.determineShape(shape));
+						}
+					});
+			// 팝업창 생성
+			AlertDialog ad2 = aDialog2.create();
+			ad2.show();// 보여줌!
+
 			break;
 		case R.id.shape3:
-			shape = 3;
-			selectedShape.setBackgroundResource(MySkyActivity
-					.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
-					Toast.LENGTH_SHORT).show();
+			
+
+			LayoutInflater inflater3 = (LayoutInflater) getApplicationContext()
+					.getSystemService(LAYOUT_INFLATER_SERVICE);
+			// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+			View layout3 = inflater3.inflate(R.layout.wlbinfo_dialog,
+					(ViewGroup) findViewById(R.id.wlbinfo));
+			TextView wlbView3 = (TextView) layout3.findViewById(R.id.infoView);
+			AlertDialog.Builder aDialog3 = new AlertDialog.Builder(
+					MakeWLBActivity.this);
+
+			wlbView3.setText("3번 풍등이다 ");
+			aDialog3.setTitle("3번 풍등"); // 타이틀바 제목
+			aDialog3.setView(layout3); // dialog.xml 파일을 뷰로 셋팅
+
+			// 그냥 닫기버튼을 위한 부분
+			aDialog3.setNegativeButton("닫기",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					});
+			// 그냥 사용하기버튼을 위한 부분
+			aDialog3.setPositiveButton("사용하기",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int which) {
+							shape = 3;
+							selectedShape.setBackgroundResource(MySkyActivity
+									.determineShape(shape));
+						}
+					});
+			// 팝업창 생성
+			AlertDialog ad3 = aDialog3.create();
+			ad3.show();// 보여줌!
 			break;
 		case R.id.shape4:
-			shape = 4;
-			selectedShape.setBackgroundResource(MySkyActivity
-					.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
-					Toast.LENGTH_SHORT).show();
+			
+
+			LayoutInflater inflater4 = (LayoutInflater) getApplicationContext()
+					.getSystemService(LAYOUT_INFLATER_SERVICE);
+			// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+			View layout4 = inflater4.inflate(R.layout.wlbinfo_dialog,
+					(ViewGroup) findViewById(R.id.wlbinfo));
+			TextView wlbView4 = (TextView) layout4.findViewById(R.id.infoView);
+			AlertDialog.Builder aDialog4 = new AlertDialog.Builder(
+					MakeWLBActivity.this);
+
+			wlbView4.setText("4번 풍등이다 ");
+			aDialog4.setTitle("4번 풍등"); // 타이틀바 제목
+			aDialog4.setView(layout4); // dialog.xml 파일을 뷰로 셋팅
+
+			// 그냥 닫기버튼을 위한 부분
+			aDialog4.setNegativeButton("닫기",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					});
+			// 그냥 사용하기버튼을 위한 부분
+			aDialog4.setPositiveButton("사용하기",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int which) {
+							shape = 4;
+							selectedShape.setBackgroundResource(MySkyActivity
+									.determineShape(shape));
+						}
+					});
+			// 팝업창 생성
+			AlertDialog ad4 = aDialog4.create();
+			ad4.show();// 보여줌!
 			break;
 		case R.id.shape5:
-			shape = 5;
-			selectedShape.setBackgroundResource(MySkyActivity
-					.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
-					Toast.LENGTH_SHORT).show();
+			
+
+			LayoutInflater inflater5 = (LayoutInflater) getApplicationContext()
+					.getSystemService(LAYOUT_INFLATER_SERVICE);
+			// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+			View layout5 = inflater5.inflate(R.layout.wlbinfo_dialog,
+					(ViewGroup) findViewById(R.id.wlbinfo));
+			TextView wlbView5 = (TextView) layout5.findViewById(R.id.infoView);
+			AlertDialog.Builder aDialog5 = new AlertDialog.Builder(
+					MakeWLBActivity.this);
+
+			wlbView5.setText("5번 풍등이다 ");
+			aDialog5.setTitle("5번 풍등"); // 타이틀바 제목
+			aDialog5.setView(layout5); // dialog.xml 파일을 뷰로 셋팅
+
+			// 그냥 닫기버튼을 위한 부분
+			aDialog5.setNegativeButton("닫기",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					});
+			// 그냥 사용하기버튼을 위한 부분
+			aDialog5.setPositiveButton("사용하기",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int which) {
+							shape = 5;
+							selectedShape.setBackgroundResource(MySkyActivity
+									.determineShape(shape));
+						}
+					});
+			// 팝업창 생성
+			AlertDialog ad5 = aDialog5.create();
+			ad5.show();// 보여줌!
 			break;
 		case R.id.shape6:
-			if(shapePermission[0]==true){
-			shape = 6;
-			selectedShape.setBackgroundResource(MySkyActivity
-					.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
-					Toast.LENGTH_SHORT).show();
-			}else{
-				Toast.makeText(getApplicationContext(), "아직 선택할 수 없습니다", Toast.LENGTH_LONG).show();
+			if (shapePermission[0] == true) {
+				
+
+				LayoutInflater inflater6 = (LayoutInflater) getApplicationContext()
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
+				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+				View layout6 = inflater6.inflate(R.layout.wlbinfo_dialog,
+						(ViewGroup) findViewById(R.id.wlbinfo));
+				TextView wlbView6 = (TextView) layout6
+						.findViewById(R.id.infoView);
+				AlertDialog.Builder aDialog6 = new AlertDialog.Builder(
+						MakeWLBActivity.this);
+
+				wlbView6.setText("6번 풍등이다 ");
+				aDialog6.setTitle("6번 풍등"); // 타이틀바 제목
+				aDialog6.setView(layout6); // dialog.xml 파일을 뷰로 셋팅
+
+				// 그냥 닫기버튼을 위한 부분
+				aDialog6.setNegativeButton("닫기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						});
+				// 그냥 사용하기버튼을 위한 부분
+				aDialog6.setPositiveButton("사용하기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								shape = 6;
+								selectedShape.setBackgroundResource(MySkyActivity
+										.determineShape(shape));
+							}
+						});
+				// 팝업창 생성
+				AlertDialog ad6 = aDialog6.create();
+				ad6.show();// 보여줌!
+			} else {
+				LayoutInflater inflater6 = (LayoutInflater) getApplicationContext()
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
+				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+				View layout6 = inflater6.inflate(R.layout.wlbinfo_dialog,
+						(ViewGroup) findViewById(R.id.wlbinfo));
+				TextView wlbView6 = (TextView) layout6
+						.findViewById(R.id.infoView);
+				AlertDialog.Builder aDialog6 = new AlertDialog.Builder(
+						MakeWLBActivity.this);
+
+				wlbView6.setText("6번 풍등이다 ");
+				aDialog6.setTitle("6번 풍등"); // 타이틀바 제목
+				aDialog6.setView(layout6); // dialog.xml 파일을 뷰로 셋팅
+
+				// 그냥 닫기버튼을 위한 부분
+				aDialog6.setNegativeButton("닫기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						});
+				// 그냥 사용하기버튼을 위한 부분
+				aDialog6.setPositiveButton("구입하기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								int star = MySkyActivity.myInfo.getStar();
+								int perm = MySkyActivity.myInfo
+										.getShapepermission();
+								if (star >= 10) {
+									MySkyActivity.myInfo.setStar(star - 10);
+									MySkyActivity.myInfo
+											.setShapepermission(perm + 4);
+
+									try {
+										phpConnect task = new phpConnect();
+										task.execute("http://ljs93kr.cafe24.com/starchange.php?id="
+												+ URLEncoder.encode(
+														MySkyActivity.myInfo
+																.getId(),
+														"utf-8")
+												+ "&star="
+												+ MySkyActivity.myInfo
+														.getStar());
+										task = new phpConnect();
+										task.execute("http://ljs93kr.cafe24.com/shapepermissionchange.php?id="
+												+ URLEncoder.encode(
+														MySkyActivity.myInfo
+																.getId(),
+														"utf-8")
+												+ "&shapepermission="
+												+ MySkyActivity.myInfo
+														.getShapepermission());
+										
+										shapePermission[0]=true;
+										shape = 6;
+										shape6.setBackgroundResource(MySkyActivity
+												.determineShape(shape));
+										
+									} catch (UnsupportedEncodingException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+
+								}else{
+									Toast.makeText(getApplicationContext(), "별이 모자라요 ㅠㅠ",Toast.LENGTH_LONG).show();
+								}
+							}
+						});
+				// 팝업창 생성
+				AlertDialog ad6 = aDialog6.create();
+				ad6.show();// 보여줌!
 			}
 			break;
 		case R.id.shape7:
-			if(shapePermission[1]==true){
-			shape = 7;
-			selectedShape.setBackgroundResource(MySkyActivity
-					.determineShape(shape));
-			Toast.makeText(getApplicationContext(), shape + "번 모양 선택",
-					Toast.LENGTH_SHORT).show();
-			}else{
-				Toast.makeText(getApplicationContext(), "아직 선택할 수 없습니다", Toast.LENGTH_LONG).show();
+			if (shapePermission[1] == true) {
+				
+				LayoutInflater inflater7 = (LayoutInflater) getApplicationContext()
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
+				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+				View layout7 = inflater7.inflate(R.layout.wlbinfo_dialog,
+						(ViewGroup) findViewById(R.id.wlbinfo));
+				TextView wlbView7 = (TextView) layout7
+						.findViewById(R.id.infoView);
+				AlertDialog.Builder aDialog7 = new AlertDialog.Builder(
+						MakeWLBActivity.this);
+
+				wlbView7.setText("7번 풍등이다 ");
+				aDialog7.setTitle("7번 풍등"); // 타이틀바 제목
+				aDialog7.setView(layout7); // dialog.xml 파일을 뷰로 셋팅
+
+				// 그냥 닫기버튼을 위한 부분
+				aDialog7.setNegativeButton("닫기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						});
+				// 그냥 사용하기버튼을 위한 부분
+				aDialog7.setPositiveButton("사용하기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								shape = 7;
+								selectedShape.setBackgroundResource(MySkyActivity
+										.determineShape(shape));
+							}
+						});
+				// 팝업창 생성
+				AlertDialog ad7 = aDialog7.create();
+				ad7.show();// 보여줌!
+			} else {
+				LayoutInflater inflater7 = (LayoutInflater) getApplicationContext()
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
+				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+				View layout7 = inflater7.inflate(R.layout.wlbinfo_dialog,
+						(ViewGroup) findViewById(R.id.wlbinfo));
+				TextView wlbView7 = (TextView) layout7
+						.findViewById(R.id.infoView);
+				AlertDialog.Builder aDialog7 = new AlertDialog.Builder(
+						MakeWLBActivity.this);
+
+				wlbView7.setText("7번 풍등이다 ");
+				aDialog7.setTitle("7번 풍등"); // 타이틀바 제목
+				aDialog7.setView(layout7); // dialog.xml 파일을 뷰로 셋팅
+
+				// 그냥 닫기버튼을 위한 부분
+				aDialog7.setNegativeButton("닫기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						});
+				// 그냥 구입하기버튼을 위한 부분
+				aDialog7.setPositiveButton("구입하기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								int star = MySkyActivity.myInfo.getStar();
+								int perm = MySkyActivity.myInfo
+										.getShapepermission();
+								if (star >= 20) {
+									MySkyActivity.myInfo.setStar(star - 20);
+									MySkyActivity.myInfo
+											.setShapepermission(perm + 2);
+
+									try {
+										phpConnect task = new phpConnect();
+										task.execute("http://ljs93kr.cafe24.com/starchange.php?id="
+												+ URLEncoder.encode(
+														MySkyActivity.myInfo
+																.getId(),
+														"utf-8")
+												+ "&star="
+												+ MySkyActivity.myInfo
+														.getStar());
+										task = new phpConnect();
+										task.execute("http://ljs93kr.cafe24.com/shapepermissionchange.php?id="
+												+ URLEncoder.encode(
+														MySkyActivity.myInfo
+																.getId(),
+														"utf-8")
+												+ "&shapepermission="
+												+ MySkyActivity.myInfo
+														.getShapepermission());
+										
+										shapePermission[1]=true;
+										shape = 7;
+										shape7.setBackgroundResource(MySkyActivity
+												.determineShape(shape));
+									} catch (UnsupportedEncodingException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+
+								}else{
+									Toast.makeText(getApplicationContext(), "별이 모자라요 ㅠㅠ",Toast.LENGTH_LONG).show();
+								}
+							}
+						});
+				// 팝업창 생성
+				AlertDialog ad7 = aDialog7.create();
+				ad7.show();// 보여줌!
 			}
 			break;
 
@@ -371,10 +714,10 @@ public class MakeWLBActivity extends ActionBarActivity {
 
 		int rqCode = makeWLBID();
 		Log.d("dayCal", String.valueOf(dayCal()));
-		WLB wlb = new WLB(MySkyActivity.myID, makeWLBID(), shape, title,
-				content, hour + ":" + minute, s_year + "." + (s_month + 1)
-						+ "." + s_date, e_year + "." + (e_month + 1) + "."
-						+ e_date, dayCal(), isSecret);
+		WLB wlb = new WLB(MySkyActivity.myInfo.getId(), makeWLBID(), shape,
+				title, content, hour + ":" + minute, s_year + "."
+						+ (s_month + 1) + "." + s_date, e_year + "."
+						+ (e_month + 1) + "." + e_date, dayCal(), isSecret);
 
 		//
 
@@ -630,22 +973,21 @@ public class MakeWLBActivity extends ActionBarActivity {
 	}
 
 	private void decodeShapePermission(int i) {
-		
-		
+
 		// shape 6 열어주기
 		if ((i - Math.pow(2, 2)) >= 0) {
-			shapePermission[0]=true;
-			i-=Math.pow(2, 2);
+			shapePermission[0] = true;
+			i -= Math.pow(2, 2);
 		}
 		// shape 7 열어주기
 		if ((i - Math.pow(2, 1)) >= 0) {
-			shapePermission[1]=true;
-			i-=Math.pow(2, 1);
+			shapePermission[1] = true;
+			i -= Math.pow(2, 1);
 		}
 		// shape 8 열어주기
 		if ((i - Math.pow(2, 0)) >= 0) {
-			shapePermission[2]=true;
-			i-=Math.pow(2, 0);
+			shapePermission[2] = true;
+			i -= Math.pow(2, 0);
 		}
 	}
 

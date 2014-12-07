@@ -58,7 +58,7 @@ public class FriendStartActivity extends ActionBarActivity {
 		setContentView(R.layout.friend_start);
 		task=new phpDown();
 		try {
-			task.execute("http://ljs93kr.cafe24.com/friendoutput.php?id="+URLEncoder.encode(MySkyActivity.myID,"utf-8"));
+			task.execute("http://ljs93kr.cafe24.com/friendoutput.php?id="+URLEncoder.encode(MySkyActivity.myInfo.getId(),"utf-8"));
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,11 +109,11 @@ public class FriendStartActivity extends ActionBarActivity {
 						
 						try {
 							task2=new phpUp();
-							task2.execute("http://ljs93kr.cafe24.com/friendinput.php?id="+URLEncoder.encode(MySkyActivity.myID,"utf-8")
+							task2.execute("http://ljs93kr.cafe24.com/friendinput.php?id="+URLEncoder.encode(MySkyActivity.myInfo.getId(),"utf-8")
 									+"&fid="+URLEncoder.encode(friendedit.getText().toString(),"utf-8"));
 							task2=new phpUp();
 							task2.execute("http://ljs93kr.cafe24.com/friendinput.php?id="+URLEncoder.encode(friendedit.getText().toString(),"utf-8")
-									+"&fid="+URLEncoder.encode(MySkyActivity.myID,"utf-8"));
+									+"&fid="+URLEncoder.encode(MySkyActivity.myInfo.getId(),"utf-8"));
 						} catch (UnsupportedEncodingException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -284,11 +284,11 @@ public class FriendStartActivity extends ActionBarActivity {
 				@Override
 				public boolean onLongClick(View v) {
 					task2=new phpUp();
-					task2.execute("http://ljs93kr.cafe24.com/frienddelete.php?id="+MySkyActivity.myID
+					task2.execute("http://ljs93kr.cafe24.com/frienddelete.php?id="+MySkyActivity.myInfo.getId()
 							+"&fid="+friends.get(pos));
 					task2=new phpUp();
 					task2.execute("http://ljs93kr.cafe24.com/frienddelete.php?id="+friends.get(pos)
-							+"&fid="+MySkyActivity.myID);
+							+"&fid="+MySkyActivity.myInfo.getId());
 				
 					Toast.makeText(getApplicationContext(), friends.get(pos)+" 친구 삭제 완료", Toast.LENGTH_LONG).show();
 					

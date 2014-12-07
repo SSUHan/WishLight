@@ -37,13 +37,14 @@ public class AppStartActivity extends ActionBarActivity {
 	EditText editPW;
 	Button loginBtn;
 	AnimationDrawable frameAnimation;
-	boolean internetcheck=false;
+	boolean internetcheck = false;
 
 	// 원기
 	phpDown task;
 	phpUp task2;
 	public static List<Client> clientList = new ArrayList<Client>();
 	int totalClient;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +71,10 @@ public class AppStartActivity extends ActionBarActivity {
 		editID = (EditText) loginLayout.findViewById(R.id.inputID);
 		editPW = (EditText) loginLayout.findViewById(R.id.inputPW);
 
-		
+		task = new phpDown();
 
-			task = new phpDown();
+		task.execute("http://ljs93kr.cafe24.com/client.php");
 
-			task.execute("http://ljs93kr.cafe24.com/client.php");
-		
-			
 		// 로그인 하기
 		loginBtn = (Button) findViewById(R.id.loginBtn);
 		loginBtn.setOnClickListener(new OnClickListener() {
@@ -86,7 +84,7 @@ public class AppStartActivity extends ActionBarActivity {
 				task = new phpDown();
 
 				task.execute("http://ljs93kr.cafe24.com/client.php");
-				if(internetcheck==false)
+				if (internetcheck == false)
 					return;
 				String inputId = editID.getText().toString();
 				String inputPw = editPW.getText().toString();
@@ -109,10 +107,11 @@ public class AppStartActivity extends ActionBarActivity {
 				else if (clientList.get(position).getPw().equals(inputPw)) {
 					Toast.makeText(getApplicationContext(), "로그인 완료!",
 							Toast.LENGTH_LONG).show();
+					MySkyActivity.myInfo = clientList.get(position);
 
 					Intent intent = new Intent(getApplicationContext(),
 							MySkyActivity.class);
-					intent.putExtra("myID", inputId);
+					
 					intent.putExtra("mode", 0); // change
 					startActivity(intent);
 
@@ -213,7 +212,7 @@ public class AppStartActivity extends ActionBarActivity {
 					conn.setUseCaches(false);
 					// 연결되었음 코드가 리턴되면.
 					if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-						internetcheck=true;
+						internetcheck = true;
 						BufferedReader br = new BufferedReader(
 								new InputStreamReader(conn.getInputStream(),
 										"UTF-8"));
@@ -227,9 +226,8 @@ public class AppStartActivity extends ActionBarActivity {
 							jsonHtml.append(line + "\n");
 						}
 						br.close();
-					}
-					else
-						internetcheck=false;
+					} else
+						internetcheck = false;
 
 					conn.disconnect();
 				}
@@ -249,7 +247,10 @@ public class AppStartActivity extends ActionBarActivity {
 				Log.d("tc", String.valueOf(totalClient));
 				for (int i = 0; i < totalClient; i++)
 					clientList.add(new Client(Integer.parseInt(st.nextToken()),
-							st.nextToken(), st.nextToken(),Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken())));
+							st.nextToken(), st.nextToken(), Integer.parseInt(st
+									.nextToken()), Integer.parseInt(st
+									.nextToken()), Integer.parseInt(st
+									.nextToken())));
 			} catch (Exception e) {
 				Toast.makeText(getApplicationContext(), "인터넷 연결이 필요합니다",
 						Toast.LENGTH_LONG).show();

@@ -1206,7 +1206,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f0a0002;
         public static final int action_menu_presenter=0x7f0a0003;
         public static final int action_mode_close_button=0x7f0a0024;
-        public static final int action_settings=0x7f0a0079;
+        public static final int action_settings=0x7f0a007b;
         public static final int activity_chooser_view_content=0x7f0a0025;
         public static final int always=0x7f0a000f;
         public static final int beginning=0x7f0a0016;
@@ -1247,6 +1247,7 @@ containing a value of this type.
         public static final int icon=0x7f0a002a;
         public static final int ifRoom=0x7f0a0011;
         public static final int image=0x7f0a0027;
+        public static final int infoView=0x7f0a007a;
         public static final int inputContent=0x7f0a0050;
         public static final int inputID=0x7f0a003f;
         public static final int inputPW=0x7f0a0040;
@@ -1306,6 +1307,7 @@ containing a value of this type.
         public static final int viewFlipper=0x7f0a006f;
         public static final int withText=0x7f0a0013;
         public static final int wlbView=0x7f0a0078;
+        public static final int wlbinfo=0x7f0a0079;
     }
     public static final class integer {
         /**  The maximum number of action buttons that should be permitted within
@@ -1367,6 +1369,7 @@ containing a value of this type.
         public static final int rank_start=0x7f03001f;
         public static final int support_simple_spinner_dropdown_item=0x7f030020;
         public static final int wlb_dialog=0x7f030021;
+        public static final int wlbinfo_dialog=0x7f030022;
     }
     public static final class menu {
         public static final int main=0x7f0d0000;

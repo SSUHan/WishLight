@@ -7,7 +7,11 @@ public class Client
 	private int _id;
 	private int shapepermission;
 	private int star;
+	private int trophypermission;
 	
+	Client(){
+		
+	}
 	
 	
 	Client(int _id,String id,String pw, int shapepermission)
@@ -26,8 +30,30 @@ public class Client
 		this.star = star;
 	}
 	
+	Client(int _id,String id,String pw, int shapepermission,int trophy, int star )
+	{
+		this.set_id(_id);
+		this.setId(id);
+		this.setPw(pw);
+		this.shapepermission = shapepermission;
+		this.star = star;
+		this.trophypermission = trophy;
+	}
+	
 	
 
+	public int getStar() {
+		return star;
+	}
+	public void setStar(int star) {
+		this.star = star;
+	}
+	public int getTrophypermission() {
+		return trophypermission;
+	}
+	public void setTrophypermission(int trophypermission) {
+		this.trophypermission = trophypermission;
+	}
 	public int getShapepermission() {
 		return shapepermission;
 	}
