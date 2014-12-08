@@ -73,10 +73,14 @@ public class MyAlarmService extends Service {
 		String title = intent.getStringExtra("title");
 		int shape = intent.getIntExtra("shape",0);
 		int seq = intent.getIntExtra("seq", 0);
+		int success = intent.getIntExtra("success", 0);
+		int duration = intent.getIntExtra("duration", 0);
 		
 		Log.d("onStartCommand", "onStartCommand start");
 		Log.d("onStartCommand", "rqCode:"+String.valueOf(rqCode));
 		Log.d("onStartCommand", "shape:"+String.valueOf(shape));
+		Log.d("onStartCommand", "success:"+String.valueOf(success));
+		Log.d("onStartCommand", "duration:"+String.valueOf(duration));
 		mp.start();
 		
 		myNotification = new Notification(R.drawable.notification1, "Notification from Alarm"+rqCode, System.currentTimeMillis());
@@ -87,6 +91,8 @@ public class MyAlarmService extends Service {
 		myIntent.putExtra("title", title);
 		myIntent.putExtra("shape", shape);
 		myIntent.putExtra("seq", seq);
+		myIntent.putExtra("success", success);
+		myIntent.putExtra("duration", duration);
 		Log.d("seq", "seq:"+String.valueOf(seq));
 		
 		Context context = getApplicationContext();

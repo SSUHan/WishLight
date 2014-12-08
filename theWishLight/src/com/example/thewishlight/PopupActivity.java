@@ -1,5 +1,7 @@
 package com.example.thewishlight;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.GregorianCalendar;
 import java.util.StringTokenizer;
 
@@ -40,6 +42,10 @@ public class PopupActivity extends Activity {
 	String title;
 	int shape;
 	int seq;
+	int success;
+	int duration;
+
+	// boolean[] trophyPermission;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +81,12 @@ public class PopupActivity extends Activity {
 		title = mIntent.getStringExtra("title");
 		shape = mIntent.getIntExtra("shape", 0);
 		seq = mIntent.getIntExtra("seq", 0) + 1;
+		success = mIntent.getIntExtra("success", 0);
+		duration = mIntent.getIntExtra("duration", 0);
 
 		Log.d("popup onCreate", "rqCode:" + String.valueOf(rqCode));
 		Log.d("popup onCreate", "seq:" + String.valueOf(seq));
+		Log.d("popup onCreate", "success:" + String.valueOf(success));
 
 		Context mContext = getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) mContext
@@ -101,7 +110,7 @@ public class PopupActivity extends Activity {
 		ab.setView(layout); // dialog.xml 파일을 뷰로 셋팅
 		ab.setIcon(MySkyActivity.determineShape(shape));
 
-		ab.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+		ab.setPositiveButton("예", new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -113,9 +122,133 @@ public class PopupActivity extends Activity {
 				handler.open();
 
 				String data = handler.selectData(seq);
+
+				//소원의 마지막일때 
+				if (data == null) {
+
+					if (success == 1) {
+						// try {
+						// trophyPermission = new boolean[5];
+						// decodeTrophy(MySkyA)
+						// switch(duration){
+						// case 1:
+						// if(trophyPermission[0]==false){
+						// MySkyActivity.myInfo.setTrophypermission(MySkyActivity.myInfo.getTrophypermission()+(int)Math.pow(2,
+						// 4));
+						// }
+						// break;
+						// case 2:
+						// MySkyActivity.myInfo.setTrophypermission(MySkyActivity.myInfo.getTrophypermission()+(int)Math.pow(2,
+						// 3));
+						// break;
+						// case 4:
+						// MySkyActivity.myInfo.setTrophypermission(MySkyActivity.myInfo.getTrophypermission()+(int)Math.pow(2,
+						// 2));
+						// break;
+						// case 26:
+						// MySkyActivity.myInfo.setTrophypermission(MySkyActivity.myInfo.getTrophypermission()+(int)Math.pow(2,
+						// 1));
+						// break;
+						// case 52:
+						// MySkyActivity.myInfo.setTrophypermission(MySkyActivity.myInfo.getTrophypermission()+(int)Math.pow(2,
+						// 0));
+						// break;
+						//
+						//
+						//
+						// }
+						// phpConnect task = new phpConnect();
+						// task.execute("http://ljs93kr.cafe24.com/trophypermissionchange.php?id="
+						// + URLEncoder.encode(
+						// MySkyActivity.myInfo
+						// .getId(),
+						// "utf-8")
+						// + "&trophypermission="
+						// + MySkyActivity.myInfo
+						// .getTrophypermission());
+						// } catch (UnsupportedEncodingException e) {
+						// // TODO Auto-generated catch block
+						// e.printStackTrace();
+						// }
+						// }
+						Toast.makeText(getApplicationContext(), "소원이 다끝났습니다!",
+								Toast.LENGTH_LONG).show();
+						phpConnect delete = new phpConnect();
+						try {
+							delete.execute("http://ljs93kr.cafe24.com/wlbdelete.php?id="
+									+ URLEncoder.encode(
+											MySkyActivity.myInfo.getId(),
+											"utf-8") + "&wlbid=" + rqCode);
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						Toast.makeText(getApplicationContext(), "삭제완료",
+								Toast.LENGTH_SHORT).show();
+
+					} else {
+						StringTokenizer st2 = new StringTokenizer(data, ".");
+						e_year = Integer.parseInt(st2.nextToken());
+						e_month = Integer.parseInt(st2.nextToken()) - 1;
+						e_date = Integer.parseInt(st2.nextToken());
+						int hour = Integer.parseInt(st2.nextToken());
+						int minute = Integer.parseInt(st2.nextToken());
+
+						eCalendar.set(e_year, e_month, e_date, hour, minute);
+						Log.d("new Alarm", eCalendar.getTime().toString());
+						startAlarm(rqCode);
+					}
+					handler.removeTable();
+				}
+				handler.close();
+				try {
+					MySkyActivity.myInfo.setStar(MySkyActivity.myInfo.getStar() + 1);
+					phpConnect task = new phpConnect();
+					task.execute("http://ljs93kr.cafe24.com/starchange.php?id="
+							+ URLEncoder.encode(MySkyActivity.myInfo.getId(),
+									"utf-8") + "&star="
+							+ MySkyActivity.myInfo.getStar());
+					Toast.makeText(
+							getApplicationContext(),
+							"별1개 흭득하셨습니다!" + "나의 별수:"
+									+ MySkyActivity.myInfo.getStar(),
+							Toast.LENGTH_LONG).show();
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				PopupActivity.this.finish();
+			}
+		});
+
+		ab.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				success = 0;
+				stopAlarm(rqCode);
+
+				handler = new MyDBHandler(getApplicationContext(), "wlb_"
+						+ rqCode);
+				handler.open();
+
+				String data = handler.selectData(seq);
 				if (data == null) {
 					Toast.makeText(getApplicationContext(), "소원이 다끝났습니다!",
 							Toast.LENGTH_LONG).show();
+					phpConnect delete = new phpConnect();
+					try {
+						delete.execute("http://ljs93kr.cafe24.com/wlbdelete.php?id="
+								+ URLEncoder.encode(
+										MySkyActivity.myInfo.getId(), "utf-8")
+								+ "&wlbid=" + rqCode);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Toast.makeText(getApplicationContext(), "삭제완료",
+							Toast.LENGTH_SHORT).show();
 				} else {
 					StringTokenizer st2 = new StringTokenizer(data, ".");
 					e_year = Integer.parseInt(st2.nextToken());
@@ -138,6 +271,26 @@ public class PopupActivity extends Activity {
 
 	}
 
+	//
+	// private void decodeTrophy(int i){
+	// if((i - Math.pow(2,4))>=0){
+	// trophyPermission[0]=true;
+	// i-=Math.pow(2,4);
+	// }if((i - Math.pow(2,3))>=0){
+	// trophyPermission[1]=true;
+	// i-=Math.pow(2,3);
+	// }if((i - Math.pow(2,2))>=0){
+	// trophyPermission[2]=true;
+	// i-=Math.pow(2,2);
+	// }if((i - Math.pow(2,1))>=0){
+	// trophyPermission[3]=true;
+	// i-=Math.pow(2,1);
+	// }if((i - Math.pow(2,0))>=0){
+	// trophyPermission[4]=true;
+	// i-=Math.pow(2,0);
+	// }
+	// }
+
 	private void stopAlarm(int rqCode) {
 		PendingIntent pi = pendingIntent(rqCode);
 		mManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -157,7 +310,7 @@ public class PopupActivity extends Activity {
 		Toast.makeText(getApplicationContext(),
 				eCalendar.getTime().toString() + "알람을 설정했습니다",
 				Toast.LENGTH_SHORT).show();
-		Log.d("make start alarm", eCalendar.getTime().toString());
+		Log.d("make restart alarm", eCalendar.getTime().toString());
 
 	}
 
@@ -170,6 +323,9 @@ public class PopupActivity extends Activity {
 		mIntent.putExtra("content", content);
 		mIntent.putExtra("rqCode", rqCode);
 		mIntent.putExtra("seq", 1);
+		mIntent.putExtra("success", success);
+		mIntent.putExtra("duration", duration);
+		
 
 		PendingIntent pi = PendingIntent.getService(getApplicationContext(),
 				rqCode, mIntent, 0);

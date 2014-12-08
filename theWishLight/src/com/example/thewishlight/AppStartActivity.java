@@ -54,7 +54,7 @@ public class AppStartActivity extends ActionBarActivity {
 
 		loginLayout = (RelativeLayout) findViewById(R.id.loginLayout);
 
-		loginLayout.setBackgroundResource(R.drawable.loginsky2);
+		loginLayout.setBackgroundResource(R.drawable.loginsky1);
 		frameAnimation = (AnimationDrawable) loginLayout.getBackground();
 
 		LinearLayout loginLayout = (LinearLayout) findViewById(R.id.login);

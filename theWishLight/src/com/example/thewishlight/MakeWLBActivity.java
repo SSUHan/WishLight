@@ -160,23 +160,6 @@ public class MakeWLBActivity extends ActionBarActivity {
 
 	}
 
-	// 마감날짜 설정하기
-	private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-		@Override
-		public void onDateSet(DatePicker view, int year, int monthOfYear,
-				int dayOfMonth) {
-			// TODO Auto-generated method stub
-			e_year = year;
-			e_month = monthOfYear;
-			e_date = dayOfMonth;
-			eCalendar.set(year, monthOfYear, dayOfMonth, hour, minute);
-			Log.d("datePickerAfter", "시작날짜:" + s_year + s_month + s_date
-					+ "마감날짜:" + e_year + e_month + e_date);
-
-		}
-	};
-
 	// 팝업시간 설정하기
 	private TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
 
@@ -187,7 +170,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			hour = hourOfDay;
 			minute = Minute;
 
-			popupTimePicker.setText(hour + " : " + minute);
+			popupTimePicker.setText(numberTwo(hour)+ " : " +numberTwo(minute));
 			popupTimePicker.setBackgroundColor(Color.TRANSPARENT);
 			eCalendar.set(e_year, e_month, e_date, hour, minute);
 			Log.d("timePickerAfter", "팝업시간설정:" + hour + minute);
@@ -195,6 +178,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 		}
 	};
 
+	
+	// 요일선택 버튼
 	public void dayClick(View v) {
 
 		switch (v.getId()) {
@@ -265,6 +250,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 		}
 	}
 
+	// 공개 비공개 선택 버튼
 	public void checkClick(View v) {
 		switch (v.getId()) {
 
@@ -282,7 +268,6 @@ public class MakeWLBActivity extends ActionBarActivity {
 	public void shapeClick(View v) {
 		switch (v.getId()) {
 		case R.id.shape1:
-			
 
 			LayoutInflater inflater1 = (LayoutInflater) getApplicationContext()
 					.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -317,7 +302,6 @@ public class MakeWLBActivity extends ActionBarActivity {
 			ad1.show();// 보여줌!
 			break;
 		case R.id.shape2:
-			
 
 			LayoutInflater inflater2 = (LayoutInflater) getApplicationContext()
 					.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -341,8 +325,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			// 그냥 사용하기버튼을 위한 부분
 			aDialog2.setPositiveButton("사용하기",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int which) {
+						public void onClick(DialogInterface dialog, int which) {
 							shape = 2;
 							selectedShape.setBackgroundResource(MySkyActivity
 									.determineShape(shape));
@@ -354,7 +337,6 @@ public class MakeWLBActivity extends ActionBarActivity {
 
 			break;
 		case R.id.shape3:
-			
 
 			LayoutInflater inflater3 = (LayoutInflater) getApplicationContext()
 					.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -378,8 +360,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			// 그냥 사용하기버튼을 위한 부분
 			aDialog3.setPositiveButton("사용하기",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int which) {
+						public void onClick(DialogInterface dialog, int which) {
 							shape = 3;
 							selectedShape.setBackgroundResource(MySkyActivity
 									.determineShape(shape));
@@ -390,7 +371,6 @@ public class MakeWLBActivity extends ActionBarActivity {
 			ad3.show();// 보여줌!
 			break;
 		case R.id.shape4:
-			
 
 			LayoutInflater inflater4 = (LayoutInflater) getApplicationContext()
 					.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -414,8 +394,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			// 그냥 사용하기버튼을 위한 부분
 			aDialog4.setPositiveButton("사용하기",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int which) {
+						public void onClick(DialogInterface dialog, int which) {
 							shape = 4;
 							selectedShape.setBackgroundResource(MySkyActivity
 									.determineShape(shape));
@@ -426,7 +405,6 @@ public class MakeWLBActivity extends ActionBarActivity {
 			ad4.show();// 보여줌!
 			break;
 		case R.id.shape5:
-			
 
 			LayoutInflater inflater5 = (LayoutInflater) getApplicationContext()
 					.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -450,8 +428,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			// 그냥 사용하기버튼을 위한 부분
 			aDialog5.setPositiveButton("사용하기",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int which) {
+						public void onClick(DialogInterface dialog, int which) {
 							shape = 5;
 							selectedShape.setBackgroundResource(MySkyActivity
 									.determineShape(shape));
@@ -463,7 +440,6 @@ public class MakeWLBActivity extends ActionBarActivity {
 			break;
 		case R.id.shape6:
 			if (shapePermission[0] == true) {
-				
 
 				LayoutInflater inflater6 = (LayoutInflater) getApplicationContext()
 						.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -492,8 +468,9 @@ public class MakeWLBActivity extends ActionBarActivity {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								shape = 6;
-								selectedShape.setBackgroundResource(MySkyActivity
-										.determineShape(shape));
+								selectedShape
+										.setBackgroundResource(MySkyActivity
+												.determineShape(shape));
 							}
 						});
 				// 팝업창 생성
@@ -553,19 +530,21 @@ public class MakeWLBActivity extends ActionBarActivity {
 												+ "&shapepermission="
 												+ MySkyActivity.myInfo
 														.getShapepermission());
-										
-										shapePermission[0]=true;
+
+										shapePermission[0] = true;
 										shape = 6;
 										shape6.setBackgroundResource(MySkyActivity
 												.determineShape(shape));
-										
+
 									} catch (UnsupportedEncodingException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
 
-								}else{
-									Toast.makeText(getApplicationContext(), "별이 모자라요 ㅠㅠ",Toast.LENGTH_LONG).show();
+								} else {
+									Toast.makeText(getApplicationContext(),
+											"별이 모자라요 ㅠㅠ", Toast.LENGTH_LONG)
+											.show();
 								}
 							}
 						});
@@ -576,7 +555,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			break;
 		case R.id.shape7:
 			if (shapePermission[1] == true) {
-				
+
 				LayoutInflater inflater7 = (LayoutInflater) getApplicationContext()
 						.getSystemService(LAYOUT_INFLATER_SERVICE);
 				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
@@ -604,8 +583,9 @@ public class MakeWLBActivity extends ActionBarActivity {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								shape = 7;
-								selectedShape.setBackgroundResource(MySkyActivity
-										.determineShape(shape));
+								selectedShape
+										.setBackgroundResource(MySkyActivity
+												.determineShape(shape));
 							}
 						});
 				// 팝업창 생성
@@ -665,8 +645,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 												+ "&shapepermission="
 												+ MySkyActivity.myInfo
 														.getShapepermission());
-										
-										shapePermission[1]=true;
+
+										shapePermission[1] = true;
 										shape = 7;
 										shape7.setBackgroundResource(MySkyActivity
 												.determineShape(shape));
@@ -675,8 +655,10 @@ public class MakeWLBActivity extends ActionBarActivity {
 										e.printStackTrace();
 									}
 
-								}else{
-									Toast.makeText(getApplicationContext(), "별이 모자라요 ㅠㅠ",Toast.LENGTH_LONG).show();
+								} else {
+									Toast.makeText(getApplicationContext(),
+											"별이 모자라요 ㅠㅠ", Toast.LENGTH_LONG)
+											.show();
 								}
 							}
 						});
@@ -874,6 +856,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 		mIntent.putExtra("content", content);
 		mIntent.putExtra("rqCode", rqCode);
 		mIntent.putExtra("seq", 1);
+		mIntent.putExtra("success", 1);
+		mIntent.putExtra("duration", duration);
 
 		PendingIntent pi = PendingIntent.getService(getApplicationContext(),
 				rqCode, mIntent, 0);

@@ -33,6 +33,11 @@ public class MyDBHandler {
 	public void close() {
 		db.close();
 	}
+	
+	public void removeTable(){
+		String sql = "drop table "+tableName;
+		db.execSQL(sql);
+	}
 
 	// insert - alarm
 	public void insert(int seq, int year, int month, int date, int hour, int minute) {
