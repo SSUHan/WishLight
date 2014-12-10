@@ -134,6 +134,13 @@
                     android:layout_height="60dp"
                     android:background="@drawable/xspeciallight2"
                     android:onClick="shapeClick" />
+                
+                <Button
+                    android:id="@+id/shape8"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/xrudolp"
+                    android:onClick="shapeClick" />
             </LinearLayout>
         </HorizontalScrollView>
 

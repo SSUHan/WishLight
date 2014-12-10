@@ -4,6 +4,8 @@ public class WLB {
 
 	private String id, title, content, popuptime, startdate, finishdate;
 	private int wlbid, shape, dayinterval, secret;
+	
+	private int top,left;
 
 	public WLB(String id, int wlbid ,int shape, String title, String content, String popuptime,
 			String startdate, String finishdate, int dayinterval,
@@ -20,6 +22,27 @@ public class WLB {
 		this.secret = secret;
 
 	}
+	
+
+	public int getTop() {
+		return top;
+	}
+
+
+	public void setTop(int top) {
+		this.top = top;
+	}
+
+
+	public int getLeft() {
+		return left;
+	}
+
+
+	public void setLeft(int left) {
+		this.left = left;
+	}
+
 
 	public int getWlbid() {
 		return wlbid;

@@ -60,6 +60,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 	private int e_year, e_month, e_date; // 마감 날짜
 	Button day1, day2, day3, day4, day5, day6, day7;
 	boolean[] daySelect;
+	
 
 	int isSecret = 0;
 
@@ -78,6 +79,9 @@ public class MakeWLBActivity extends ActionBarActivity {
 	boolean[] shapePermission = new boolean[lockShapeCount];
 
 	Button shape6, shape7, shape8;
+	
+	boolean[] duringSelect = new boolean[5]; // 기간선택 
+	Button during1,during2,during3,during4,during5; // 기간 설정버튼
 
 	String startdate;
 
@@ -102,6 +106,13 @@ public class MakeWLBActivity extends ActionBarActivity {
 		day6 = (Button) findViewById(R.id.day6);
 		day7 = (Button) findViewById(R.id.day7);
 
+		// 기간 버튼 객체 받기
+		during1 = (Button)findViewById(R.id.during1);
+		during2 = (Button)findViewById(R.id.during2);
+		during3 = (Button)findViewById(R.id.during3);
+		during4 = (Button)findViewById(R.id.during4);
+		during5 = (Button)findViewById(R.id.during5);
+		
 		// 결정된 풍등모양 보여주는 이미지뷰
 		selectedShape = (ImageView) findViewById(R.id.selectedShape);
 
@@ -115,7 +126,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 
 		shape6 = (Button) findViewById(R.id.shape6);
 		shape7 = (Button) findViewById(R.id.shape7);
-		// shape8 = (Button)findViewById(R.id.shape8);
+		shape8 = (Button) findViewById(R.id.shape8);
+		
 		if (shapePermission[0] == true) {
 			shape6.setBackgroundResource(MySkyActivity.determineShape(6));
 		}
@@ -123,7 +135,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			shape7.setBackgroundResource(MySkyActivity.determineShape(7));
 		}
 		if (shapePermission[2] == true) {
-			// shape8.setBackgroundResource(MySkyActivity.determineShape(8));
+			 shape8.setBackgroundResource(MySkyActivity.determineShape(8));
 		}
 		// 요일선택을 위한 초기화
 		daySelect = new boolean[7];
@@ -269,6 +281,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 		switch (v.getId()) {
 		case R.id.shape1:
 
+			int i1 = 1;
 			LayoutInflater inflater1 = (LayoutInflater) getApplicationContext()
 					.getSystemService(LAYOUT_INFLATER_SERVICE);
 			// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
@@ -278,6 +291,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			AlertDialog.Builder aDialog1 = new AlertDialog.Builder(
 					MakeWLBActivity.this);
 
+			
 			wlbView.setText("1번 풍등이다 ");
 			aDialog1.setTitle("1번 풍등"); // 타이틀바 제목
 			aDialog1.setView(layout1); // dialog.xml 파일을 뷰로 셋팅
@@ -297,12 +311,13 @@ public class MakeWLBActivity extends ActionBarActivity {
 									.determineShape(shape));
 						}
 					});
+			aDialog1.setIcon(MySkyActivity.determineShape(i1));
 			// 팝업창 생성
 			AlertDialog ad1 = aDialog1.create();
 			ad1.show();// 보여줌!
 			break;
 		case R.id.shape2:
-
+			int i2 = 2;
 			LayoutInflater inflater2 = (LayoutInflater) getApplicationContext()
 					.getSystemService(LAYOUT_INFLATER_SERVICE);
 			// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
@@ -312,6 +327,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			AlertDialog.Builder aDialog2 = new AlertDialog.Builder(
 					MakeWLBActivity.this);
 
+			
 			wlbView2.setText("2번 풍등이다 ");
 			aDialog2.setTitle("2번 풍등"); // 타이틀바 제목
 			aDialog2.setView(layout2); // dialog.xml 파일을 뷰로 셋팅
@@ -331,13 +347,15 @@ public class MakeWLBActivity extends ActionBarActivity {
 									.determineShape(shape));
 						}
 					});
+			aDialog2.setIcon(MySkyActivity.determineShape(i2));
 			// 팝업창 생성
 			AlertDialog ad2 = aDialog2.create();
 			ad2.show();// 보여줌!
 
 			break;
 		case R.id.shape3:
-
+			
+			int i3 = 3;
 			LayoutInflater inflater3 = (LayoutInflater) getApplicationContext()
 					.getSystemService(LAYOUT_INFLATER_SERVICE);
 			// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
@@ -366,12 +384,14 @@ public class MakeWLBActivity extends ActionBarActivity {
 									.determineShape(shape));
 						}
 					});
+			aDialog3.setIcon(MySkyActivity.determineShape(3));
 			// 팝업창 생성
 			AlertDialog ad3 = aDialog3.create();
 			ad3.show();// 보여줌!
 			break;
 		case R.id.shape4:
 
+			int i4 = 4;
 			LayoutInflater inflater4 = (LayoutInflater) getApplicationContext()
 					.getSystemService(LAYOUT_INFLATER_SERVICE);
 			// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
@@ -381,6 +401,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			AlertDialog.Builder aDialog4 = new AlertDialog.Builder(
 					MakeWLBActivity.this);
 
+			
 			wlbView4.setText("4번 풍등이다 ");
 			aDialog4.setTitle("4번 풍등"); // 타이틀바 제목
 			aDialog4.setView(layout4); // dialog.xml 파일을 뷰로 셋팅
@@ -400,12 +421,14 @@ public class MakeWLBActivity extends ActionBarActivity {
 									.determineShape(shape));
 						}
 					});
+			aDialog4.setIcon(MySkyActivity.determineShape(i4));
 			// 팝업창 생성
 			AlertDialog ad4 = aDialog4.create();
 			ad4.show();// 보여줌!
 			break;
 		case R.id.shape5:
 
+			int i5 = 5;
 			LayoutInflater inflater5 = (LayoutInflater) getApplicationContext()
 					.getSystemService(LAYOUT_INFLATER_SERVICE);
 			// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
@@ -415,6 +438,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 			AlertDialog.Builder aDialog5 = new AlertDialog.Builder(
 					MakeWLBActivity.this);
 
+			
 			wlbView5.setText("5번 풍등이다 ");
 			aDialog5.setTitle("5번 풍등"); // 타이틀바 제목
 			aDialog5.setView(layout5); // dialog.xml 파일을 뷰로 셋팅
@@ -434,6 +458,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 									.determineShape(shape));
 						}
 					});
+			aDialog5.setIcon(MySkyActivity.determineShape(i5));
 			// 팝업창 생성
 			AlertDialog ad5 = aDialog5.create();
 			ad5.show();// 보여줌!
@@ -441,6 +466,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 		case R.id.shape6:
 			if (shapePermission[0] == true) {
 
+				int i6 = 6;
 				LayoutInflater inflater6 = (LayoutInflater) getApplicationContext()
 						.getSystemService(LAYOUT_INFLATER_SERVICE);
 				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
@@ -451,6 +477,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 				AlertDialog.Builder aDialog6 = new AlertDialog.Builder(
 						MakeWLBActivity.this);
 
+				
 				wlbView6.setText("6번 풍등이다 ");
 				aDialog6.setTitle("6번 풍등"); // 타이틀바 제목
 				aDialog6.setView(layout6); // dialog.xml 파일을 뷰로 셋팅
@@ -473,10 +500,12 @@ public class MakeWLBActivity extends ActionBarActivity {
 												.determineShape(shape));
 							}
 						});
+				aDialog6.setIcon(MySkyActivity.determineShape(i6));
 				// 팝업창 생성
 				AlertDialog ad6 = aDialog6.create();
 				ad6.show();// 보여줌!
 			} else {
+				int i6 = 6;
 				LayoutInflater inflater6 = (LayoutInflater) getApplicationContext()
 						.getSystemService(LAYOUT_INFLATER_SERVICE);
 				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
@@ -487,6 +516,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 				AlertDialog.Builder aDialog6 = new AlertDialog.Builder(
 						MakeWLBActivity.this);
 
+				
 				wlbView6.setText("6번 풍등이다 ");
 				aDialog6.setTitle("6번 풍등"); // 타이틀바 제목
 				aDialog6.setView(layout6); // dialog.xml 파일을 뷰로 셋팅
@@ -548,6 +578,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 								}
 							}
 						});
+				aDialog6.setIcon(MySkyActivity.determineShape(i6));
 				// 팝업창 생성
 				AlertDialog ad6 = aDialog6.create();
 				ad6.show();// 보여줌!
@@ -556,6 +587,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 		case R.id.shape7:
 			if (shapePermission[1] == true) {
 
+				int i7 = 7;
 				LayoutInflater inflater7 = (LayoutInflater) getApplicationContext()
 						.getSystemService(LAYOUT_INFLATER_SERVICE);
 				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
@@ -566,6 +598,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 				AlertDialog.Builder aDialog7 = new AlertDialog.Builder(
 						MakeWLBActivity.this);
 
+				
 				wlbView7.setText("7번 풍등이다 ");
 				aDialog7.setTitle("7번 풍등"); // 타이틀바 제목
 				aDialog7.setView(layout7); // dialog.xml 파일을 뷰로 셋팅
@@ -588,10 +621,12 @@ public class MakeWLBActivity extends ActionBarActivity {
 												.determineShape(shape));
 							}
 						});
+				aDialog7.setIcon(MySkyActivity.determineShape(i7));
 				// 팝업창 생성
 				AlertDialog ad7 = aDialog7.create();
 				ad7.show();// 보여줌!
 			} else {
+				int i7 = 7;
 				LayoutInflater inflater7 = (LayoutInflater) getApplicationContext()
 						.getSystemService(LAYOUT_INFLATER_SERVICE);
 				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
@@ -602,6 +637,7 @@ public class MakeWLBActivity extends ActionBarActivity {
 				AlertDialog.Builder aDialog7 = new AlertDialog.Builder(
 						MakeWLBActivity.this);
 
+				
 				wlbView7.setText("7번 풍등이다 ");
 				aDialog7.setTitle("7번 풍등"); // 타이틀바 제목
 				aDialog7.setView(layout7); // dialog.xml 파일을 뷰로 셋팅
@@ -662,9 +698,130 @@ public class MakeWLBActivity extends ActionBarActivity {
 								}
 							}
 						});
+				aDialog7.setIcon(MySkyActivity.determineShape(i7));
 				// 팝업창 생성
 				AlertDialog ad7 = aDialog7.create();
 				ad7.show();// 보여줌!
+			}
+			break;
+		case R.id.shape8:
+			if (shapePermission[2] == true) {
+
+				int i8 = 8;
+				LayoutInflater inflater8 = (LayoutInflater) getApplicationContext()
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
+				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+				View layout8 = inflater8.inflate(R.layout.wlbinfo_dialog,
+						(ViewGroup) findViewById(R.id.wlbinfo));
+				TextView wlbView8 = (TextView) layout8
+						.findViewById(R.id.infoView);
+				AlertDialog.Builder aDialog8 = new AlertDialog.Builder(
+						MakeWLBActivity.this);
+
+				
+				wlbView8.setText("8번 풍등이다 ");
+				aDialog8.setTitle("8번 풍등"); // 타이틀바 제목
+				aDialog8.setView(layout8); // dialog.xml 파일을 뷰로 셋팅
+
+				// 그냥 닫기버튼을 위한 부분
+				aDialog8.setNegativeButton("닫기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						});
+				// 그냥 사용하기버튼을 위한 부분
+				aDialog8.setPositiveButton("사용하기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								shape = 8;
+								selectedShape
+										.setBackgroundResource(MySkyActivity
+												.determineShape(shape));
+							}
+						});
+				aDialog8.setIcon(MySkyActivity.determineShape(i8));
+				// 팝업창 생성
+				AlertDialog ad8 = aDialog8.create();
+				ad8.show();// 보여줌!
+			} else {
+				int i8 = 8;
+				LayoutInflater inflater8 = (LayoutInflater) getApplicationContext()
+						.getSystemService(LAYOUT_INFLATER_SERVICE);
+				// R.layout.dialog는 xml 파일명이고 R.id.popup은 보여줄 레이아웃 아이디
+				View layout8 = inflater8.inflate(R.layout.wlbinfo_dialog,
+						(ViewGroup) findViewById(R.id.wlbinfo));
+				TextView wlbView8 = (TextView) layout8
+						.findViewById(R.id.infoView);
+				AlertDialog.Builder aDialog8 = new AlertDialog.Builder(
+						MakeWLBActivity.this);
+
+				
+				wlbView8.setText("8번 풍등이다 ");
+				aDialog8.setTitle("8번 풍등"); // 타이틀바 제목
+				aDialog8.setView(layout8); // dialog.xml 파일을 뷰로 셋팅
+
+				// 그냥 닫기버튼을 위한 부분
+				aDialog8.setNegativeButton("닫기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						});
+				// 그냥 구입하기버튼을 위한 부분
+				aDialog8.setPositiveButton("구입하기",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								int star = MySkyActivity.myInfo.getStar();
+								int perm = MySkyActivity.myInfo
+										.getShapepermission();
+								if (star >= 20) {
+									MySkyActivity.myInfo.setStar(star - 20);
+									MySkyActivity.myInfo
+											.setShapepermission(perm + 2);
+
+									try {
+										phpConnect task = new phpConnect();
+										task.execute("http://ljs93kr.cafe24.com/starchange.php?id="
+												+ URLEncoder.encode(
+														MySkyActivity.myInfo
+																.getId(),
+														"utf-8")
+												+ "&star="
+												+ MySkyActivity.myInfo
+														.getStar());
+										task = new phpConnect();
+										task.execute("http://ljs93kr.cafe24.com/shapepermissionchange.php?id="
+												+ URLEncoder.encode(
+														MySkyActivity.myInfo
+																.getId(),
+														"utf-8")
+												+ "&shapepermission="
+												+ MySkyActivity.myInfo
+														.getShapepermission());
+
+										shapePermission[2] = true;
+										shape = 8;
+										shape8.setBackgroundResource(MySkyActivity
+												.determineShape(shape));
+									} catch (UnsupportedEncodingException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+
+								} else {
+									Toast.makeText(getApplicationContext(),
+											"별이 모자라요 ㅠㅠ", Toast.LENGTH_LONG)
+											.show();
+								}
+							}
+						});
+				aDialog8.setIcon(MySkyActivity.determineShape(i8));
+				// 팝업창 생성
+				AlertDialog ad8 = aDialog8.create();
+				ad8.show();// 보여줌!
 			}
 			break;
 
@@ -809,22 +966,47 @@ public class MakeWLBActivity extends ActionBarActivity {
 		case R.id.during1:
 			duration = 1;
 			Log.d("duringClick", String.valueOf(duration));
+			during1.setBackgroundResource(R.drawable.day12);
+			during2.setBackgroundResource(R.drawable.day2);
+			during3.setBackgroundResource(R.drawable.day3);
+			during4.setBackgroundResource(R.drawable.day4);
+			during5.setBackgroundResource(R.drawable.day5);
 			break;
 		case R.id.during2:
 			duration = 2;
 			Log.d("duringClick", String.valueOf(duration));
+			during1.setBackgroundResource(R.drawable.day1);
+			during2.setBackgroundResource(R.drawable.day22);
+			during3.setBackgroundResource(R.drawable.day3);
+			during4.setBackgroundResource(R.drawable.day4);
+			during5.setBackgroundResource(R.drawable.day5);
 			break;
 		case R.id.during3:
 			duration = 4;
 			Log.d("duringClick", String.valueOf(duration));
+			during1.setBackgroundResource(R.drawable.day1);
+			during2.setBackgroundResource(R.drawable.day2);
+			during3.setBackgroundResource(R.drawable.day32);
+			during4.setBackgroundResource(R.drawable.day4);
+			during5.setBackgroundResource(R.drawable.day5);
 			break;
 		case R.id.during4:
 			duration = 26;
 			Log.d("duringClick", String.valueOf(duration));
+			during1.setBackgroundResource(R.drawable.day1);
+			during2.setBackgroundResource(R.drawable.day2);
+			during3.setBackgroundResource(R.drawable.day3);
+			during4.setBackgroundResource(R.drawable.day42);
+			during5.setBackgroundResource(R.drawable.day5);
 			break;
 		case R.id.during5:
 			duration = 52;
 			Log.d("duringClick", String.valueOf(duration));
+			during1.setBackgroundResource(R.drawable.day1);
+			during2.setBackgroundResource(R.drawable.day2);
+			during3.setBackgroundResource(R.drawable.day3);
+			during4.setBackgroundResource(R.drawable.day4);
+			during5.setBackgroundResource(R.drawable.day52);
 			break;
 
 		}

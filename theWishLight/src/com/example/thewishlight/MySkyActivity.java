@@ -155,6 +155,8 @@ public class MySkyActivity extends ActionBarActivity implements
 
 		int top = ranTop.nextInt(500);
 		int left = ranLeft.nextInt(500);
+		
+	    
 
 		params.topMargin = top;
 		params.leftMargin = left;
@@ -283,6 +285,8 @@ public class MySkyActivity extends ActionBarActivity implements
 			return R.drawable.flowerlight2;
 		case 7:
 			return R.drawable.speciallight2;
+		case 8:
+			return R.drawable.rudolp;
 		default:
 			return -1;
 		}
