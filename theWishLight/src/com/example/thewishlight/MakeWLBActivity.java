@@ -292,8 +292,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 					MakeWLBActivity.this);
 
 			
-			wlbView.setText("1번 풍등이다 ");
-			aDialog1.setTitle("1번 풍등"); // 타이틀바 제목
+			wlbView.setText("어디서나 많이 볼 수 있는 둥근 풍등입니다.\n 데굴데굴 밤하늘을 굴러다녀요.");
+			aDialog1.setTitle("둥근 풍등"); // 타이틀바 제목
 			aDialog1.setView(layout1); // dialog.xml 파일을 뷰로 셋팅
 
 			// 그냥 닫기버튼을 위한 부분
@@ -328,8 +328,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 					MakeWLBActivity.this);
 
 			
-			wlbView2.setText("2번 풍등이다 ");
-			aDialog2.setTitle("2번 풍등"); // 타이틀바 제목
+			wlbView2.setText("별을 닮은 노란 풍등입니다.\n 당신의 소원을 별처럼 밤하늘에 달아 줄 거에요.");
+			aDialog2.setTitle("별 풍등"); // 타이틀바 제목
 			aDialog2.setView(layout2); // dialog.xml 파일을 뷰로 셋팅
 
 			// 그냥 닫기버튼을 위한 부분
@@ -365,8 +365,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 			AlertDialog.Builder aDialog3 = new AlertDialog.Builder(
 					MakeWLBActivity.this);
 
-			wlbView3.setText("3번 풍등이다 ");
-			aDialog3.setTitle("3번 풍등"); // 타이틀바 제목
+			wlbView3.setText("붉은 색의 기본 풍등입니다.\n 기본에 충실하게 당신을 도와줄거에요.");
+			aDialog3.setTitle("붉은 풍등"); // 타이틀바 제목
 			aDialog3.setView(layout3); // dialog.xml 파일을 뷰로 셋팅
 
 			// 그냥 닫기버튼을 위한 부분
@@ -402,8 +402,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 					MakeWLBActivity.this);
 
 			
-			wlbView4.setText("4번 풍등이다 ");
-			aDialog4.setTitle("4번 풍등"); // 타이틀바 제목
+			wlbView4.setText("하트 모양의 풍등입니다.\n 연인을 기원하는 풍등을 띄워보는 건 어떠세요?");
+			aDialog4.setTitle("하트 풍등"); // 타이틀바 제목
 			aDialog4.setView(layout4); // dialog.xml 파일을 뷰로 셋팅
 
 			// 그냥 닫기버튼을 위한 부분
@@ -439,8 +439,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 					MakeWLBActivity.this);
 
 			
-			wlbView5.setText("5번 풍등이다 ");
-			aDialog5.setTitle("5번 풍등"); // 타이틀바 제목
+			wlbView5.setText("푸른 색의 기본 풍등입니다.\n 붉은 풍등과 잘 어울려요. ");
+			aDialog5.setTitle("푸른 풍등"); // 타이틀바 제목
 			aDialog5.setView(layout5); // dialog.xml 파일을 뷰로 셋팅
 
 			// 그냥 닫기버튼을 위한 부분
@@ -478,8 +478,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 						MakeWLBActivity.this);
 
 				
-				wlbView6.setText("6번 풍등이다 ");
-				aDialog6.setTitle("6번 풍등"); // 타이틀바 제목
+				wlbView6.setText("아름다운 꽃 모양의 풍등입니다.\n 밤하늘에 수 놓인 소원꽃을 감상하세요.");
+				aDialog6.setTitle("꽃 풍등"); // 타이틀바 제목
 				aDialog6.setView(layout6); // dialog.xml 파일을 뷰로 셋팅
 
 				// 그냥 닫기버튼을 위한 부분
@@ -517,8 +517,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 						MakeWLBActivity.this);
 
 				
-				wlbView6.setText("6번 풍등이다 ");
-				aDialog6.setTitle("6번 풍등"); // 타이틀바 제목
+				wlbView6.setText("아름다운 꽃 모양의 풍등입니다.\n 밤하늘에 수 놓인 소원꽃을 감상하세요.");
+				aDialog6.setTitle("꽃 풍등"); // 타이틀바 제목
 				aDialog6.setView(layout6); // dialog.xml 파일을 뷰로 셋팅
 
 				// 그냥 닫기버튼을 위한 부분
@@ -599,8 +599,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 						MakeWLBActivity.this);
 
 				
-				wlbView7.setText("7번 풍등이다 ");
-				aDialog7.setTitle("7번 풍등"); // 타이틀바 제목
+				wlbView7.setText("크리스마스 기념 사탕 모양의 풍등입니다.\n 사탕 풍등에서는 무슨 맛이 날까요?");
+				aDialog7.setTitle("사탕 풍등"); // 타이틀바 제목
 				aDialog7.setView(layout7); // dialog.xml 파일을 뷰로 셋팅
 
 				// 그냥 닫기버튼을 위한 부분
@@ -638,8 +638,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 						MakeWLBActivity.this);
 
 				
-				wlbView7.setText("7번 풍등이다 ");
-				aDialog7.setTitle("7번 풍등"); // 타이틀바 제목
+				wlbView7.setText("크리스마스 기념 사탕 모양의 풍등입니다.\n 사탕 풍등에서는 무슨 맛이 날까요?");
+				aDialog7.setTitle("사탕 풍등"); // 타이틀바 제목
 				aDialog7.setView(layout7); // dialog.xml 파일을 뷰로 셋팅
 
 				// 그냥 닫기버튼을 위한 부분
@@ -719,8 +719,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 						MakeWLBActivity.this);
 
 				
-				wlbView8.setText("8번 풍등이다 ");
-				aDialog8.setTitle("8번 풍등"); // 타이틀바 제목
+				wlbView8.setText("크리스마스 기념 루돌프 모양의 풍등입니다.\n 올 겨울에도 산타할아버지는 와주실까요?");
+				aDialog8.setTitle("루돌프 풍등"); // 타이틀바 제목
 				aDialog8.setView(layout8); // dialog.xml 파일을 뷰로 셋팅
 
 				// 그냥 닫기버튼을 위한 부분
@@ -758,8 +758,8 @@ public class MakeWLBActivity extends ActionBarActivity {
 						MakeWLBActivity.this);
 
 				
-				wlbView8.setText("8번 풍등이다 ");
-				aDialog8.setTitle("8번 풍등"); // 타이틀바 제목
+				wlbView8.setText("크리스마스 기념 루돌프 모양의 풍등입니다.\n 올 겨울에도 산타할아버지는 와주실까요?");
+				aDialog8.setTitle("루돌프 풍등"); // 타이틀바 제목
 				aDialog8.setView(layout8); // dialog.xml 파일을 뷰로 셋팅
 
 				// 그냥 닫기버튼을 위한 부분
